@@ -75,21 +75,9 @@
 
       # Shortened path like fish (~ for home, abbreviate middle dirs)
       _short_path() {
-        local p="${PWD/#$HOME/~}"
-        local parts=("''${(@s:/:)p}")
-        local len=''${#parts[@]}
-        if (( len <= 2 )); then
-          echo "$p"
-        else
-          local result=""
-          for (( i=1; i<len; i++ )); do
-            if [[ -n "''${parts[i]}" ]]; then
-              result+="''${parts[i]:0:1}/"
-            fi
-          done
-          result+="''${parts[len]}"
-          echo "$result"
-        fi
+        local p="''${PWD/#$HOME/~}"
+        # Use sed to abbreviate all but the last component
+        echo "$p" | sed 's|\([^/]\)[^/]*/|\1/|g'
       }
 
       # Colors: cyan for path, magenta for git
