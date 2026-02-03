@@ -11,7 +11,12 @@ let
     _ztab() {
       local -a t=(''${(z)BUFFER}) d; local c=''${t[1]} a=''${t[2]} r
       [[ $c != (z|cd) || -z $a ]] && { zle expand-or-complete; return }
-      d=(''${a}*(/N)); (( ''${#d} == 1 )) && d=(''${d[1]}/*(/N))
+      if [[ -d $a ]]; then
+        d=(''${a%/}/*(/N))
+      else
+        d=(''${a}*(/N))
+        (( ''${#d} == 1 )) && { BUFFER="$c ''${d[1]}"; CURSOR=''${#BUFFER}; zle redisplay; return }
+      fi
       (( ! ''${#d} )) && d=("''${(@f)$(zoxide query -l -- $a 2>/dev/null)}")
       case ''${#d} in
         0) zle expand-or-complete; return ;;
