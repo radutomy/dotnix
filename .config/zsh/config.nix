@@ -34,6 +34,7 @@ let
 
   hooks = "chpwd() { lsd -F }";
   keybindings = "bindkey '^E' clear-screen";
+  completion = "zstyle ':completion:*' list-suffixes true; zstyle ':completion:*' expand prefix suffix";
 
 in
 {
@@ -89,6 +90,7 @@ in
       ${zoxideTab}
       ${hooks}
       ${keybindings}
+      ${completion}
     '';
   };
 }
