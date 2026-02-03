@@ -21,6 +21,14 @@
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
 
+    plugins = [
+      {
+        name = "fzf-tab";
+        src = pkgs.zsh-fzf-tab;
+        file = "share/fzf-tab/fzf-tab.plugin.zsh";
+      }
+    ];
+
     history = {
       size = 10000;
       save = 10000;
@@ -90,44 +98,29 @@
       # Enable completion system FIRST
       autoload -Uz compinit && compinit
 
-      # Fish-like Tab for cd: local dirs first, then zoxide interactive
-      _cd_tab_complete() {
-        # Check if we're completing a cd/z command
-        local cmd="''${words[1]}"
-        if [[ "$cmd" != "cd" && "$cmd" != "z" ]]; then
-          # Not cd/z, use default completion
-          zle expand-or-complete
-          return
-        fi
+      # Zoxide completion for cd/z - provides zoxide results when no local match
+      _zoxide_cd_complete() {
+        local query="''${words[CURRENT]}"
 
-        local query="''${words[2]}"
-
-        # If no query yet, use default completion
         if [[ -z "$query" ]]; then
-          zle expand-or-complete
+          _files -/
           return
         fi
 
-        # Check for local directory matches
-        local has_local
-        has_local=$(print -l ''${~query}*(-/DN) 2>/dev/null | head -1)
-
-        if [[ -n "$has_local" ]]; then
-          # Local matches exist, use default completion
-          zle expand-or-complete
+        # Check for local matches
+        if [[ -n "$(print -l ''${~query}*(-/DN) 2>/dev/null | head -1)" ]]; then
+          _files -/
         else
-          # No local matches - launch zoxide interactive
-          local result
-          result=$(zoxide query -i -- "$query" 2>/dev/null)
-          if [[ -n "$result" ]]; then
-            BUFFER="cd ''${(q)result}"
-            CURSOR=''${#BUFFER}
+          # Query zoxide and add results
+          local zoxide_out
+          zoxide_out=$(zoxide query -l -- "$query" 2>/dev/null)
+          if [[ -n "$zoxide_out" ]]; then
+            local IFS=$'\n'
+            compadd -V zoxide -U -Q -- $zoxide_out
           fi
-          zle reset-prompt
         fi
       }
-      zle -N _cd_tab_complete
-      bindkey '^I' _cd_tab_complete
+      compdef _zoxide_cd_complete cd z
 
       # Show files/dirs when completing commands (fish-like behavior)
       setopt COMPLETE_IN_WORD
