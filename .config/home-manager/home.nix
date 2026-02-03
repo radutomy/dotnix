@@ -4,7 +4,7 @@ let
 in
 {
   imports = [
-    ../git/git.nix
+    ../git/config.nix
   ];
 
   news.display = "silent";
