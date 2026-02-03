@@ -15,8 +15,12 @@ let
 
   zoxideFallback = ''
     _zf() {
-      local w=(''${(z)BUFFER}) c=''${w[1]} a=''${w[2]} p d=(''${a}*(/N))
-      [[ $c == (z|cd) && -n $a ]] && (( !''${#d} )) && p=$(zoxide query -l -- $a 2>/dev/null | fzf --height=40% --reverse --cycle --bind 'tab:down,btab:up') && [[ -n $p ]] && { BUFFER="$c $p"; CURSOR=''${#BUFFER}; zle redisplay; return }
+      local words=(''${(z)BUFFER}) cmd=''${words[1]} arg=''${words[2]} pick
+      local -a local_dirs=(''${arg}*(/N))
+      if [[ $cmd == (z|cd) && -n $arg ]] && (( !''${#local_dirs} )); then
+        pick=$(zoxide query -l -- $arg 2>/dev/null | fzf --height=40% --reverse --cycle --bind 'tab:down,btab:up')
+        [[ -n $pick ]] && { BUFFER="$cmd $pick"; CURSOR=''${#BUFFER}; zle redisplay; return }
+      fi
       zle fzf-tab-complete
     }
     zle -N _zf && bindkey '^I' _zf
