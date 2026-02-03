@@ -47,9 +47,12 @@
       # Completion: show directories alongside commands (like fish)
       setopt AUTO_CD              # cd into directory by typing its name
       setopt COMPLETE_IN_WORD     # complete from both ends
-      setopt GLOB_COMPLETE        # generate completions from glob patterns
-      zstyle ':completion:*' completer _complete _files
+
+      # Show files/directories in command position (like fish)
+      zstyle ':completion:*' completer _complete _ignored _files
       zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' # case insensitive
+      zstyle ':completion:*:-command-:*' tag-order 'commands executables files directories'
+      zstyle ':completion:*' file-patterns '*:all-files'
 
       # PATH
       path+=("$HOME/.cargo/bin" "$HOME/.local/bin" "$PNPM_HOME")
