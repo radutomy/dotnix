@@ -69,21 +69,21 @@
 
       # Custom completion for z: local dirs first, then zoxide database
       _zoxide_z_complete() {
-        local -a dirs
-        # Try local directory completion first
-        dirs=( ''${(f)"$(command ls -d ''${words[CURRENT]}*/ 2>/dev/null)"} )
-        if [[ ''${#dirs[@]} -gt 0 ]]; then
-          _path_files -"/" -W "''${PWD}"
+        local cur="''${words[CURRENT]}"
+        local -a local_dirs zoxide_dirs
+
+        # Try local directories first (matching current token)
+        local_dirs=( ''${(f)"$(print -l ''${cur}*(/N) 2>/dev/null)"} )
+
+        if (( ''${#local_dirs[@]} > 0 )); then
+          compadd -Q -S '/' -- "''${local_dirs[@]}"
         else
           # Fall back to zoxide database
-          local -a zoxide_dirs
-          zoxide_dirs=( ''${(f)"$(zoxide query -l ''${words[CURRENT]} 2>/dev/null)"} )
-          if [[ ''${#zoxide_dirs[@]} -gt 0 ]]; then
-            compadd -Q -a zoxide_dirs
-          fi
+          zoxide_dirs=( ''${(f)"$(zoxide query -l -- "$cur" 2>/dev/null)"} )
+          (( ''${#zoxide_dirs[@]} > 0 )) && compadd -Q -- "''${zoxide_dirs[@]}"
         fi
       }
-      compdef _zoxide_z_complete z
+      compdef _zoxide_z_complete z cd
 
       # Auto lsd after cd
       _lsd_after_cd() { lsd -F }
