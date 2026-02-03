@@ -89,7 +89,7 @@
             if (( ''${#matches[@]} > 1 )); then
               # Multiple matches - show fzf
               local result
-              result=$(printf '%s\n' "''${matches[@]}" | fzf --height=40% --reverse --prompt="$arg > " --bind 'tab:down,btab:up')
+              result=$(printf '%s\n' "''${matches[@]}" | fzf --height=40% --reverse --prompt="$arg > " --cycle --bind 'tab:down,btab:up')
               if [[ -n "$result" ]]; then
                 BUFFER="$cmd $result"
                 CURSOR=''${#BUFFER}
