@@ -13,26 +13,26 @@ let
     PROMPT='%F{green}%~%f %F{magenta}$(_git_branch)%f%F{white}❱%f '
   '';
 
-  zoxideTab = ''
-    _ztab() {
-      local -a t=(''${(z)BUFFER}) d; local c=''${t[1]} a=''${t[2]} r
-      [[ $c != (z|cd) || -z $a ]] && { zle expand-or-complete; return }
-      if [[ -d $a ]]; then
-        d=(''${a%/}/*(/N))
-      else
-        d=(''${a}*(/N))
-        (( ''${#d} == 1 )) && { BUFFER="$c ''${d[1]}"; CURSOR=''${#BUFFER}; zle redisplay; return }
-      fi
-      (( ! ''${#d} )) && d=("''${(@f)$(zoxide query -l -- $a 2>/dev/null)}")
-      case ''${#d} in
-        0) zle expand-or-complete; return ;;
-        1) BUFFER="$c ''${d[1]}" ;;
-        *) r=$(printf '%s\n' "''${d[@]}" | fzf --height=40% --reverse --cycle --bind 'tab:down,btab:up'); [[ -n $r ]] && BUFFER="$c $r" ;;
-      esac
-      CURSOR=''${#BUFFER}; zle redisplay
-    }
-    zle -N _ztab && bindkey '^I' _ztab
-  '';
+  # zoxideTab = ''
+  #   _ztab() {
+  #     local -a t=(''${(z)BUFFER}) d; local c=''${t[1]} a=''${t[2]} r
+  #     [[ $c != (z|cd) || -z $a ]] && { zle expand-or-complete; return }
+  #     if [[ -d $a ]]; then
+  #       d=(''${a%/}/*(/N))
+  #     else
+  #       d=(''${a}*(/N))
+  #       (( ''${#d} == 1 )) && { BUFFER="$c ''${d[1]}"; CURSOR=''${#BUFFER}; zle redisplay; return }
+  #     fi
+  #     (( ! ''${#d} )) && d=("''${(@f)$(zoxide query -l -- $a 2>/dev/null)}")
+  #     case ''${#d} in
+  #       0) zle expand-or-complete; return ;;
+  #       1) BUFFER="$c ''${d[1]}" ;;
+  #       *) r=$(printf '%s\n' "''${d[@]}" | fzf --height=40% --reverse --cycle --bind 'tab:down,btab:up'); [[ -n $r ]] && BUFFER="$c $r" ;;
+  #     esac
+  #     CURSOR=''${#BUFFER}; zle redisplay
+  #   }
+  #   zle -N _ztab && bindkey '^I' _ztab
+  # '';
 
   hooks = "chpwd() { lsd -F }";
   keybindings = "bindkey '^E' clear-screen";
@@ -85,10 +85,14 @@ in
       nas = "ssh nas";
     };
 
+    plugins = [{
+      name = "fzf-tab";
+      src = pkgs.zsh-fzf-tab;
+    }];
+
     initContent = ''
       export GPG_TTY=$(tty)
       ${prompt}
-      ${zoxideTab}
       ${hooks}
       ${keybindings}
     '';
