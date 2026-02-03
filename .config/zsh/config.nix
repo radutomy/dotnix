@@ -89,6 +89,7 @@
       bindkey '^E' clear-screen
 
       # Tab completion menu (navigate with Tab/Shift+Tab, select with Enter)
+      zmodload zsh/complist
       zstyle ':completion:*' menu select
       bindkey -M menuselect '\t' menu-complete
       bindkey -M menuselect '\e[Z' reverse-menu-complete
