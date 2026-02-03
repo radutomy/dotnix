@@ -5,6 +5,7 @@ in
 {
   imports = [
     ../git/config.nix
+    ../zsh/config.nix
   ];
 
   news.display = "silent";
@@ -16,8 +17,8 @@ in
     homeDirectory = "/root";
     stateVersion = "25.11";
 
-    packages = with pkgs; [ 
-      neovim htop ripgrep jq
+    packages = with pkgs; [
+      neovim htop ripgrep jq fd
 
       # Unstable packages
       unstable.claude-code 
