@@ -64,31 +64,52 @@
       }
       PROMPT='%F{cyan}%~%f %F{magenta}$(_git_branch)%f%F{cyan}>%f '
 
-      # z function: auto-opens fzf picker when multiple matches
-      z() {
-        if [[ $# -eq 0 ]]; then
-          builtin cd ~
-        elif [[ $1 == - ]]; then
-          builtin cd -
-        elif [[ -d $1 ]]; then
-          builtin cd "$1"
-        else
-          local -a matches
-          matches=("''${(@f)$(zoxide query -l -- "$@" 2>/dev/null)}")
-          if (( ''${#matches[@]} == 0 )); then
-            echo "zoxide: no match found" >&2
-            return 1
-          elif (( ''${#matches[@]} == 1 )); then
-            builtin cd "''${matches[1]}"
+      # cd uses zoxide
+      alias cd='z'
+
+      # Tab completion: triggers fzf picker for z/cd when multiple zoxide matches
+      _zoxide_tab_complete() {
+        local tokens=(''${(z)BUFFER})
+        local cmd="''${tokens[1]}"
+        local arg="''${tokens[2]}"
+
+        if [[ ("$cmd" == "z" || "$cmd" == "cd") && -n "$arg" ]]; then
+          # Check for local directory first
+          local -a local_dirs
+          local_dirs=( ''${arg}*(/N) )
+
+          if (( ''${#local_dirs[@]} > 0 )); then
+            # Local dirs exist, use normal completion
+            zle expand-or-complete
           else
-            # Multiple matches - use interactive fzf selection
-            local result
-            result=$(zoxide query -i -- "$@" 2>/dev/null)
-            [[ -n $result ]] && builtin cd "$result"
+            # Query zoxide
+            local -a matches
+            matches=("''${(@f)$(zoxide query -l -- "$arg" 2>/dev/null)}")
+
+            if (( ''${#matches[@]} > 1 )); then
+              # Multiple matches - show fzf
+              local result
+              result=$(printf '%s\n' "''${matches[@]}" | fzf --height=40% --reverse --prompt="$arg > ")
+              if [[ -n "$result" ]]; then
+                BUFFER="$cmd $result"
+                CURSOR=''${#BUFFER}
+              fi
+              zle redisplay
+            elif (( ''${#matches[@]} == 1 )); then
+              # Single match - complete it
+              BUFFER="$cmd ''${matches[1]}"
+              CURSOR=''${#BUFFER}
+              zle redisplay
+            else
+              zle expand-or-complete
+            fi
           fi
+        else
+          zle expand-or-complete
         fi
       }
-      alias cd='z'
+      zle -N _zoxide_tab_complete
+      bindkey '^I' _zoxide_tab_complete
 
       # Auto lsd after cd
       _lsd_after_cd() { lsd -F }
