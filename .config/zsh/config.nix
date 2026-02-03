@@ -21,7 +21,7 @@ let
       if [[ $c == (z|cd) && -n $a ]]; then
         d=(''${a}*(/N))
         if (( ! ''${#d} )); then
-          r=$(zoxide query -i -- $a 2>/dev/null)
+          r=$(zoxide query -l -- $a 2>/dev/null | fzf --height=40% --reverse --cycle --bind 'tab:down,btab:up')
           [[ -n $r ]] && BUFFER="$c $r" && CURSOR=''${#BUFFER} && zle redisplay && return
         fi
       fi
