@@ -80,6 +80,16 @@
       # Use zoxide's z command as cd (zoxide init zsh already provides z and zi)
       alias cd='z'
 
+      # --- Auto lsd after cd ---
+      _lsd_after_cd() {
+        lsd -F
+      }
+      chpwd_functions+=(_lsd_after_cd)
+
+      # --- Tab completion ---
+      # Enable completion system FIRST
+      autoload -Uz compinit && compinit
+
       # Fish-like completion for cd/z: local dirs first, then zoxide database
       _cd_zoxide_complete() {
         # Debug: always add test completions
@@ -97,16 +107,6 @@
         fi
       }
       compdef _cd_zoxide_complete cd z
-
-      # --- Auto lsd after cd ---
-      _lsd_after_cd() {
-        lsd -F
-      }
-      chpwd_functions+=(_lsd_after_cd)
-
-      # --- Tab completion: directories alongside commands ---
-      # Enable completion system
-      autoload -Uz compinit && compinit
 
       # Show files/dirs when completing commands (fish-like behavior)
       setopt COMPLETE_IN_WORD
