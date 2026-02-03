@@ -96,8 +96,8 @@
       # CTRL+E to clear screen
       bindkey '^E' clear-screen
 
-      # cd replacement with zoxide
-      alias cd="z"
+      # cd replacement with zoxide (interactive mode for multiple matches)
+      alias cd="zi"
 
       # Auto ls after cd
       chpwd() {
