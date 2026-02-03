@@ -3,29 +3,20 @@
 let
   prompt = ''
     setopt PROMPT_SUBST
-    _git_branch() {
-      local branch
-      branch=$(git symbolic-ref --short HEAD 2>/dev/null) || \
-      branch=$(git describe --tags --exact-match HEAD 2>/dev/null) || \
-      branch=$(git rev-parse --short HEAD 2>/dev/null | sed 's/^/@/')
-      [[ -n "$branch" ]] && echo "$branch "
-    }
-    PROMPT='%F{green}%~%f %F{magenta}$(_git_branch)%f%F{white}❱%f '
+    _gb() { local b=$(git symbolic-ref --short HEAD || git describe --tags --exact-match || git rev-parse --short HEAD | sed 's/^/@/') 2>/dev/null; [[ -n $b ]] && echo "$b " }
+    PROMPT='%F{green}%~%f %F{magenta}$(_gb)%f%F{white}❱%f '
   '';
 
   zoxideTab = ''
     _ztab() {
-      local -a t=(''${(z)BUFFER}) d
-      local cmd=''${t[1]} arg=''${t[2]} r
-      [[ $cmd != (z|cd) || -z $arg ]] && { zle expand-or-complete; return }
-      d=(''${arg}*(/N))
-      (( ''${#d} == 1 )) && d=(''${d[1]}/*(/N))
-      (( ! ''${#d} )) && d=("''${(@f)$(zoxide query -l -- $arg 2>/dev/null)}")
+      local -a t=(''${(z)BUFFER}) d; local c=''${t[1]} a=''${t[2]} r
+      [[ $c != (z|cd) || -z $a ]] && { zle expand-or-complete; return }
+      d=(''${a}*(/N)); (( ''${#d} == 1 )) && d=(''${d[1]}/*(/N))
+      (( ! ''${#d} )) && d=("''${(@f)$(zoxide query -l -- $a 2>/dev/null)}")
       case ''${#d} in
         0) zle expand-or-complete; return ;;
-        1) BUFFER="$cmd ''${d[1]}" ;;
-        *) r=$(printf '%s\n' "''${d[@]}" | fzf --height=40% --reverse --cycle --bind 'tab:down,btab:up')
-           [[ -n $r ]] && BUFFER="$cmd $r" ;;
+        1) BUFFER="$c ''${d[1]}" ;;
+        *) r=$(printf '%s\n' "''${d[@]}" | fzf --height=40% --reverse --cycle --bind 'tab:down,btab:up'); [[ -n $r ]] && BUFFER="$c $r" ;;
       esac
       CURSOR=''${#BUFFER}; zle redisplay
     }
