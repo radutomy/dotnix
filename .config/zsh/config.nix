@@ -24,7 +24,15 @@ let
         [[ -n $r ]] && BUFFER="$cmd $r" && CURSOR=''${#BUFFER}
         zle redisplay; return
       elif (( ''${#d[@]} == 1 )); then
-        BUFFER="$cmd ''${d[1]}"; CURSOR=''${#BUFFER}; zle redisplay; return
+        # Single match - show its contents
+        local -a sub=(''${d[1]}/*(/N))
+        if (( ''${#sub[@]} > 0 )); then
+          local r=$(printf '%s\n' "''${sub[@]}" | fzf --height=40% --reverse --cycle --bind 'tab:down,btab:up')
+          [[ -n $r ]] && BUFFER="$cmd $r" && CURSOR=''${#BUFFER}
+          zle redisplay; return
+        else
+          BUFFER="$cmd ''${d[1]}"; CURSOR=''${#BUFFER}; zle redisplay; return
+        fi
       fi
       local -a m=("''${(@f)$(zoxide query -l -- $arg 2>/dev/null)}")
       case ''${#m[@]} in
