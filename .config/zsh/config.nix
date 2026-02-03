@@ -104,13 +104,12 @@
         lsd -F
       }
 
-      # Prompt (hydro style: path + git branch on first line, > on second)
+      # Prompt (hydro style: path + git branch + > on same line)
       autoload -Uz vcs_info
       precmd() { vcs_info }
       zstyle ':vcs_info:git:*' formats ' %F{yellow}%b%f'
       setopt PROMPT_SUBST
-      PROMPT='%F{green}%~%f''${vcs_info_msg_0_}
-%F{green}>%f '
+      PROMPT='%F{green}%~%f''${vcs_info_msg_0_} %F{green}>%f '
     '';
   };
 
