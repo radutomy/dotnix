@@ -104,17 +104,28 @@
         result=$(zoxide query -i -- "$@") && builtin cd "$result"
       }
 
-      # Zoxide completion for cd - queries zoxide database
+      # Zoxide completion for cd - matches fish behavior:
+      # 1. Try local directory completion first
+      # 2. Only if no local matches, query zoxide database
       _zoxide_cd_completion() {
-        if [[ -n "$words[2]" ]]; then
-          # Query zoxide for matches and add them
-          local IFS=$'\n'
-          local matches
-          matches=$(zoxide query -l -- "$words[2]" 2>/dev/null)
-          [[ -n "$matches" ]] && compadd -Q -- ''${(f)matches}
+        local query="''${words[CURRENT]}"
+
+        # Check if any local directories match
+        local has_local_dirs
+        has_local_dirs=$(print -l ''${query}*(-/DN) 2>/dev/null | head -1)
+
+        if [[ -n "$has_local_dirs" ]]; then
+          # Local directories found - use normal completion
+          _files -/
+        else
+          # No local dirs - query zoxide and add results
+          local zoxide_output
+          zoxide_output=$(zoxide query -l -- "$query" 2>/dev/null)
+          if [[ -n "$zoxide_output" ]]; then
+            local IFS=$'\n'
+            compadd -Q -U -- $zoxide_output
+          fi
         fi
-        # Also add regular directory completion
-        _files -/
       }
       compdef _zoxide_cd_completion cd
 
