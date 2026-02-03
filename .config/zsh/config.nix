@@ -67,23 +67,14 @@
       # cd uses zoxide with smart completion
       alias cd='z'
 
-      # Custom completion for z: local dirs first, then zoxide database
-      _zoxide_z_complete() {
-        local cur="''${words[CURRENT]}"
-        local -a local_dirs zoxide_dirs
-
-        # Try local directories first (matching current token)
-        local_dirs=( ''${(f)"$(print -l ''${cur}*(/N) 2>/dev/null)"} )
-
-        if (( ''${#local_dirs[@]} > 0 )); then
-          compadd -Q -S '/' -- "''${local_dirs[@]}"
-        else
-          # Fall back to zoxide database
-          zoxide_dirs=( ''${(f)"$(zoxide query -l -- "$cur" 2>/dev/null)"} )
-          (( ''${#zoxide_dirs[@]} > 0 )) && compadd -Q -- "''${zoxide_dirs[@]}"
-        fi
+      # Custom completion for z: query zoxide database
+      _z_complete() {
+        local -a results
+        results=("''${(@f)$(zoxide query -l -- "''${words[-1]}" 2>/dev/null)}")
+        compadd -U -Q -- "''${results[@]}"
       }
-      compdef _zoxide_z_complete z cd
+      compdef _z_complete z
+      compdef _z_complete cd
 
       # Auto lsd after cd
       _lsd_after_cd() { lsd -F }
