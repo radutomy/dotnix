@@ -19,7 +19,13 @@ let
       local cmd=''${t[1]} arg=''${t[2]}
       [[ $cmd != (z|cd) || -z $arg ]] && { zle expand-or-complete; return }
       local -a d=(''${arg}*(/N))
-      (( ''${#d[@]} )) && { zle expand-or-complete; return }
+      if (( ''${#d[@]} > 1 )); then
+        local r=$(printf '%s\n' "''${d[@]}" | fzf --height=40% --reverse --cycle --bind 'tab:down,btab:up')
+        [[ -n $r ]] && BUFFER="$cmd $r" && CURSOR=''${#BUFFER}
+        zle redisplay; return
+      elif (( ''${#d[@]} == 1 )); then
+        BUFFER="$cmd ''${d[1]}"; CURSOR=''${#BUFFER}; zle redisplay; return
+      fi
       local -a m=("''${(@f)$(zoxide query -l -- $arg 2>/dev/null)}")
       case ''${#m[@]} in
         0) zle expand-or-complete ;;
@@ -34,7 +40,6 @@ let
 
   hooks = "chpwd() { lsd -F }";
   keybindings = "bindkey '^E' clear-screen";
-  completion = "zstyle ':completion:*' list-suffixes true; zstyle ':completion:*' expand prefix suffix";
 
 in
 {
@@ -90,7 +95,6 @@ in
       ${zoxideTab}
       ${hooks}
       ${keybindings}
-      ${completion}
     '';
   };
 }
