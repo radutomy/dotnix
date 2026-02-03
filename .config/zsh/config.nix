@@ -13,18 +13,10 @@ let
     PROMPT='%F{green}%~%f %F{magenta}$(_git_branch)%f%F{white}❱%f '
   '';
 
-  # Zoxide fallback when no local dirs match (fzf-tab handles the rest)
   zoxideFallback = ''
     _zf() {
-      local -a t=(''${(z)BUFFER}) d
-      local c=''${t[1]} a=''${t[2]} r
-      if [[ $c == (z|cd) && -n $a ]]; then
-        d=(''${a}*(/N))
-        if (( ! ''${#d} )); then
-          r=$(zoxide query -l -- $a 2>/dev/null | fzf --height=40% --reverse --cycle --bind 'tab:down,btab:up')
-          [[ -n $r ]] && BUFFER="$c $r" && CURSOR=''${#BUFFER} && zle redisplay && return
-        fi
-      fi
+      local w=(''${(z)BUFFER}) c=''${w[1]} a=''${w[2]} p d=(''${a}*(/N))
+      [[ $c == (z|cd) && -n $a ]] && (( !''${#d} )) && p=$(zoxide query -l -- $a 2>/dev/null | fzf --height=40% --reverse --cycle --bind 'tab:down,btab:up') && [[ -n $p ]] && { BUFFER="$c $p"; CURSOR=''${#BUFFER}; zle redisplay; return }
       zle fzf-tab-complete
     }
     zle -N _zf && bindkey '^I' _zf
