@@ -3,8 +3,14 @@
 let
   prompt = ''
     setopt PROMPT_SUBST
-    _gb() { local b=$(git symbolic-ref --short HEAD || git describe --tags --exact-match || git rev-parse --short HEAD | sed 's/^/@/') 2>/dev/null; [[ -n $b ]] && echo "$b " }
-    PROMPT='%F{green}%~%f %F{magenta}$(_gb)%f%F{white}❱%f '
+    _git_branch() {
+      local branch
+      branch=$(git symbolic-ref --short HEAD 2>/dev/null) || \
+      branch=$(git describe --tags --exact-match HEAD 2>/dev/null) || \
+      branch=$(git rev-parse --short HEAD 2>/dev/null | sed 's/^/@/')
+      [[ -n "$branch" ]] && echo "$branch "
+    }
+    PROMPT='%F{green}%~%f %F{magenta}$(_git_branch)%f%F{white}❱%f '
   '';
 
   zoxideTab = ''
