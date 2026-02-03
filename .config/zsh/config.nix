@@ -7,7 +7,7 @@
 
   programs.zoxide = {
     enable = true;
-    enableZshIntegration = false; # We wrap it ourselves for fish-like behavior
+    enableZshIntegration = true;
   };
 
   programs.fzf = {
@@ -77,55 +77,34 @@
       # %~ = path with ~ for home (full path, no abbreviation)
       PROMPT='%F{cyan}%~%f %F{magenta}$(_git_branch)%f%F{cyan}>%f '
 
-      # --- Zoxide with fish-like cd behavior ---
-      # cd: no args=home, -=previous, dir=direct, else=zoxide query
-      cd() {
-        if [[ $# -eq 0 ]]; then
-          builtin cd "$HOME"
-        elif [[ "$1" == "-" ]]; then
-          builtin cd -
-        elif [[ -d "$1" ]]; then
-          builtin cd "$1"
-        else
-          local result
-          result=$(zoxide query -- "$@") && builtin cd "$result"
-        fi
-      }
+      # Use zoxide's z command as cd (zoxide init zsh already provides z and zi)
+      alias cd='z'
 
-      # Hook to add directories to zoxide database
-      _zoxide_hook() {
-        zoxide add -- "$PWD"
-      }
-      chpwd_functions+=(_zoxide_hook)
-
-      # Interactive zoxide
-      zi() {
-        local result
-        result=$(zoxide query -i -- "$@") && builtin cd "$result"
-      }
-
-      # Zoxide completion for cd - fish-like behavior
-      _zoxide_z_complete() {
-        # Only complete at end of line
-        [[ ''${#words[@]} -eq $CURRENT ]] || return
+      # Fish-like completion for cd/z: local dirs first, then zoxide database
+      _cd_zoxide_complete() {
+        [[ ''${#words[@]} -eq $CURRENT ]] || return 0
 
         if [[ ''${#words[@]} -eq 2 ]]; then
-          # First argument: try directories first
-          _cd -/
-          # If no local matches, query zoxide
-          if [[ ''${compstate[nmatches]} -eq 0 ]]; then
+          local query="''${words[2]}"
+          # Check if any local directories match
+          local has_local
+          has_local=$(print -l ''${query}*(-/DN) 2>/dev/null | head -1)
+
+          if [[ -n "$has_local" ]]; then
+            # Local matches found
+            _path_files -/
+          else
+            # No local matches - query zoxide database
             local zoxide_out
-            zoxide_out=$(zoxide query -l -- "''${words[2]}" 2>/dev/null)
-            [[ -n "$zoxide_out" ]] && compadd -U -Q -- ''${(f)zoxide_out}
+            zoxide_out=$(zoxide query -l -- "$query" 2>/dev/null)
+            if [[ -n "$zoxide_out" ]]; then
+              local IFS=$'\n'
+              compadd -U -Q -- $zoxide_out
+            fi
           fi
-        else
-          # Multiple arguments: query zoxide with all args
-          local zoxide_out
-          zoxide_out=$(zoxide query -l -- ''${words[2,-1]} 2>/dev/null)
-          [[ -n "$zoxide_out" ]] && compadd -U -Q -- ''${(f)zoxide_out}
         fi
       }
-      compdef _zoxide_z_complete cd
+      compdef _cd_zoxide_complete cd z
 
       # --- Auto lsd after cd ---
       _lsd_after_cd() {
