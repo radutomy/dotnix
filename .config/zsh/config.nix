@@ -64,17 +64,31 @@
       }
       PROMPT='%F{cyan}%~%f %F{magenta}$(_git_branch)%f%F{cyan}>%f '
 
-      # cd uses zoxide with smart completion
-      alias cd='z'
-
-      # Custom completion for z: query zoxide database
-      _z_complete() {
-        local -a results
-        results=("''${(@f)$(zoxide query -l -- "''${words[-1]}" 2>/dev/null)}")
-        compadd -U -Q -- "''${results[@]}"
+      # z function: auto-opens fzf picker when multiple matches
+      z() {
+        if [[ $# -eq 0 ]]; then
+          builtin cd ~
+        elif [[ $1 == - ]]; then
+          builtin cd -
+        elif [[ -d $1 ]]; then
+          builtin cd "$1"
+        else
+          local -a matches
+          matches=("''${(@f)$(zoxide query -l -- "$@" 2>/dev/null)}")
+          if (( ''${#matches[@]} == 0 )); then
+            echo "zoxide: no match found" >&2
+            return 1
+          elif (( ''${#matches[@]} == 1 )); then
+            builtin cd "''${matches[1]}"
+          else
+            # Multiple matches - use interactive fzf selection
+            local result
+            result=$(zoxide query -i -- "$@" 2>/dev/null)
+            [[ -n $result ]] && builtin cd "$result"
+          fi
+        fi
       }
-      compdef _z_complete z
-      compdef _z_complete cd
+      alias cd='z'
 
       # Auto lsd after cd
       _lsd_after_cd() { lsd -F }
