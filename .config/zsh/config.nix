@@ -16,8 +16,15 @@ let
   # Zoxide fallback when no local dirs match (fzf-tab handles the rest)
   zoxideFallback = ''
     _zf() {
-      local t=(''${(z)BUFFER}) c=''${t[1]} a=''${t[2]} r d=(''${a}*(/N))
-      [[ $c == (z|cd) && -n $a && ''${#d} -eq 0 ]] && r=$(zoxide query -i -- $a 2>/dev/null) && [[ -n $r ]] && { BUFFER="$c $r"; CURSOR=''${#BUFFER}; zle redisplay; return }
+      local -a t=(''${(z)BUFFER}) d
+      local c=''${t[1]} a=''${t[2]} r
+      if [[ $c == (z|cd) && -n $a ]]; then
+        d=(''${a}*(/N))
+        if (( ! ''${#d} )); then
+          r=$(zoxide query -i -- $a 2>/dev/null)
+          [[ -n $r ]] && BUFFER="$c $r" && CURSOR=''${#BUFFER} && zle redisplay && return
+        fi
+      fi
       zle fzf-tab-complete
     }
     zle -N _zf && bindkey '^I' _zf
