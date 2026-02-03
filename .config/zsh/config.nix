@@ -72,7 +72,8 @@
         local -a t=(''${(z)BUFFER})
         local cmd=''${t[1]} arg=''${t[2]}
         [[ $cmd != (z|cd) || -z $arg ]] && { zle expand-or-complete; return }
-        (( ''${#''${arg}*(/N)} )) && { zle expand-or-complete; return }
+        local -a d=(''${arg}*(/N))
+        (( ''${#d[@]} )) && { zle expand-or-complete; return }
         local -a m=("''${(@f)$(zoxide query -l -- $arg 2>/dev/null)}")
         case ''${#m[@]} in
           0) zle expand-or-complete ;;
