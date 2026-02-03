@@ -73,15 +73,9 @@
         [[ -n "$branch" ]] && echo "$branch "
       }
 
-      # Shortened path like fish (~ for home, abbreviate middle dirs)
-      _short_path() {
-        local p="''${PWD/#$HOME/~}"
-        # Use sed to abbreviate all but the last component
-        echo "$p" | sed 's|\([^/]\)[^/]*/|\1/|g'
-      }
-
       # Colors: cyan for path, magenta for git
-      PROMPT='%F{cyan}$(_short_path)%f %F{magenta}$(_git_branch)%f%F{cyan}>%f '
+      # %~ = path with ~ for home (full path, no abbreviation)
+      PROMPT='%F{cyan}%~%f %F{magenta}$(_git_branch)%f%F{cyan}>%f '
 
       # --- Zoxide with fish-like cd behavior ---
       # cd: no args=home, -=previous, dir=direct, else=zoxide query
@@ -109,6 +103,20 @@
         local result
         result=$(zoxide query -i -- "$@") && builtin cd "$result"
       }
+
+      # Zoxide completion for cd - queries zoxide database
+      _zoxide_cd_completion() {
+        if [[ -n "$words[2]" ]]; then
+          # Query zoxide for matches and add them
+          local IFS=$'\n'
+          local matches
+          matches=$(zoxide query -l -- "$words[2]" 2>/dev/null)
+          [[ -n "$matches" ]] && compadd -Q -- ''${(f)matches}
+        fi
+        # Also add regular directory completion
+        _files -/
+      }
+      compdef _zoxide_cd_completion cd
 
       # --- Auto lsd after cd ---
       _lsd_after_cd() {
