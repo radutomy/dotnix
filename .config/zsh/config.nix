@@ -1,15 +1,15 @@
-{ pkgs, lib, ... }:
+{ pkgs, lib, config, ... }:
 {
   programs.zsh = {
     enable = true;
-    dotDir = ".config/zsh";
+    dotDir = "${config.xdg.configHome}/zsh";
 
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
     enableCompletion = true;
 
     history = {
-      path = "$HOME/.config/zsh/.zsh_history";
+      path = "${config.xdg.configHome}/zsh/.zsh_history";
       size = 10000;
       save = 10000;
     };
@@ -44,6 +44,13 @@
     };
 
     initContent = ''
+      # Completion: show directories alongside commands (like fish)
+      setopt AUTO_CD              # cd into directory by typing its name
+      setopt COMPLETE_IN_WORD     # complete from both ends
+      setopt GLOB_COMPLETE        # generate completions from glob patterns
+      zstyle ':completion:*' completer _complete _files
+      zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' # case insensitive
+
       # PATH
       path+=("$HOME/.cargo/bin" "$HOME/.local/bin" "$PNPM_HOME")
       export PATH
