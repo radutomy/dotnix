@@ -71,14 +71,14 @@
       _zoxide_z_complete() {
         local -a dirs
         # Try local directory completion first
-        dirs=( ${(f)"$(command ls -d ${words[CURRENT]}*/ 2>/dev/null)"} )
-        if [[ ${#dirs[@]} -gt 0 ]]; then
-          _path_files -/ -W "${PWD}"
+        dirs=( ''${(f)"$(command ls -d ''${words[CURRENT]}*/ 2>/dev/null)"} )
+        if [[ ''${#dirs[@]} -gt 0 ]]; then
+          _path_files -"/" -W "''${PWD}"
         else
           # Fall back to zoxide database
           local -a zoxide_dirs
-          zoxide_dirs=( ${(f)"$(zoxide query -l ${words[CURRENT]} 2>/dev/null)"} )
-          if [[ ${#zoxide_dirs[@]} -gt 0 ]]; then
+          zoxide_dirs=( ''${(f)"$(zoxide query -l ''${words[CURRENT]} 2>/dev/null)"} )
+          if [[ ''${#zoxide_dirs[@]} -gt 0 ]]; then
             compadd -Q -a zoxide_dirs
           fi
         fi
