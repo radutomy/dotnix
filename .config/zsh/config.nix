@@ -69,15 +69,15 @@
 
       # Tab: fzf picker for z/cd, normal completion otherwise
       _z_tab() {
-        local cmd=''${(z)BUFFER}
-        local arg=''${cmd[2]}
-        [[ ''${cmd[1]} != (z|cd) || -z $arg ]] && { zle expand-or-complete; return }
+        local -a cmd=(''${(z)BUFFER})
+        local arg="''${cmd[2]}"
+        [[ "''${cmd[1]}" != (z|cd) || -z "$arg" ]] && { zle expand-or-complete; return }
         [[ -n ''${arg}*(/N[1]) ]] && { zle expand-or-complete; return }
-        local matches=(''${(f)"$(zoxide query -l -- $arg 2>/dev/null)"})
-        (( ! ''${#matches} )) && { zle expand-or-complete; return }
-        (( ''${#matches} == 1 )) && { BUFFER="''${cmd[1]} ''${matches[1]}"; CURSOR=''${#BUFFER}; zle redisplay; return }
+        local -a matches=(''${(f)"$(zoxide query -l -- "$arg" 2>/dev/null)"})
+        (( ! ''${#matches[@]} )) && { zle expand-or-complete; return }
+        (( ''${#matches[@]} == 1 )) && { BUFFER="''${cmd[1]} ''${matches[1]}"; CURSOR=''${#BUFFER}; zle redisplay; return }
         local pick=$(printf '%s\n' "''${matches[@]}" | fzf --height=40% --reverse --cycle --bind 'tab:down,btab:up')
-        [[ -n $pick ]] && BUFFER="''${cmd[1]} $pick" && CURSOR=''${#BUFFER}
+        [[ -n "$pick" ]] && BUFFER="''${cmd[1]} $pick" && CURSOR=''${#BUFFER}
         zle redisplay
       }
       zle -N _z_tab && bindkey '^I' _z_tab
