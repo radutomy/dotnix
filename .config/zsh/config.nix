@@ -1,4 +1,41 @@
 { pkgs, lib, config, ... }:
+
+let
+  prompt = ''
+    setopt PROMPT_SUBST
+    _git_branch() {
+      local branch
+      branch=$(git symbolic-ref --short HEAD 2>/dev/null) || \
+      branch=$(git describe --tags --exact-match HEAD 2>/dev/null) || \
+      branch=$(git rev-parse --short HEAD 2>/dev/null | sed 's/^/@/')
+      [[ -n "$branch" ]] && echo "$branch "
+    }
+    PROMPT='%F{green}%~%f %F{magenta}$(_git_branch)%f%F{white}❱%f '
+  '';
+
+  zoxideTab = ''
+    _ztab() {
+      local -a t=(''${(z)BUFFER})
+      local cmd=''${t[1]} arg=''${t[2]}
+      [[ $cmd != (z|cd) || -z $arg ]] && { zle expand-or-complete; return }
+      local -a d=(''${arg}*(/N))
+      (( ''${#d[@]} )) && { zle expand-or-complete; return }
+      local -a m=("''${(@f)$(zoxide query -l -- $arg 2>/dev/null)}")
+      case ''${#m[@]} in
+        0) zle expand-or-complete ;;
+        1) BUFFER="$cmd ''${m[1]}"; CURSOR=''${#BUFFER}; zle redisplay ;;
+        *) local r=$(printf '%s\n' "''${m[@]}" | fzf --height=40% --reverse --cycle --bind 'tab:down,btab:up')
+           [[ -n $r ]] && BUFFER="$cmd $r" && CURSOR=''${#BUFFER}; zle redisplay ;;
+      esac
+    }
+    zle -N _ztab
+    bindkey '^I' _ztab
+  '';
+
+  hooks = "chpwd() { lsd -F }";
+  keybindings = "bindkey '^E' clear-screen";
+
+in
 {
   home.sessionPath = [
     "$HOME/.cargo/bin"
@@ -33,9 +70,9 @@
 
     shellAliases = {
       cd = "z";
-      ls = lib.mkForce "lsd --group-dirs=first";
-      ll = lib.mkForce "lsd -lah --group-dirs=first";
-      l = lib.mkForce "lsd -A --group-dirs=first";
+      ls = "lsd --group-dirs=first";
+      ll = "lsd -lah --group-dirs=first";
+      l = "lsd -A --group-dirs=first";
       cat = "bat --style=plain";
       vim = "nvim";
       c = "clear";
@@ -48,40 +85,10 @@
 
     initContent = ''
       export GPG_TTY=$(tty)
-
-      # Prompt
-      setopt PROMPT_SUBST
-      _git_branch() {
-        local branch
-        branch=$(git symbolic-ref --short HEAD 2>/dev/null) || \
-        branch=$(git describe --tags --exact-match HEAD 2>/dev/null) || \
-        branch=$(git rev-parse --short HEAD 2>/dev/null | sed 's/^/@/')
-        [[ -n "$branch" ]] && echo "$branch "
-      }
-      PROMPT='%F{green}%~%f %F{magenta}$(_git_branch)%f%F{white}❱%f '
-
-      # Tab: fzf picker for z/cd with zoxide
-      _ztab() {
-        local -a t=(''${(z)BUFFER})
-        local cmd=''${t[1]} arg=''${t[2]}
-        [[ $cmd != (z|cd) || -z $arg ]] && { zle expand-or-complete; return }
-        local -a d=(''${arg}*(/N))
-        (( ''${#d[@]} )) && { zle expand-or-complete; return }
-        local -a m=("''${(@f)$(zoxide query -l -- $arg 2>/dev/null)}")
-        case ''${#m[@]} in
-          0) zle expand-or-complete ;;
-          1) BUFFER="$cmd ''${m[1]}"; CURSOR=''${#BUFFER}; zle redisplay ;;
-          *) local r=$(printf '%s\n' "''${m[@]}" | fzf --height=40% --reverse --cycle --bind 'tab:down,btab:up')
-             [[ -n $r ]] && BUFFER="$cmd $r" && CURSOR=''${#BUFFER}; zle redisplay ;;
-        esac
-      }
-      zle -N _ztab
-      bindkey '^I' _ztab
-
-      chpwd() { lsd -F }
-
-      # Ctrl+E clear screen
-      bindkey '^E' clear-screen
+      ${prompt}
+      ${zoxideTab}
+      ${hooks}
+      ${keybindings}
     '';
   };
 }
