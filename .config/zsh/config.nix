@@ -13,26 +13,15 @@ let
     PROMPT='%F{green}%~%f %F{magenta}$(_git_branch)%f%F{white}❱%f '
   '';
 
-  # zoxideTab = ''
-  #   _ztab() {
-  #     local -a t=(''${(z)BUFFER}) d; local c=''${t[1]} a=''${t[2]} r
-  #     [[ $c != (z|cd) || -z $a ]] && { zle expand-or-complete; return }
-  #     if [[ -d $a ]]; then
-  #       d=(''${a%/}/*(/N))
-  #     else
-  #       d=(''${a}*(/N))
-  #       (( ''${#d} == 1 )) && { BUFFER="$c ''${d[1]}"; CURSOR=''${#BUFFER}; zle redisplay; return }
-  #     fi
-  #     (( ! ''${#d} )) && d=("''${(@f)$(zoxide query -l -- $a 2>/dev/null)}")
-  #     case ''${#d} in
-  #       0) zle expand-or-complete; return ;;
-  #       1) BUFFER="$c ''${d[1]}" ;;
-  #       *) r=$(printf '%s\n' "''${d[@]}" | fzf --height=40% --reverse --cycle --bind 'tab:down,btab:up'); [[ -n $r ]] && BUFFER="$c $r" ;;
-  #     esac
-  #     CURSOR=''${#BUFFER}; zle redisplay
-  #   }
-  #   zle -N _ztab && bindkey '^I' _ztab
-  # '';
+  # Zoxide fallback when no local dirs match (fzf-tab handles the rest)
+  zoxideFallback = ''
+    _zf() {
+      local t=(''${(z)BUFFER}) c=''${t[1]} a=''${t[2]} r
+      [[ $c == (z|cd) && -n $a ]] && (( ! ''${#''${a}*(/N)} )) && r=$(zoxide query -i -- $a 2>/dev/null) && [[ -n $r ]] && { BUFFER="$c $r"; CURSOR=''${#BUFFER}; zle redisplay; return }
+      zle fzf-tab-complete
+    }
+    zle -N _zf && bindkey '^I' _zf
+  '';
 
   hooks = "chpwd() { lsd -F }";
   keybindings = "bindkey '^E' clear-screen";
@@ -93,6 +82,7 @@ in
     initContent = ''
       export GPG_TTY=$(tty)
       ${prompt}
+      ${zoxideFallback}
       ${hooks}
       ${keybindings}
     '';
