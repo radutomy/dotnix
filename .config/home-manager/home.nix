@@ -17,7 +17,7 @@ in
     stateVersion = "25.11";
 
     packages = with pkgs; [ 
-      neovim htop ripgrep jq
+      vim htop ripgrep jq
 
       # Unstable packages
       unstable.claude-code 
