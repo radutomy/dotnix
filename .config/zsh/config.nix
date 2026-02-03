@@ -67,76 +67,28 @@
       # cd uses zoxide
       alias cd='z'
 
-      # Tab completion: triggers fzf picker for z/cd when multiple zoxide matches
-      _zoxide_tab_complete() {
-        local tokens=(''${(z)BUFFER})
-        local cmd="''${tokens[1]}"
-        local arg="''${tokens[2]}"
-
-        if [[ ("$cmd" == "z" || "$cmd" == "cd") && -n "$arg" ]]; then
-          # Check for local directory first
-          local -a local_dirs
-          local_dirs=( ''${arg}*(/N) )
-
-          if (( ''${#local_dirs[@]} > 0 )); then
-            # Local dirs exist, use normal completion
-            zle expand-or-complete
-          else
-            # Query zoxide
-            local -a matches
-            matches=("''${(@f)$(zoxide query -l -- "$arg" 2>/dev/null)}")
-
-            if (( ''${#matches[@]} > 1 )); then
-              # Multiple matches - show fzf
-              local result
-              result=$(printf '%s\n' "''${matches[@]}" | fzf --height=40% --reverse --prompt="$arg > " --cycle --bind 'tab:down,btab:up')
-              if [[ -n "$result" ]]; then
-                BUFFER="$cmd $result"
-                CURSOR=''${#BUFFER}
-              fi
-              zle redisplay
-            elif (( ''${#matches[@]} == 1 )); then
-              # Single match - complete it
-              BUFFER="$cmd ''${matches[1]}"
-              CURSOR=''${#BUFFER}
-              zle redisplay
-            else
-              zle expand-or-complete
-            fi
-          fi
-        else
-          zle expand-or-complete
-        fi
+      # Tab: fzf picker for z/cd, normal completion otherwise
+      _z_tab() {
+        local cmd=''${(z)BUFFER}
+        local arg=''${cmd[2]}
+        [[ ''${cmd[1]} != (z|cd) || -z $arg ]] && { zle expand-or-complete; return }
+        [[ -n ''${arg}*(/N[1]) ]] && { zle expand-or-complete; return }
+        local matches=(''${(f)"$(zoxide query -l -- $arg 2>/dev/null)"})
+        (( ! ''${#matches} )) && { zle expand-or-complete; return }
+        (( ''${#matches} == 1 )) && { BUFFER="''${cmd[1]} ''${matches[1]}"; CURSOR=''${#BUFFER}; zle redisplay; return }
+        local pick=$(printf '%s\n' "''${matches[@]}" | fzf --height=40% --reverse --cycle --bind 'tab:down,btab:up')
+        [[ -n $pick ]] && BUFFER="''${cmd[1]} $pick" && CURSOR=''${#BUFFER}
+        zle redisplay
       }
-      zle -N _zoxide_tab_complete
-      bindkey '^I' _zoxide_tab_complete
+      zle -N _z_tab && bindkey '^I' _z_tab
 
       # Auto lsd after cd
-      _lsd_after_cd() { lsd -F }
-      chpwd_functions+=(_lsd_after_cd)
+      chpwd_functions+=( lsd\ -F )
 
-      # Ctrl+F: zoxide fzf picker
-      _zoxide_pick() {
-        local result
-        result=$(zoxide query -i 2>/dev/null)
-        if [[ -n "$result" ]]; then
-          BUFFER="cd $result"
-          CURSOR=$#BUFFER
-          zle accept-line
-        fi
-        zle reset-prompt
-      }
-      zle -N _zoxide_pick
-      bindkey '^F' _zoxide_pick
-
-      # Key bindings
+      # Ctrl+E clear, Ctrl+F zoxide picker
       bindkey '^E' clear-screen
-
-      # Tab completion menu (navigate with Tab/Shift+Tab, select with Enter)
-      zmodload zsh/complist
-      zstyle ':completion:*' menu select
-      bindkey -M menuselect '\t' menu-complete
-      bindkey -M menuselect '\e[Z' reverse-menu-complete
+      _zf() { local r=$(zoxide query -i 2>/dev/null); [[ -n $r ]] && BUFFER="cd $r" && zle accept-line; zle reset-prompt }
+      zle -N _zf && bindkey '^F' _zf
     '';
   };
 }
