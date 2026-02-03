@@ -67,44 +67,22 @@
       # cd uses zoxide
       alias cd='z'
 
-      # Tab: fzf picker for z/cd when multiple zoxide matches
-      _zoxide_tab_complete() {
-        local tokens=(''${(z)BUFFER})
-        local cmd="''${tokens[1]}"
-        local arg="''${tokens[2]}"
-
-        if [[ ("$cmd" == "z" || "$cmd" == "cd") && -n "$arg" ]]; then
-          local -a local_dirs
-          local_dirs=( ''${arg}*(/N) )
-
-          if (( ''${#local_dirs[@]} > 0 )); then
-            zle expand-or-complete
-          else
-            local -a matches
-            matches=("''${(@f)$(zoxide query -l -- "$arg" 2>/dev/null)}")
-
-            if (( ''${#matches[@]} > 1 )); then
-              local result
-              result=$(printf '%s\n' "''${matches[@]}" | fzf --height=40% --reverse --cycle --bind 'tab:down,btab:up')
-              if [[ -n "$result" ]]; then
-                BUFFER="$cmd $result"
-                CURSOR=''${#BUFFER}
-              fi
-              zle redisplay
-            elif (( ''${#matches[@]} == 1 )); then
-              BUFFER="$cmd ''${matches[1]}"
-              CURSOR=''${#BUFFER}
-              zle redisplay
-            else
-              zle expand-or-complete
-            fi
-          fi
-        else
-          zle expand-or-complete
-        fi
+      # Tab: fzf picker for z/cd with zoxide
+      _ztab() {
+        local -a t=(''${(z)BUFFER})
+        local cmd=''${t[1]} arg=''${t[2]}
+        [[ $cmd != (z|cd) || -z $arg ]] && { zle expand-or-complete; return }
+        (( ''${#''${arg}*(/N)} )) && { zle expand-or-complete; return }
+        local -a m=("''${(@f)$(zoxide query -l -- $arg 2>/dev/null)}")
+        case ''${#m[@]} in
+          0) zle expand-or-complete ;;
+          1) BUFFER="$cmd ''${m[1]}"; CURSOR=''${#BUFFER}; zle redisplay ;;
+          *) local r=$(printf '%s\n' "''${m[@]}" | fzf --height=40% --reverse --cycle --bind 'tab:down,btab:up')
+             [[ -n $r ]] && BUFFER="$cmd $r" && CURSOR=''${#BUFFER}; zle redisplay ;;
+        esac
       }
-      zle -N _zoxide_tab_complete
-      bindkey '^I' _zoxide_tab_complete
+      zle -N _ztab
+      bindkey '^I' _ztab
 
       # Auto lsd after cd
       _lsd_after_cd() { lsd -F }
