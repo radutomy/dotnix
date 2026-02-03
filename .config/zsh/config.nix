@@ -90,34 +90,44 @@
       # Enable completion system FIRST
       autoload -Uz compinit && compinit
 
-      # Fish-like completion for cd/z: local dirs first, then zoxide database
-      _cd_zoxide_complete() {
-        local query="''${words[CURRENT]}"
-
-        # If empty query, use default directory completion
-        if [[ -z "$query" ]]; then
-          _path_files -/
+      # Fish-like Tab for cd: local dirs first, then zoxide interactive
+      _cd_tab_complete() {
+        # Check if we're completing a cd/z command
+        local cmd="''${words[1]}"
+        if [[ "$cmd" != "cd" && "$cmd" != "z" ]]; then
+          # Not cd/z, use default completion
+          zle expand-or-complete
           return
         fi
 
-        # Check for local directory matches first
+        local query="''${words[2]}"
+
+        # If no query yet, use default completion
+        if [[ -z "$query" ]]; then
+          zle expand-or-complete
+          return
+        fi
+
+        # Check for local directory matches
         local has_local
         has_local=$(print -l ''${~query}*(-/DN) 2>/dev/null | head -1)
 
         if [[ -n "$has_local" ]]; then
-          # Local directories found - use standard completion
-          _path_files -/
+          # Local matches exist, use default completion
+          zle expand-or-complete
         else
-          # No local matches - query zoxide database
-          local zoxide_out
-          zoxide_out=$(zoxide query -l -- "$query" 2>/dev/null | head -20)
-          if [[ -n "$zoxide_out" ]]; then
-            local IFS=$'\n'
-            compadd -U -Q -- $zoxide_out
+          # No local matches - launch zoxide interactive
+          local result
+          result=$(zoxide query -i -- "$query" 2>/dev/null)
+          if [[ -n "$result" ]]; then
+            BUFFER="cd ''${(q)result}"
+            CURSOR=''${#BUFFER}
           fi
+          zle reset-prompt
         fi
       }
-      compdef _cd_zoxide_complete cd z
+      zle -N _cd_tab_complete
+      bindkey '^I' _cd_tab_complete
 
       # Show files/dirs when completing commands (fish-like behavior)
       setopt COMPLETE_IN_WORD
