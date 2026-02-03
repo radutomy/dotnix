@@ -96,8 +96,37 @@
       # CTRL+E to clear screen
       bindkey '^E' clear-screen
 
-      # cd replacement with zoxide (interactive mode for multiple matches)
-      alias cd="zi"
+      # cd replacement with zoxide (matching fish behavior)
+      cd() {
+        if [[ $# -eq 0 ]]; then
+          builtin cd ~
+        elif [[ "$1" == "-" ]]; then
+          builtin cd -
+        elif [[ -d "$1" ]]; then
+          builtin cd "$1"
+        else
+          local result=$(zoxide query -- "$@")
+          if [[ -n "$result" ]]; then
+            builtin cd "$result"
+          else
+            echo "zoxide: no match found" >&2
+            return 1
+          fi
+        fi
+      }
+
+      # Tab completion: directories first, then zoxide results
+      _cd_zoxide_complete() {
+        local dirs=(''${(f)"$(fd --type d --max-depth 1 2>/dev/null)"})
+        if [[ ''${#dirs[@]} -gt 0 ]]; then
+          _describe 'directories' dirs
+        fi
+        local zoxide_results=(''${(f)"$(zoxide query -l ''${words[2]} 2>/dev/null)"})
+        if [[ ''${#zoxide_results[@]} -gt 0 ]]; then
+          _describe 'zoxide' zoxide_results
+        fi
+      }
+      compdef _cd_zoxide_complete cd
 
       # Auto ls after cd
       chpwd() {
