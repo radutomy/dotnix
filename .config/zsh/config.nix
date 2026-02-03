@@ -15,35 +15,21 @@ let
 
   zoxideTab = ''
     _ztab() {
-      local -a t=(''${(z)BUFFER})
-      local cmd=''${t[1]} arg=''${t[2]}
+      local -a t=(''${(z)BUFFER}) d
+      local cmd=''${t[1]} arg=''${t[2]} r
       [[ $cmd != (z|cd) || -z $arg ]] && { zle expand-or-complete; return }
-      local -a d=(''${arg}*(/N))
-      if (( ''${#d[@]} > 1 )); then
-        local r=$(printf '%s\n' "''${d[@]}" | fzf --height=40% --reverse --cycle --bind 'tab:down,btab:up')
-        [[ -n $r ]] && BUFFER="$cmd $r" && CURSOR=''${#BUFFER}
-        zle redisplay; return
-      elif (( ''${#d[@]} == 1 )); then
-        # Single match - show its contents
-        local -a sub=(''${d[1]}/*(/N))
-        if (( ''${#sub[@]} > 0 )); then
-          local r=$(printf '%s\n' "''${sub[@]}" | fzf --height=40% --reverse --cycle --bind 'tab:down,btab:up')
-          [[ -n $r ]] && BUFFER="$cmd $r" && CURSOR=''${#BUFFER}
-          zle redisplay; return
-        else
-          BUFFER="$cmd ''${d[1]}"; CURSOR=''${#BUFFER}; zle redisplay; return
-        fi
-      fi
-      local -a m=("''${(@f)$(zoxide query -l -- $arg 2>/dev/null)}")
-      case ''${#m[@]} in
-        0) zle expand-or-complete ;;
-        1) BUFFER="$cmd ''${m[1]}"; CURSOR=''${#BUFFER}; zle redisplay ;;
-        *) local r=$(printf '%s\n' "''${m[@]}" | fzf --height=40% --reverse --cycle --bind 'tab:down,btab:up')
-           [[ -n $r ]] && BUFFER="$cmd $r" && CURSOR=''${#BUFFER}; zle redisplay ;;
+      d=(''${arg}*(/N))
+      (( ''${#d} == 1 )) && d=(''${d[1]}/*(/N))
+      (( ! ''${#d} )) && d=("''${(@f)$(zoxide query -l -- $arg 2>/dev/null)}")
+      case ''${#d} in
+        0) zle expand-or-complete; return ;;
+        1) BUFFER="$cmd ''${d[1]}" ;;
+        *) r=$(printf '%s\n' "''${d[@]}" | fzf --height=40% --reverse --cycle --bind 'tab:down,btab:up')
+           [[ -n $r ]] && BUFFER="$cmd $r" ;;
       esac
+      CURSOR=''${#BUFFER}; zle redisplay
     }
-    zle -N _ztab
-    bindkey '^I' _ztab
+    zle -N _ztab && bindkey '^I' _ztab
   '';
 
   hooks = "chpwd() { lsd -F }";
