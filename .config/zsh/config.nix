@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 {
   programs.zsh = {
     enable = true;
@@ -20,10 +20,10 @@
       pi2 = "ssh pi2";
       nas = "ssh nas";
 
-      # lsd
-      ls = "lsd --group-dirs=first";
-      ll = "lsd -lah --group-dirs=first";
-      l = "lsd -A --group-dirs=first";
+      # lsd (override lsd module defaults)
+      ls = lib.mkForce "lsd --group-dirs=first";
+      ll = lib.mkForce "lsd -lah --group-dirs=first";
+      l = lib.mkForce "lsd -A --group-dirs=first";
       lr = "lsd --tree --group-dirs=first";
       lx = "lsd -X --group-dirs=first";
       lt = "lsd --tree --group-dirs=first";
@@ -43,7 +43,7 @@
       PNPM_HOME = "$HOME/.local/share/pnpm";
     };
 
-    initExtra = ''
+    initContent = ''
       # PATH
       path+=("$HOME/.cargo/bin" "$HOME/.local/bin" "$PNPM_HOME")
       export PATH
@@ -114,6 +114,10 @@
     enableZshIntegration = true;
   };
 
-  programs.lsd.enable = true;
+  programs.lsd = {
+    enable = true;
+    enableZshIntegration = false;  # We define our own aliases
+  };
+
   programs.bat.enable = true;
 }
