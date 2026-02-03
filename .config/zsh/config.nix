@@ -2,7 +2,7 @@
 {
   programs.lsd = {
     enable = true;
-    enableZshIntegration = false; # We define our own aliases
+    enableZshIntegration = false;
   };
 
   programs.zoxide = {
@@ -21,14 +21,6 @@
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
 
-    plugins = [
-      {
-        name = "fzf-tab";
-        src = pkgs.zsh-fzf-tab;
-        file = "share/fzf-tab/fzf-tab.plugin.zsh";
-      }
-    ];
-
     history = {
       size = 10000;
       save = 10000;
@@ -38,41 +30,31 @@
     };
 
     shellAliases = {
-      # lsd aliases (use mkForce to override lsd module defaults)
       ls = lib.mkForce "lsd --group-dirs=first";
       ll = lib.mkForce "lsd -lah --group-dirs=first";
       l = lib.mkForce "lsd -A --group-dirs=first";
       lr = "lsd --tree --group-dirs=first";
-      lx = "lsd -X --group-dirs=first";
       lt = "lsd --tree --group-dirs=first";
-
-      # Other aliases
       cat = "bat --style=plain";
       vim = "nvim";
       c = "clear";
       p = "python";
       gg = "lazygit";
       tx = "tmux attach 2>/dev/null || tmux";
-
-      # SSH
       pi1 = "ssh pi1";
       pi2 = "ssh pi2";
       nas = "ssh nas";
     };
 
     initContent = ''
-      # --- PATH ---
+      # PATH
       path+=("$HOME/.cargo/bin" "$HOME/.local/bin" "$PNPM_HOME")
       export PATH
-
-      # --- Environment ---
       export GPG_TTY=$(tty)
       export PNPM_HOME="/root/.local/share/pnpm"
 
-      # --- Prompt (single line: ~/path branch > ) ---
+      # Prompt: ~/path branch >
       setopt PROMPT_SUBST
-
-      # Git branch for prompt
       _git_branch() {
         local branch
         branch=$(git symbolic-ref --short HEAD 2>/dev/null) || \
@@ -80,64 +62,31 @@
         branch=$(git rev-parse --short HEAD 2>/dev/null | sed 's/^/@/')
         [[ -n "$branch" ]] && echo "$branch "
       }
-
-      # Colors: cyan for path, magenta for git
-      # %~ = path with ~ for home (full path, no abbreviation)
       PROMPT='%F{cyan}%~%f %F{magenta}$(_git_branch)%f%F{cyan}>%f '
 
-      # Use zoxide's z command as cd (zoxide init zsh already provides z and zi)
+      # cd uses zoxide
       alias cd='z'
 
-      # --- Auto lsd after cd ---
-      _lsd_after_cd() {
-        lsd -F
-      }
+      # Auto lsd after cd
+      _lsd_after_cd() { lsd -F }
       chpwd_functions+=(_lsd_after_cd)
 
-      # --- Tab completion ---
-      # Enable completion system FIRST
-      autoload -Uz compinit && compinit
-
-      # Zoxide completion for cd/z - provides zoxide results when no local match
-      _zoxide_cd_complete() {
-        local query="''${words[CURRENT]}"
-
-        if [[ -z "$query" ]]; then
-          _files -/
-          return
+      # Ctrl+F: zoxide fzf picker
+      _zoxide_pick() {
+        local result
+        result=$(zoxide query -i 2>/dev/null)
+        if [[ -n "$result" ]]; then
+          BUFFER="cd $result"
+          CURSOR=$#BUFFER
+          zle accept-line
         fi
-
-        # Check for local matches
-        if [[ -n "$(print -l ''${~query}*(-/DN) 2>/dev/null | head -1)" ]]; then
-          _files -/
-        else
-          # Query zoxide and add results
-          local zoxide_out
-          zoxide_out=$(zoxide query -l -- "$query" 2>/dev/null)
-          if [[ -n "$zoxide_out" ]]; then
-            local IFS=$'\n'
-            compadd -V zoxide -U -Q -- $zoxide_out
-          fi
-        fi
+        zle reset-prompt
       }
-      compdef _zoxide_cd_complete cd z
+      zle -N _zoxide_pick
+      bindkey '^F' _zoxide_pick
 
-      # Show files/dirs when completing commands (fish-like behavior)
-      setopt COMPLETE_IN_WORD
-      setopt AUTO_MENU
-      setopt AUTO_LIST
-      zstyle ':completion:*' completer _complete _files
-      zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
-      zstyle ':completion:*' menu select
-      zstyle ':completion:*' list-colors ''${(s.:.)LS_COLORS}
-
-      # --- Key bindings ---
-      bindkey '^E' clear-screen  # Ctrl+E to clear
-      bindkey '^[[Z' reverse-menu-complete  # Shift+Tab
-
-      # --- fzf configuration ---
-      export FZF_DEFAULT_OPTS="--height 40% --layout=reverse --border"
-      export FZF_DEFAULT_COMMAND="fd --type f --hidden --exclude .git --exclude node_modules --exclude .cache"
+      # Key bindings
+      bindkey '^E' clear-screen
     '';
   };
 }
