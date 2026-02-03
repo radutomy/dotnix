@@ -82,8 +82,8 @@
         fi
         zle reset-prompt
       }
-      zle -N _zoxide_pick
-      bindkey '^F' _zoxide_pick
+      # zle -N _zoxide_pick
+      # bindkey '^F' _zoxide_pick
 
       # Key bindings
       bindkey '^E' clear-screen
