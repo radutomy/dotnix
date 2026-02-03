@@ -64,8 +64,26 @@
       }
       PROMPT='%F{cyan}%~%f %F{magenta}$(_git_branch)%f%F{cyan}>%f '
 
-      # cd uses zoxide
+      # cd uses zoxide with smart completion
       alias cd='z'
+
+      # Custom completion for z: local dirs first, then zoxide database
+      _zoxide_z_complete() {
+        local -a dirs
+        # Try local directory completion first
+        dirs=( ${(f)"$(command ls -d ${words[CURRENT]}*/ 2>/dev/null)"} )
+        if [[ ${#dirs[@]} -gt 0 ]]; then
+          _path_files -/ -W "${PWD}"
+        else
+          # Fall back to zoxide database
+          local -a zoxide_dirs
+          zoxide_dirs=( ${(f)"$(zoxide query -l ${words[CURRENT]} 2>/dev/null)"} )
+          if [[ ${#zoxide_dirs[@]} -gt 0 ]]; then
+            compadd -Q -a zoxide_dirs
+          fi
+        fi
+      }
+      compdef _zoxide_z_complete z
 
       # Auto lsd after cd
       _lsd_after_cd() { lsd -F }
