@@ -92,14 +92,25 @@
 
       # Fish-like completion for cd/z: local dirs first, then zoxide database
       _cd_zoxide_complete() {
-        # Debug: always add test completions
-        compadd -U -- "/tmp/debug1" "/tmp/debug2"
+        local query="''${words[CURRENT]}"
 
-        if [[ ''${#words[@]} -ge 2 ]]; then
-          local query="''${words[2]}"
-          # Query zoxide database
+        # If empty query, use default directory completion
+        if [[ -z "$query" ]]; then
+          _path_files -/
+          return
+        fi
+
+        # Check for local directory matches first
+        local has_local
+        has_local=$(print -l ''${~query}*(-/DN) 2>/dev/null | head -1)
+
+        if [[ -n "$has_local" ]]; then
+          # Local directories found - use standard completion
+          _path_files -/
+        else
+          # No local matches - query zoxide database
           local zoxide_out
-          zoxide_out=$(zoxide query -l -- "$query" 2>/dev/null)
+          zoxide_out=$(zoxide query -l -- "$query" 2>/dev/null | head -20)
           if [[ -n "$zoxide_out" ]]; then
             local IFS=$'\n'
             compadd -U -Q -- $zoxide_out
