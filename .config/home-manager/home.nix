@@ -26,7 +26,7 @@ in
     packages = with pkgs; [
       neovim htop ripgrep jq fd yadm bat
 
-      # Unstable packages
+      # Unstable packages 
       unstable.claude-code
     ];
   };
