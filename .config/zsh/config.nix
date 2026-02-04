@@ -1,4 +1,4 @@
-{ pkgs, lib, config, ... }:
+{ pkgs, ... }:
 
 let
   prompt = ''
@@ -58,7 +58,7 @@ in
 
   programs.zsh = {
     enable = true;
-    dotDir = "${config.xdg.configHome}/zsh";
+    dotDir = ".config/zsh";
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
 
