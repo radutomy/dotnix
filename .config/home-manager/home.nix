@@ -1,7 +1,4 @@
-{ pkgs, ... }:
-let
-  unstable = import (builtins.fetchTarball "https://github.com/nixos/nixpkgs/tarball/nixos-unstable") { config.allowUnfree = true; };
-in
+{ pkgs, unstable, ... }:
 {
   imports = [
     ../git/config.nix
@@ -25,10 +22,16 @@ in
     homeDirectory = "/root";
     stateVersion = "25.11";
 
-    packages = with pkgs; [
-      neovim htop ripgrep jq fd yadm bat
+    packages = [
+      pkgs.neovim
+      pkgs.htop
+      pkgs.ripgrep
+      pkgs.jq
+      pkgs.fd
+      pkgs.yadm
+      pkgs.bat
 
-      # Unstable packages 
+      # Unstable packages
       unstable.claude-code
     ];
   };
