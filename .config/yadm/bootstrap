@@ -1,5 +1,6 @@
 #!/bin/sh
 set -e
 
-nix --extra-experimental-features 'nix-command flakes' run home-manager/release-25.11 -- switch --flake ~/.config/home-manager#root
+export NIX_CONFIG="experimental-features = nix-command flakes"
+nix run home-manager/release-25.11 -- switch --flake ~/.config/home-manager#root
 yadm remote set-url origin git@github.com:radutomy/dotnix.git
