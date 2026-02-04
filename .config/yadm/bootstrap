@@ -16,4 +16,7 @@ nix-shell '<home-manager>' -A install
 echo "Applying configuration..."
 home-manager switch
 
+echo "Configuring yadm remote..."
+yadm remote set-url origin git@github.com:radutomy/dotnix.git
+
 echo "Done! User is configured."

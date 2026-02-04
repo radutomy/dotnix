@@ -18,10 +18,10 @@ in
     stateVersion = "25.11";
 
     packages = with pkgs; [
-      neovim htop ripgrep jq fd
+      neovim htop ripgrep jq fd yadm
 
       # Unstable packages
-      unstable.claude-code 
+      unstable.claude-code
     ];
   };
 }
