@@ -16,13 +16,11 @@
         inherit username;
         pkgs-unstable = import nixpkgs-unstable { inherit system; config.allowUnfree = true; };
       };
-      modules = [ ./home.nix ./modules/git.nix ./modules/zsh.nix ./modules/helix.nix ./modules/rust.nix ];
+      modules = [ ./home.nix ./git/config.nix ./zsh/config.nix ./helix/config.nix ./rust/config.nix ];
     };
   in {
     homeConfigurations = {
       "root@nixos" = mkHome { system = "x86_64-linux"; username = "root"; };
-      # Add more machines here:
-      # "radu@macbook" = mkHome { system = "aarch64-darwin"; username = "radu"; };
     };
   };
 }
