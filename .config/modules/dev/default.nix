@@ -1,4 +1,3 @@
-# Development tools
 { pkgs, ... }:
 {
   home.packages = with pkgs; [

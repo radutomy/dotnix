@@ -1,10 +1,9 @@
-# MacBook configuration
 { ... }:
 {
   imports = [
-    ../../modules/core.nix
-    ../../modules/dev.nix
-    ../../modules/gui.nix
+    ../../modules/core
+    ../../modules/dev
+    ../../modules/gui
   ];
 
   home.sessionVariables = {
