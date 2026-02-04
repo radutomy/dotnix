@@ -83,7 +83,6 @@ in
     }];
 
     initContent = ''
-      export GPG_TTY=$(tty)
       ${prompt}
       ${zoxideFallback}
       ${hooks}
