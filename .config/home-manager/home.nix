@@ -12,6 +12,12 @@ in
   programs.home-manager.enable = true;
   nixpkgs.config.allowUnfree = true;
 
+  programs.gpg.enable = true;
+  services.gpg-agent = {
+    enable = true;
+    pinentryPackage = pkgs.pinentry-curses;
+  };
+
   home = {
     username = "root";
     homeDirectory = "/root";
