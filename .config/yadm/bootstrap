@@ -11,12 +11,6 @@ if [ -n "$(nix-channel --list)" ]; then
 	done
 fi
 
-# Ensure nix.conf with flakes is in place
-if [ ! -f "$HOME/.config/nix/nix.conf" ]; then
-	mkdir -p "$HOME/.config/nix"
-	echo "experimental-features = nix-command flakes" > "$HOME/.config/nix/nix.conf"
-fi
-
 echo "Applying Home Manager configuration..."
 nix run home-manager/release-25.11 -- switch --flake "$HOME/.config/home-manager#root"
 
