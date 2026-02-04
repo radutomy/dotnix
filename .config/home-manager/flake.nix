@@ -10,14 +10,19 @@
 
   outputs = { nixpkgs, nixpkgs-unstable, home-manager, ... }:
   let
-    system = "x86_64-linux";
-    pkgs = import nixpkgs { inherit system; config.allowUnfree = true; };
-    pkgs-unstable = import nixpkgs-unstable { inherit system; config.allowUnfree = true; };
-  in {
-    homeConfigurations.root = home-manager.lib.homeManagerConfiguration {
-      inherit pkgs;
-      extraSpecialArgs = { inherit pkgs-unstable; };
+    mkHome = { system, username }: home-manager.lib.homeManagerConfiguration {
+      pkgs = import nixpkgs { inherit system; config.allowUnfree = true; };
+      extraSpecialArgs = {
+        inherit username;
+        pkgs-unstable = import nixpkgs-unstable { inherit system; config.allowUnfree = true; };
+      };
       modules = [ ./home.nix ./modules/git.nix ./modules/zsh.nix ./modules/helix.nix ./modules/rust.nix ];
+    };
+  in {
+    homeConfigurations = {
+      "root@nixos" = mkHome { system = "x86_64-linux"; username = "root"; };
+      # Add more machines here:
+      # "radu@macbook" = mkHome { system = "aarch64-darwin"; username = "radu"; };
     };
   };
 }

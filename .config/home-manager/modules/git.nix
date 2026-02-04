@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ config, ... }:
 {
   programs.delta = {
     enable = true;
@@ -13,7 +13,7 @@
     enable = true;
 
     signing = {
-      key = "/root/.ssh/id_ed25519";
+      key = "${config.home.homeDirectory}/.ssh/id_ed25519";
       signByDefault = true;
     };
 

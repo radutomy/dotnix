@@ -1,4 +1,4 @@
-{ pkgs, pkgs-unstable, ... }:
+{ pkgs, pkgs-unstable, username, ... }:
 {
   news.display = "silent";
   programs.home-manager.enable = true;
@@ -12,8 +12,8 @@
   xdg.configFile."nix/nix.conf".text = "experimental-features = nix-command flakes\n";
 
   home = {
-    username = "root";
-    homeDirectory = "/root";
+    inherit username;
+    homeDirectory = if username == "root" then "/root" else "/home/${username}";
     stateVersion = "25.11";
 
     packages = with pkgs; [
