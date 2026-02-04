@@ -9,6 +9,8 @@
     pinentry.package = pkgs.pinentry-curses;
   };
 
+  xdg.configFile."nix/nix.conf".text = "experimental-features = nix-command flakes\n";
+
   home = {
     username = "root";
     homeDirectory = "/root";
