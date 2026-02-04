@@ -16,6 +16,11 @@ in
   services.gpg-agent = {
     enable = true;
     pinentry.package = pkgs.pinentry-curses;
+    extraConfig = "allow-loopback-pinentry";
+  };
+
+  programs.gpg.settings = {
+    pinentry-mode = "loopback";
   };
 
   home = {
