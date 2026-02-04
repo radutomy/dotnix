@@ -1,11 +1,5 @@
 #!/bin/sh
 set -e
 
-# Remove legacy channels
-nix-channel --list 2>/dev/null | cut -d' ' -f1 | xargs -r -I{} nix-channel --remove {}
-
-# Apply home-manager configuration
 nix --extra-experimental-features 'nix-command flakes' run home-manager/release-25.11 -- switch --flake ~/.config/home-manager#root
-
-# Switch to SSH remote
 yadm remote set-url origin git@github.com:radutomy/dotnix.git
