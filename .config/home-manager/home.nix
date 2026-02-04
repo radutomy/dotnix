@@ -5,6 +5,7 @@ in
 {
   imports = [
     ../git/config.nix
+    ../helix/config.nix
     ../zsh/config.nix
   ];
 
