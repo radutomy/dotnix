@@ -79,7 +79,8 @@ in
 
     plugins = [{
       name = "fzf-tab";
-      src = "${pkgs.zsh-fzf-tab}/share/fzf-tab";
+      src = pkgs.zsh-fzf-tab;
+      file = "share/fzf-tab/fzf-tab.plugin.zsh";
     }];
 
     initContent = ''
