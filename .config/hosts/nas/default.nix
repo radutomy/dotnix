@@ -1,6 +1,8 @@
 { ... }:
 {
   imports = [
-    ../../modules/core
+    ../../modules
+    ../../modules/git.nix
+    ../../modules/zsh.nix
   ];
 }

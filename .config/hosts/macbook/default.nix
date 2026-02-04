@@ -1,13 +1,12 @@
 { ... }:
 {
   imports = [
-    ../../modules/core
-    ../../modules/dev
-    ../../modules/gui
+    ../../modules
+    ../../modules/git.nix
+    ../../modules/zsh.nix
+    ../../modules/rust.nix
   ];
 
-  home.sessionVariables = {
-    PNPM_HOME = "$HOME/.local/share/pnpm";
-  };
+  home.sessionVariables.PNPM_HOME = "$HOME/.local/share/pnpm";
   home.sessionPath = [ "$HOME/.local/share/pnpm" ];
 }

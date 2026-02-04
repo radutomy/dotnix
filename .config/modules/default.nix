@@ -1,10 +1,5 @@
 { pkgs, pkgs-unstable, ... }:
 {
-  imports = [
-    ./git.nix
-    ./zsh.nix
-  ];
-
   home.packages = with pkgs; [
     neovim htop ripgrep jq fd yadm bat
     pkgs-unstable.claude-code
@@ -16,5 +11,10 @@
   services.gpg-agent = {
     enable = true;
     pinentry.package = pkgs.pinentry-curses;
+  };
+
+  programs.helix = {
+    enable = true;
+    defaultEditor = true;
   };
 }

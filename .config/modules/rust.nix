@@ -5,9 +5,4 @@
   ];
 
   home.sessionPath = [ "$HOME/.cargo/bin" ];
-
-  programs.helix = {
-    enable = true;
-    defaultEditor = true;
-  };
 }
