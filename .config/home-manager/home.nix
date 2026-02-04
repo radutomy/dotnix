@@ -6,6 +6,7 @@ in
   imports = [
     ../git/config.nix
     ../helix/config.nix
+    ./lang/rust.nix
     ../zsh/config.nix
   ];
 
