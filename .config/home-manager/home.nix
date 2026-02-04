@@ -9,11 +9,6 @@
     pinentry.package = pkgs.pinentry-curses;
   };
 
-  programs.helix = {
-    enable = true;
-    defaultEditor = true;
-  };
-
   home = {
     username = "root";
     homeDirectory = "/root";
@@ -21,7 +16,6 @@
 
     packages = with pkgs; [
       neovim htop ripgrep jq fd yadm bat
-      rustc cargo rust-analyzer rustfmt clippy
       pkgs-unstable.claude-code
     ];
   };

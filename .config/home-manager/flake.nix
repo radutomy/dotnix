@@ -17,7 +17,7 @@
     homeConfigurations.root = home-manager.lib.homeManagerConfiguration {
       inherit pkgs;
       extraSpecialArgs = { inherit pkgs-unstable; };
-      modules = [ ./home.nix ./modules/git.nix ./modules/zsh.nix ];
+      modules = [ ./home.nix ./modules/git.nix ./modules/zsh.nix ./modules/helix.nix ./modules/rust.nix ];
     };
   };
 }
