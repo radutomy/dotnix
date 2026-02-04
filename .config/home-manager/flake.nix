@@ -11,16 +11,22 @@
     };
   };
 
-  outputs = { nixpkgs, nixpkgs-unstable, home-manager, ... }:
+  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, ... }:
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
-      unstable = nixpkgs-unstable.legacyPackages.${system};
+      pkgs-unstable = nixpkgs-unstable.legacyPackages.${system};
     in {
       homeConfigurations."root" = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
-        extraSpecialArgs = { inherit unstable; };
-        modules = [ ./home.nix ];
+        extraSpecialArgs = { inherit pkgs-unstable; };
+        modules = [
+          ./home.nix
+          ./modules/git.nix
+          ./modules/zsh.nix
+          ./modules/helix.nix
+          ./modules/rust.nix
+        ];
       };
     };
 }

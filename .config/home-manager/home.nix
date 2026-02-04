@@ -1,12 +1,5 @@
-{ pkgs, unstable, ... }:
+{ pkgs, pkgs-unstable, ... }:
 {
-  imports = [
-    ../git/config.nix
-    ../helix/config.nix
-    ./lang/rust.nix
-    ../zsh/config.nix
-  ];
-
   news.display = "silent";
   programs.home-manager.enable = true;
   nixpkgs.config.allowUnfree = true;
@@ -14,7 +7,7 @@
   programs.gpg.enable = true;
   services.gpg-agent = {
     enable = true;
-    pinentry.package = pkgs.pinentry-curses;
+    pinentryPackage = pkgs.pinentry-curses;
   };
 
   home = {
@@ -30,9 +23,7 @@
       pkgs.fd
       pkgs.yadm
       pkgs.bat
-
-      # Unstable packages
-      unstable.claude-code
+      pkgs-unstable.claude-code
     ];
   };
 }
