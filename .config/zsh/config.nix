@@ -18,7 +18,7 @@ let
       local -a t=(''${(z)BUFFER}) d; local c=''${t[1]} a=''${t[2]} r
       d=(''${a}*(/N))
       if [[ $c == (z|cd) && -n $a && ''${#d} -eq 0 ]]; then
-        r=$(zoxide query -l -- $a 2>/dev/null | fzf --height=~100% --reverse --cycle --bind 'tab:down,btab:up' --color=pointer:#C44300 --no-info --no-separator --prompt=''')
+        r=$(zoxide query -l -- $a 2>/dev/null | fzf --layout=reverse-list --cycle --bind 'tab:down,btab:up' --color=pointer:#C44300 --no-info --no-separator --prompt='' --pointer='▌')
         [[ -n $r ]] && BUFFER="$c $r" && CURSOR=''${#BUFFER} && zle redisplay && return
       fi
       zle fzf-tab-complete
