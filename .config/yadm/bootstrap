@@ -1,20 +1,11 @@
 #!/bin/sh
 set -e
 
-echo "Starting Setup (NixOS 25.11 - Flakes)..."
+# Remove legacy channels
+nix-channel --list 2>/dev/null | cut -d' ' -f1 | xargs -r -I{} nix-channel --remove {}
 
-# Remove all user channels (we use flakes now)
-if [ -n "$(nix-channel --list)" ]; then
-	echo "Removing legacy channels..."
-	nix-channel --list | cut -d' ' -f1 | while read -r channel; do
-		nix-channel --remove "$channel"
-	done
-fi
+# Apply home-manager configuration
+nix run home-manager/release-25.11 -- switch --flake ~/.config/home-manager#root
 
-echo "Applying Home Manager configuration..."
-nix run home-manager/release-25.11 -- switch --flake "$HOME/.config/home-manager#root"
-
-echo "Configuring yadm remote..."
+# Switch to SSH remote
 yadm remote set-url origin git@github.com:radutomy/dotnix.git
-
-echo "Done!"
