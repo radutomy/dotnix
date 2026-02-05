@@ -11,16 +11,10 @@
     stateVersion = "25.11";
 
     packages = with pkgs; [
-      neovim htop ripgrep jq fd yadm bat tmux
+	  python3 unzip
+      neovim ripgrep jq fd bat nodejs gcc
+      htop yadm tmux
       pkgs-unstable.claude-code
-
-      # For LazyVim / Mason / Treesitter
-      gcc
-      nodejs
-      python3
-      unzip
-      curl
-      wget
     ];
 
     sessionPath = [ "$HOME/.local/bin" ];
