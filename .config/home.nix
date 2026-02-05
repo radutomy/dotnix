@@ -11,7 +11,7 @@
     stateVersion = "25.11";
 
     packages = with pkgs; [
-      neovim htop ripgrep jq fd yadm bat
+      neovim htop ripgrep jq fd yadm bat tmux
       pkgs-unstable.claude-code
     ];
 
@@ -29,5 +29,4 @@
     defaultEditor = true;
   };
 
-  programs.tmux.enable = true;
 }
