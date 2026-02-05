@@ -28,4 +28,6 @@
     enable = true;
     defaultEditor = true;
   };
+
+  programs.tmux.enable = true;
 }
