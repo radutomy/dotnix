@@ -13,6 +13,14 @@
     packages = with pkgs; [
       neovim htop ripgrep jq fd yadm bat tmux
       pkgs-unstable.claude-code
+
+      # For LazyVim / Mason / Treesitter
+      gcc
+      nodejs
+      python3
+      unzip
+      curl
+      wget
     ];
 
     sessionPath = [ "$HOME/.local/bin" ];
