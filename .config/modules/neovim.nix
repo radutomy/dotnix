@@ -3,7 +3,6 @@
   programs.neovim = {
     enable = true;
     vimAlias = true;
-    plugins = [ pkgs.vimPlugins.lazy-nvim ];
   };
 
   # LSP servers, formatters, and linters installed via nix instead of Mason
