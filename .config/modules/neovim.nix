@@ -32,5 +32,7 @@
     # nix
     nil
     nixfmt-rfc-style
+    statix
+    deadnix
   ];
 }
