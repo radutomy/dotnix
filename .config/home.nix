@@ -1,5 +1,7 @@
 { pkgs, pkgs-unstable, username, ... }:
 {
+  imports = [ ./modules/neovim.nix ];
+
   news.display = "silent";
   programs.home-manager.enable = true;
 
@@ -12,7 +14,7 @@
 
     packages = with pkgs; [
 	  python3 unzip
-      neovim ripgrep jq fd bat nodejs gcc
+      ripgrep jq fd bat nodejs gcc
       htop yadm tmux
       pkgs-unstable.claude-code
     ];
