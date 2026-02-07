@@ -9,6 +9,8 @@
   # LSP servers, formatters, and linters installed via nix instead of Mason
   home.packages = with pkgs; [
     # base
+    tree-sitter
+    lazygit
     lua-language-server
     stylua
     shfmt
