@@ -35,6 +35,7 @@ in
     dotDir = "${config.xdg.configHome}/zsh";
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
+    historySubstringSearch.enable = true;
     shellAliases = {
       cd = "z"; ls = "lsd --group-dirs=first"; ll = "lsd -lah --group-dirs=first";
       l = "lsd -A --group-dirs=first"; cat = "bat --style=plain"; vim = "nvim";
