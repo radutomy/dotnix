@@ -17,6 +17,7 @@
       ripgrep jq fd bat nodejs gcc
       htop yadm tmux
       pkgs-unstable.claude-code
+      pkgs-unstable.codex
     ];
 
     sessionPath = [ "$HOME/.local/bin" ];
