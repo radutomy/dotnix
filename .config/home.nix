@@ -36,12 +36,11 @@
 
   programs.ssh = {
     enable = true;
-    matchBlocks."*" = {
-      extraOptions = {
-        StrictHostKeyChecking = "no";
-        UserKnownHostsFile = "/dev/null";
-      };
-    };
+    enableDefaultConfig = false;
+    extraConfig = ''
+      StrictHostKeyChecking no
+      UserKnownHostsFile /dev/null
+    '';
   };
 
 }
