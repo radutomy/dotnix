@@ -10,6 +10,19 @@ let
     { path = "rust/proton-rust";        branch = "master"; }
   ];
 
+  wasm-bindgen-cli = pkgs.rustPlatform.buildRustPackage {
+    pname = "wasm-bindgen-cli";
+    version = "0.2.106";
+    src = pkgs.fetchCrate {
+      pname = "wasm-bindgen-cli";
+      version = "0.2.106";
+      hash = "sha256-M6WuGl7EruNopHZbqBpucu4RWz44/MSdv6f0zkYw+44=";
+    };
+    cargoHash = "sha256-ElDatyOwdKwHg3bNH/1pcxKI7LXkhsotlDPQjiLHBwA=";
+    nativeBuildInputs = [ pkgs.pkg-config ];
+    buildInputs = [ pkgs.openssl ];
+  };
+
   cloneRepo = { path, branch }: let dir = baseNameOf path; in ''
     if [ ! -d "${homeDir}/${dir}" ]; then
       git clone --branch ${branch} ${gitlab}:${path}.git "${homeDir}/${dir}"
@@ -19,13 +32,22 @@ let
 in
 {
   home.packages = with pkgs; [
+    # proton-rust
     go
     llvmPackages.libclang
+
+    # chat-client
+    pnpm
+    wasm-pack
+    wasm-bindgen-cli
+    lld
+    docker
   ];
 
   home.sessionVariables = {
     LIBCLANG_PATH = "${pkgs.llvmPackages.libclang.lib}/lib";
     BINDGEN_EXTRA_CLANG_ARGS = "-isystem ${pkgs.glibc.dev}/include";
+
   };
 
   home.activation.cloneWorkRepos =
