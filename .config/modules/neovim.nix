@@ -2,6 +2,7 @@
 {
   programs.neovim = {
     enable = true;
+    defaultEditor = true;
     vimAlias = true;
   };
 
@@ -9,8 +10,7 @@
   home.packages = with pkgs; [
     # base
     tree-sitter
-    lazygit
-    lua-language-server
+lua-language-server
     stylua
     shfmt
 

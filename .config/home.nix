@@ -42,9 +42,16 @@
     pinentry.package = pkgs.pinentry-curses;
   };
 
-  programs.helix = {
+  programs.lazygit = {
     enable = true;
-    defaultEditor = true;
+    settings = {
+      git.pagers = [
+        {
+          colorArg = "always";
+          pager = "delta --dark --paging=never";
+        }
+      ];
+    };
   };
 
   programs.ssh = {

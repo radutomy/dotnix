@@ -63,7 +63,6 @@ in
       ll = "lsd -lah --group-dirs=first";
       l = "lsd -A --group-dirs=first";
       cat = "bat --style=plain";
-      vim = "nvim";
       c = "clear";
       p = "python";
       gg = "lazygit";
