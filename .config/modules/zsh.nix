@@ -13,47 +13,27 @@ let
   '';
 
   zoxideFallback = ''
-    zstyle ':fzf-tab:complete:cd:*' disabled-on any
-    zstyle ':fzf-tab:complete:z:*' disabled-on any
-    zstyle ':completion:*:cd:*' menu select
-    zstyle ':completion:*:z:*' menu select
+    zstyle ':fzf-tab:complete:(cd|z):*' disabled-on any
+    zstyle ':completion:*:(cd|z):*' menu select
     zstyle ':completion:*' matcher-list "m:{a-z}={A-Z}"
 
-    typeset -ga _zr=()
-    typeset -gi _zi=0
+    typeset -ga _zr=(); typeset -gi _zi=0
     _zf() {
-      local words=(''${(z)BUFFER})
-      local cmd=''${words[1]} arg=''${words[2]}
-      if [[ ( $cmd == z || $cmd == cd ) && -n $arg ]]; then
-        if [[ ''${#_zr} -gt 1 ]] && (( _zi > 0 )); then
-          local cur=''${_zr[$_zi]}
-          if [[ $arg == $cur ]]; then
-            _zi=$(( (_zi % ''${#_zr}) + 1 ))
-            BUFFER="$cmd ''${_zr[$_zi]}"
-            CURSOR=''${#BUFFER}
-            zle redisplay
-            return
-          fi
-        fi
-        _zr=(); _zi=0
-        local -a local_matches=(''${arg}*(/N))
-        if [[ ''${#local_matches} -gt 0 || -d $arg ]]; then
-          zle fzf-tab-complete
-          return
-        fi
-        _zr=("''${(@f)$(zoxide query -l -- $arg 2>/dev/null)}")
-        _zi=1
-        if [[ ''${#_zr} -ge 1 && -n ''${_zr[1]} ]]; then
-          BUFFER="$cmd ''${_zr[1]}"
-          CURSOR=''${#BUFFER}
-          zle redisplay
-          return
-        fi
-        _zr=(); _zi=0
-      else
-        _zr=(); _zi=0
+      local cmd=''${''${(z)BUFFER}[1]} arg=''${''${(z)BUFFER}[2]}
+      if [[ $cmd != (z|cd) || -z $arg ]]; then _zr=(); _zi=0; zle fzf-tab-complete; return; fi
+      # cycle through existing zoxide results
+      if (( ''${#_zr} > 1 && _zi > 0 )) && [[ $arg == ''${_zr[$_zi]} ]]; then
+        _zi=$(( _zi % ''${#_zr} + 1 ))
+        BUFFER="$cmd ''${_zr[$_zi]}"; CURSOR=''${#BUFFER}; zle autosuggest-clear; zle redisplay; return
       fi
-      zle fzf-tab-complete
+      _zr=(); _zi=0
+      # local dirs match? use normal completion
+      local -a _ld=(''${arg}*(/N))
+      (( ''${#_ld} )) && { zle fzf-tab-complete; return; }
+      # fall back to zoxide
+      _zr=("''${(@f)$(zoxide query -l -- $arg 2>/dev/null)}"); _zi=1
+      [[ -n ''${_zr[1]} ]] && { BUFFER="$cmd ''${_zr[1]}"; CURSOR=''${#BUFFER}; zle autosuggest-clear; zle redisplay; return; }
+      _zr=(); _zi=0; zle fzf-tab-complete
     }
     zle -N _zf && bindkey '^I' _zf
   '';
