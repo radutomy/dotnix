@@ -8,26 +8,61 @@
     };
   };
 
-  outputs = { nixpkgs, nixpkgs-unstable, home-manager, ... }:
-  let
-    mkHome = { system, username, host }: home-manager.lib.homeManagerConfiguration {
-      pkgs = import nixpkgs { inherit system; config.allowUnfree = true; };
-      extraSpecialArgs = {
-        inherit username;
-        pkgs-unstable = import nixpkgs-unstable { inherit system; config.allowUnfree = true; };
+  outputs =
+    {
+      nixpkgs,
+      nixpkgs-unstable,
+      home-manager,
+      ...
+    }:
+    let
+      mkHome =
+        {
+          system,
+          username,
+          host,
+        }:
+        home-manager.lib.homeManagerConfiguration {
+          pkgs = import nixpkgs {
+            inherit system;
+            config.allowUnfree = true;
+          };
+          extraSpecialArgs = {
+            inherit username;
+            pkgs-unstable = import nixpkgs-unstable {
+              inherit system;
+              config.allowUnfree = true;
+            };
+          };
+          modules = [
+            ./home.nix
+            ./hosts/${host}/default.nix
+          ];
+        };
+    in
+    {
+      homeConfigurations = {
+        "radu@macbook" = mkHome {
+          system = "aarch64-darwin";
+          username = "radu";
+          host = "macbook";
+        };
+        "radu@desktop" = mkHome {
+          system = "x86_64-linux";
+          username = "radu";
+          host = "desktop";
+        };
+        "root@nas" = mkHome {
+          system = "x86_64-linux";
+          username = "root";
+          host = "nas";
+        };
+        # OrbStack VM (aarch64)
+        "root@nixos" = mkHome {
+          system = "aarch64-linux";
+          username = "root";
+          host = "desktop";
+        };
       };
-      modules = [
-        ./home.nix
-        ./hosts/${host}/default.nix
-      ];
     };
-  in {
-    homeConfigurations = {
-      "radu@macbook"  = mkHome { system = "aarch64-darwin"; username = "radu"; host = "macbook"; };
-      "radu@desktop"  = mkHome { system = "x86_64-linux";   username = "radu"; host = "desktop"; };
-      "root@nas"      = mkHome { system = "x86_64-linux";   username = "root"; host = "nas"; };
-      # OrbStack VM (aarch64)
-      "root@nixos"    = mkHome { system = "aarch64-linux";  username = "root"; host = "desktop"; };
-    };
-  };
 }

@@ -1,4 +1,9 @@
-{ pkgs, pkgs-unstable, username, ... }:
+{
+  pkgs,
+  pkgs-unstable,
+  username,
+  ...
+}:
 {
   imports = [ ./modules/neovim.nix ];
 
@@ -13,9 +18,17 @@
     stateVersion = "25.11";
 
     packages = with pkgs; [
-	  python3 unzip
-      ripgrep jq fd bat nodejs gcc
-      htop yadm tmux
+      python3
+      unzip
+      ripgrep
+      jq
+      fd
+      bat
+      nodejs
+      gcc
+      htop
+      yadm
+      tmux
       pkgs-unstable.claude-code
       pkgs-unstable.codex
     ];

@@ -3,7 +3,10 @@
   programs.delta = {
     enable = true;
     enableGitIntegration = true;
-    options = { navigate = true; line-numbers = true; };
+    options = {
+      navigate = true;
+      line-numbers = true;
+    };
   };
 
   programs.git = {
@@ -13,7 +16,10 @@
       signByDefault = true;
     };
     settings = {
-      user = { name = "Radu T"; email = "radu@rtom.dev"; };
+      user = {
+        name = "Radu T";
+        email = "radu@rtom.dev";
+      };
       init.defaultBranch = "main";
       merge.conflictstyle = "diff3";
       diff.colorMoved = "default";
