@@ -34,4 +34,12 @@
     defaultEditor = true;
   };
 
+  programs.ssh = {
+    enable = true;
+    extraConfig = ''
+      StrictHostKeyChecking no
+      UserKnownHostsFile /dev/null
+    '';
+  };
+
 }
