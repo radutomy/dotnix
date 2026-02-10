@@ -1,5 +1,6 @@
 { config, lib, pkgs, ... }:
 let
+  git = "${pkgs.git}/bin/git";
   homeDir = config.home.homeDirectory;
   gitlab = "git@gitlab.protontech.ch";
   workEmail = "radu.tomuleasa@external.proton.ch";
@@ -12,8 +13,8 @@ let
 
   cloneRepo = { path, branch }: let dir = baseNameOf path; in ''
     if [ ! -d "${homeDir}/${dir}" ]; then
-      git clone --branch ${branch} ${gitlab}:${path}.git "${homeDir}/${dir}"
-      git -C "${homeDir}/${dir}" config --local user.email "${workEmail}"
+      ${git}  clone --branch ${branch} ${gitlab}:${path}.git "${homeDir}/${dir}"
+      ${git}  -C "${homeDir}/${dir}" config --local user.email "${workEmail}"
     fi
   '';
 in
