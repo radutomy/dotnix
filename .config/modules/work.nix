@@ -25,6 +25,6 @@ in
   ];
 
   home.activation.cloneWorkRepos =
-    config.lib.hm.dag.entryAfter [ "writeBoundary" ]
+    lib.hm.dag.entryAfter [ "writeBoundary" ]
       (lib.concatStringsSep "\n" (map cloneRepo workRepos));
 }
