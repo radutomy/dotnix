@@ -19,10 +19,14 @@ let
 in
 {
   home.packages = with pkgs; [
-    jdk
-    glib
-    gtk3
+    go
+    llvmPackages.libclang
   ];
+
+  home.sessionVariables = {
+    LIBCLANG_PATH = "${pkgs.llvmPackages.libclang.lib}/lib";
+    BINDGEN_EXTRA_CLANG_ARGS = "-isystem ${pkgs.glibc.dev}/include";
+  };
 
   home.activation.cloneWorkRepos =
     lib.hm.dag.entryAfter [ "writeBoundary" ] ''
