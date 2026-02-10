@@ -24,6 +24,7 @@ let
     }
   ];
 
+  # for chat-client - bind to a specific version
   wasm-bindgen-cli = pkgs.rustPlatform.buildRustPackage {
     pname = "wasm-bindgen-cli";
     version = "0.2.106";
@@ -50,32 +51,33 @@ let
     '';
 in
 {
-  home.packages = with pkgs; [
-    # proton-rust
-    go
-    llvmPackages.libclang
+  home = {
+    packages = with pkgs; [
+      # proton-rust
+      go
+      llvmPackages.libclang
 
-    # chat-client
-    pnpm
-    wasm-pack
-    wasm-bindgen-cli
-    lld
-    docker
-  ];
+      # chat-client
+      pnpm
+      wasm-pack
+      wasm-bindgen-cli
+      lld
+      docker
+    ];
 
-  home.sessionVariables = {
-    LIBCLANG_PATH = "${pkgs.llvmPackages.libclang.lib}/lib";
-    BINDGEN_EXTRA_CLANG_ARGS = "-isystem ${pkgs.glibc.dev}/include";
+    sessionVariables = {
+      LIBCLANG_PATH = "${pkgs.llvmPackages.libclang.lib}/lib";
+      BINDGEN_EXTRA_CLANG_ARGS = "-isystem ${pkgs.glibc.dev}/include";
+    };
 
+    activation.cloneWorkRepos = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      export PATH="${
+        lib.makeBinPath [
+          pkgs.git
+          pkgs.openssh
+        ]
+      }:$PATH"
+      ${lib.concatStringsSep "\n" (map cloneRepo workRepos)}
+    '';
   };
-
-  home.activation.cloneWorkRepos = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    export PATH="${
-      lib.makeBinPath [
-        pkgs.git
-        pkgs.openssh
-      ]
-    }:$PATH"
-    ${lib.concatStringsSep "\n" (map cloneRepo workRepos)}
-  '';
 }

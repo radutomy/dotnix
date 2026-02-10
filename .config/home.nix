@@ -6,10 +6,7 @@
 }:
 {
   imports = [ ./modules/neovim.nix ];
-
   news.display = "silent";
-  programs.home-manager.enable = true;
-
   xdg.configFile."nix/nix.conf".text = "experimental-features = nix-command flakes\n";
 
   home = {
@@ -36,33 +33,36 @@
     sessionPath = [ "$HOME/.local/bin" ];
   };
 
-  programs.gpg.enable = true;
-  services.gpg-agent = {
-    enable = true;
-    pinentry.package = pkgs.pinentry-curses;
-  };
+  programs = {
+    home-manager.enable = true;
+    gpg.enable = true;
 
-  programs.lazygit = {
-    enable = true;
-    settings = {
-      git.pagers = [
-        {
-          colorArg = "always";
-          pager = "delta --dark --paging=never";
-        }
-      ];
+    lazygit = {
+      enable = true;
+      settings = {
+        git.pagers = [
+          {
+            colorArg = "always";
+            pager = "delta --dark --paging=never";
+          }
+        ];
+      };
     };
-  };
 
-  programs.ssh = {
-    enable = true;
-    enableDefaultConfig = false;
-    matchBlocks."*" = {
-      extraOptions = {
-        StrictHostKeyChecking = "no";
-        UserKnownHostsFile = "/dev/null";
+    ssh = {
+      enable = true;
+      enableDefaultConfig = false;
+      matchBlocks."*" = {
+        extraOptions = {
+          StrictHostKeyChecking = "no";
+          UserKnownHostsFile = "/dev/null";
+        };
       };
     };
   };
 
+  services.gpg-agent = {
+    enable = true;
+    pinentry.package = pkgs.pinentry-curses;
+  };
 }

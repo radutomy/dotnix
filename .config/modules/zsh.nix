@@ -38,55 +38,57 @@ let
   '';
 in
 {
-  programs.lsd = {
-    enable = true;
-    enableZshIntegration = false;
-  };
-  programs.zoxide = {
-    enable = true;
-    enableZshIntegration = true;
-  };
-  programs.fzf = {
-    enable = true;
-    enableZshIntegration = true;
-  };
-
-  programs.zsh = {
-    enable = true;
-    dotDir = "${config.xdg.configHome}/zsh";
-    autosuggestion.enable = true;
-    syntaxHighlighting.enable = true;
-    historySubstringSearch.enable = true;
-    shellAliases = {
-      cd = "z";
-      ls = "lsd --group-dirs=first";
-      ll = "lsd -lah --group-dirs=first";
-      l = "lsd -A --group-dirs=first";
-      cat = "bat --style=plain";
-      c = "clear";
-      p = "python";
-      gg = "lazygit";
-      tx = "tmux attach 2>/dev/null || tmux";
-      np = "ssh naspi";
-      nas = "ssh nas";
+  programs = {
+    lsd = {
+      enable = true;
+      enableZshIntegration = false;
     };
-    plugins = [
-      {
-        name = "fzf-tab";
-        src = pkgs.zsh-fzf-tab;
-        file = "share/fzf-tab/fzf-tab.plugin.zsh";
-      }
-      {
-        name = "zsh-autopair";
-        src = pkgs.zsh-autopair;
-        file = "share/zsh/zsh-autopair/autopair.zsh";
-      }
-    ];
-    initContent = ''
-      ${prompt}
-      ${zoxideFallback}
-      chpwd() { lsd -F }
-      bindkey '^E' clear-screen
-    '';
+    zoxide = {
+      enable = true;
+      enableZshIntegration = true;
+    };
+    fzf = {
+      enable = true;
+      enableZshIntegration = true;
+    };
+
+    zsh = {
+      enable = true;
+      dotDir = "${config.xdg.configHome}/zsh";
+      autosuggestion.enable = true;
+      syntaxHighlighting.enable = true;
+      historySubstringSearch.enable = true;
+      shellAliases = {
+        cd = "z";
+        ls = "lsd --group-dirs=first";
+        ll = "lsd -lah --group-dirs=first";
+        l = "lsd -A --group-dirs=first";
+        cat = "bat --style=plain";
+        c = "clear";
+        p = "python";
+        gg = "lazygit";
+        tx = "tmux attach 2>/dev/null || tmux";
+        np = "ssh naspi";
+        nas = "ssh nas";
+      };
+      plugins = [
+        {
+          name = "fzf-tab";
+          src = pkgs.zsh-fzf-tab;
+          file = "share/fzf-tab/fzf-tab.plugin.zsh";
+        }
+        {
+          name = "zsh-autopair";
+          src = pkgs.zsh-autopair;
+          file = "share/zsh/zsh-autopair/autopair.zsh";
+        }
+      ];
+      initContent = ''
+        ${prompt}
+        ${zoxideFallback}
+        chpwd() { lsd -F }
+        bindkey '^E' clear-screen
+      '';
+    };
   };
 }
