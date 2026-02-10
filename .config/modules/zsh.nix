@@ -21,16 +21,13 @@ let
     _zf() {
       local cmd=''${''${(z)BUFFER}[1]} arg=''${''${(z)BUFFER}[2]}
       if [[ $cmd != (z|cd) || -z $arg ]]; then _zr=(); _zi=0; zle fzf-tab-complete; return; fi
-      # cycle through existing zoxide results
       if (( ''${#_zr} > 1 && _zi > 0 )) && [[ $arg == ''${_zr[$_zi]} ]]; then
         _zi=$(( _zi % ''${#_zr} + 1 ))
         BUFFER="$cmd ''${_zr[$_zi]}"; CURSOR=''${#BUFFER}; zle autosuggest-clear; zle redisplay; return
       fi
       _zr=(); _zi=0
-      # local dirs match? use normal completion
       local -a _ld=(''${arg}*(/N))
       (( ''${#_ld} )) && { zle fzf-tab-complete; return; }
-      # fall back to zoxide
       _zr=("''${(@f)$(zoxide query -l -- $arg 2>/dev/null)}"); _zi=1
       [[ -n ''${_zr[1]} ]] && { BUFFER="$cmd ''${_zr[1]}"; CURSOR=''${#BUFFER}; zle autosuggest-clear; zle redisplay; return; }
       _zr=(); _zi=0; zle fzf-tab-complete
@@ -77,6 +74,11 @@ in
         name = "fzf-tab";
         src = pkgs.zsh-fzf-tab;
         file = "share/fzf-tab/fzf-tab.plugin.zsh";
+      }
+      {
+        name = "zsh-autopair";
+        src = pkgs.zsh-autopair;
+        file = "share/zsh/zsh-autopair/autopair.zsh";
       }
     ];
     initContent = ''
