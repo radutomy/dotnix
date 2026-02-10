@@ -4,8 +4,6 @@
     ../../modules/git.nix
     ../../modules/zsh.nix
     ../../modules/rust.nix
+    ../../modules/work.nix
   ];
-
-  home.sessionVariables.PNPM_HOME = "$HOME/.local/share/pnpm";
-  home.sessionPath = [ "$HOME/.local/share/pnpm" ];
 }
