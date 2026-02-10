@@ -66,6 +66,7 @@ in
     ];
 
     sessionVariables = {
+      GOPATH = "${config.home.homeDirectory}/.local/share/go";
       LIBCLANG_PATH = "${pkgs.llvmPackages.libclang.lib}/lib";
       BINDGEN_EXTRA_CLANG_ARGS = "-isystem ${pkgs.glibc.dev}/include";
     };

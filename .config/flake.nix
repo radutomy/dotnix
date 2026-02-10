@@ -41,6 +41,14 @@
         };
     in
     {
+      nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
+        system = "aarch64-linux";
+        modules = [
+          /etc/nixos/configuration.nix
+          ./hosts/desktop/system.nix
+        ];
+      };
+
       homeConfigurations = {
         "radu@macbook" = mkHome {
           system = "aarch64-darwin";

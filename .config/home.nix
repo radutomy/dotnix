@@ -28,6 +28,7 @@
       tmux
       pkgs-unstable.claude-code
       pkgs-unstable.codex
+      pkgs-unstable.gemini-cli
     ];
 
     sessionPath = [ "$HOME/.local/bin" ];
