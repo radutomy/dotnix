@@ -16,11 +16,21 @@
       ...
     }:
     let
+      mkSystem =
+        { system }:
+        nixpkgs.lib.nixosSystem {
+          inherit system;
+          modules = [
+            /etc/nixos/configuration.nix
+            ./hosts/system.nix
+          ];
+        };
+
       mkHome =
         {
           system,
-          username,
           host,
+          username ? "root",
         }:
         home-manager.lib.homeManagerConfiguration {
           pkgs = import nixpkgs {
@@ -42,45 +52,24 @@
     in
     {
       nixosConfigurations = {
-        nixos = nixpkgs.lib.nixosSystem {
-          system = "aarch64-linux";
-          modules = [
-            /etc/nixos/configuration.nix
-            ./hosts/system.nix
-          ];
-        };
-        nas = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = [
-            /etc/nixos/configuration.nix
-            ./hosts/system.nix
-          ];
-        };
-        wsl = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = [
-            /etc/nixos/configuration.nix
-            ./hosts/system.nix
-          ];
-        };
+        nixos = mkSystem { system = "aarch64-linux"; };
+        nas = mkSystem { system = "x86_64-linux"; };
+        wsl = mkSystem { system = "x86_64-linux"; };
       };
 
       homeConfigurations = {
         "root@nas" = mkHome {
           system = "x86_64-linux";
-          username = "root";
           host = "nas";
         };
         # OrbStack VM (aarch64)
         "root@nixos" = mkHome {
           system = "aarch64-linux";
-          username = "root";
           host = "vm";
         };
         # WSL (x86_64) — "wsl" is a placeholder hostname
         "root@wsl" = mkHome {
           system = "x86_64-linux";
-          username = "root";
           host = "vm";
         };
       };
