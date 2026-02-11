@@ -52,7 +52,7 @@
     in
     {
       nixosConfigurations = {
-        nixos = mkSystem { system = "aarch64-linux"; };
+        nix = mkSystem { system = "aarch64-linux"; };
         nas = mkSystem { system = "x86_64-linux"; };
         wsl = mkSystem { system = "x86_64-linux"; };
       };
@@ -63,7 +63,7 @@
           host = "nas";
         };
         # OrbStack VM (aarch64)
-        "root@nixos" = mkHome {
+        "root@nix" = mkHome {
           system = "aarch64-linux";
           host = "vm";
         };
