@@ -24,7 +24,7 @@
       nodejs
       gcc
       htop
-      yadm
+      age
       tmux
       pkgs-unstable.claude-code
       pkgs-unstable.codex
@@ -36,7 +36,6 @@
 
   programs = {
     home-manager.enable = true;
-    gpg.enable = true;
 
     lazygit = {
       enable = true;
@@ -62,8 +61,4 @@
     };
   };
 
-  services.gpg-agent = {
-    enable = true;
-    pinentry.package = pkgs.pinentry-curses;
-  };
 }

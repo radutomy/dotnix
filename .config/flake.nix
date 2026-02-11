@@ -49,8 +49,33 @@
             ./hosts/${host}/default.nix
           ];
         };
+      mkBootstrap =
+        system:
+        let
+          pkgs = import nixpkgs { inherit system; };
+          bootstrap = pkgs.writeShellApplication {
+            name = "bootstrap";
+            runtimeInputs = with pkgs; [
+              age
+              git
+              openssh
+            ];
+            text = builtins.readFile ./bootstrap.sh;
+          };
+        in
+        {
+          default = {
+            type = "app";
+            program = "${bootstrap}/bin/bootstrap";
+          };
+        };
     in
     {
+      apps = {
+        "aarch64-linux" = mkBootstrap "aarch64-linux";
+        "x86_64-linux" = mkBootstrap "x86_64-linux";
+      };
+
       nixosConfigurations = {
         nix = mkSystem { system = "aarch64-linux"; };
         nas = mkSystem { system = "x86_64-linux"; };
