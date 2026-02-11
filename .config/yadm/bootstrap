@@ -10,7 +10,7 @@ nix run home-manager/release-25.11 -- switch --flake ~/.config#"${USER}@$(hostna
 # skipped on macOS since /etc/nixos doesn't exist there
 if [ -d /etc/nixos ]; then
   echo "🔧 Applying NixOS system configuration..."
-  nixos-rebuild switch --flake ~/.config#nixos --impure
+  nixos-rebuild switch --flake ~/.config --impure
 fi
 
 echo "✅ Done."
