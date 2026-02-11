@@ -71,14 +71,13 @@ in
       BINDGEN_EXTRA_CLANG_ARGS = "-isystem ${pkgs.glibc.dev}/include";
     };
 
-    activation.cloneWorkRepos = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    activation.cloneWorkRepos = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
       export PATH="${
         lib.makeBinPath [
           pkgs.git
           pkgs.openssh
         ]
       }:$PATH"
-      export GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
       ${lib.concatStringsSep "\n" (map cloneRepo workRepos)}
     '';
   };
