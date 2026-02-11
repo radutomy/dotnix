@@ -41,25 +41,31 @@
         };
     in
     {
-      nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
-        system = "aarch64-linux";
-        modules = [
-          /etc/nixos/configuration.nix
-          ./hosts/desktop/system.nix
-        ];
+      nixosConfigurations = {
+        nixos = nixpkgs.lib.nixosSystem {
+          system = "aarch64-linux";
+          modules = [
+            /etc/nixos/configuration.nix
+            ./hosts/system.nix
+          ];
+        };
+        nas = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            /etc/nixos/configuration.nix
+            ./hosts/system.nix
+          ];
+        };
+        wsl = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            /etc/nixos/configuration.nix
+            ./hosts/system.nix
+          ];
+        };
       };
 
       homeConfigurations = {
-        "radu@macbook" = mkHome {
-          system = "aarch64-darwin";
-          username = "radu";
-          host = "macbook";
-        };
-        "radu@desktop" = mkHome {
-          system = "x86_64-linux";
-          username = "radu";
-          host = "desktop";
-        };
         "root@nas" = mkHome {
           system = "x86_64-linux";
           username = "root";
@@ -69,7 +75,13 @@
         "root@nixos" = mkHome {
           system = "aarch64-linux";
           username = "root";
-          host = "desktop";
+          host = "vm";
+        };
+        # WSL (x86_64) — "wsl" is a placeholder hostname
+        "root@wsl" = mkHome {
+          system = "x86_64-linux";
+          username = "root";
+          host = "vm";
         };
       };
     };
