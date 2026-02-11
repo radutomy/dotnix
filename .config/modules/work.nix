@@ -78,6 +78,7 @@ in
           pkgs.openssh
         ]
       }:$PATH"
+      export GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
       ${lib.concatStringsSep "\n" (map cloneRepo workRepos)}
     '';
   };
