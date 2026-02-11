@@ -66,7 +66,7 @@
         {
           default = {
             type = "app";
-            program = "${bootstrap}/bin/bootstrap";
+            program = nixpkgs.lib.getExe bootstrap;
           };
         };
     in
