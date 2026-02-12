@@ -19,3 +19,5 @@ if [ -d /etc/nixos ]; then
 fi
 
 git -C "$HOME/.config" remote set-url origin git@github.com:radutomy/dotnix.git
+
+exec zsh
