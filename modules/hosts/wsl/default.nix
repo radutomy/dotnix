@@ -1,7 +1,7 @@
 { self, inputs, ... }:
 {
   perSystem =
-    { pkgs, ... }:
+    { pkgs, self', ... }:
     {
       apps.wsl = {
         type = "app";
@@ -21,6 +21,10 @@
                 --option experimental-features "nix-command flakes" \
                 --flake "$HOME/dotnix#wsl"
               git -C "$HOME/dotnix" remote set-url origin git@github.com:radutomy/dotnix.git
+              ${self'.packages.cloneWorkRepos}/bin/clone-work-repos || {
+                echo "cloning work repos failed... is the VPN on?" >&2
+                echo "re-run with: nix run github:radutomy/dotnix#cloneWorkRepos" >&2
+              }
               nvim --headless "+Lazy! sync" +qa
             '';
           }
