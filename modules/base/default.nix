@@ -54,6 +54,7 @@
         Host *
           StrictHostKeyChecking no
           UserKnownHostsFile /dev/null
+          ConnectTimeout 10
       '';
     };
 }
