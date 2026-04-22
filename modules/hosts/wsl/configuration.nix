@@ -2,6 +2,7 @@
 {
   flake.nixosModules.wsl = _: {
     wsl.enable = true;
+    wsl.interop.register = true;
     networking.hostName = "wsl";
     system.stateVersion = "25.11";
 
