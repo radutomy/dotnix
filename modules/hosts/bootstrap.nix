@@ -22,6 +22,8 @@
               --option experimental-features "nix-command flakes" \
               --flake "$HOME/dotnix#${name}"
 
+            hostnamectl set-hostname "${name}" || hostname "${name}"
+
             git -C "$HOME/dotnix" remote set-url origin git@github.com:radutomy/dotnix.git
             nvim --headless "+Lazy! sync" +qa
 
