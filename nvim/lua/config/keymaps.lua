@@ -119,20 +119,6 @@ vim.keymap.set(
 -- q = toggle between explorer and file
 vim.keymap.set("n", "q", "<cmd>wincmd w<CR>", { silent = true, desc = "Toggle window" })
 
--- Resize windows with Ctrl+Alt+h/l
-vim.keymap.set(
-	"n",
-	"<C-M-h>",
-	"<cmd>vertical resize -5<CR>",
-	{ noremap = true, silent = true, desc = "Decrease width" }
-)
-vim.keymap.set(
-	"n",
-	"<C-M-l>",
-	"<cmd>vertical resize +5<CR>",
-	{ noremap = true, silent = true, desc = "Increase width" }
-)
-
 vim.keymap.set(
 	"t",
 	"<C-space>",
