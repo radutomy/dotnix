@@ -34,7 +34,7 @@ in
         direnv
         git-lfs
         just
-        swift-format
+        lazysql
       ];
 
       programs.direnv = {
