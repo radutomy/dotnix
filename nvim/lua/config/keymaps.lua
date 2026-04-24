@@ -46,16 +46,6 @@ vim.keymap.set("n", "<F4>", function()
 	vim.notify(folder, vim.log.levels.INFO, { title = "Directory location" })
 end, { noremap = true, silent = false, desc = "Copy folder location" })
 
--- F7 - Rust Clippy fix
-vim.keymap.set("n", "<F7>", function()
-	vim.cmd "write"
-	vim.cmd "silent !cargo clippy --fix --allow-dirty --allow-staged 2>/dev/null"
-	vim.cmd "edit"
-	-- Delay needed for LSP to recognize external changes
-	vim.defer_fn(function() vim.cmd "write" end, 500)
-	print "Clippy fix applied"
-end, { noremap = true, silent = true, desc = "Clippy Fix" })
-
 -- Rename
 vim.keymap.set(
 	"n",
@@ -124,41 +114,13 @@ vim.keymap.set(
 	{ silent = true, desc = "Forward in jumplist" }
 )
 
--- vim.keymap.set("n", "q", "<cmd>wincmd w<CR>", { silent = true, desc = "Toggle window" })
--- Horrible hack to make q cycle correctly
--- local cycle_wins = function()
--- 	local cur = vim.api.nvim_get_current_win()
--- 	local ws = vim.tbl_filter(function(w)
--- 		local c = vim.api.nvim_win_get_config(w)
--- 		return c.relative == "" or c.focusable ~= false
--- 	end, vim.api.nvim_list_wins())
--- 	if #ws <= 1 then return end
--- 	local idx = 1
--- 	for i, w in ipairs(ws) do
--- 		if w == cur then idx = i end
--- 	end
--- 	vim.api.nvim_set_current_win(ws[idx % #ws + 1])
--- end
--- vim.keymap.set("n", "q", cycle_wins, { silent = true, desc = "Cycle windows" })
--- vim.api.nvim_create_autocmd("WinEnter", {
--- 	callback = function()
--- 		local w = vim.api.nvim_get_current_win()
--- 		if vim.api.nvim_win_get_config(w).relative ~= "" then
--- 			vim.schedule(function()
--- 				if vim.api.nvim_win_is_valid(w) then
--- 					vim.keymap.set("n", "q", cycle_wins, { buffer = true, silent = true })
--- 				end
--- 			end)
--- 		end
--- 	end,
--- })
-
 vim.keymap.set(
 	"t",
 	"<C-space>",
 	function() Snacks.terminal.toggle() end,
 	{ noremap = true, silent = true, desc = "Toggle Terminal" }
 )
+
 vim.keymap.set(
 	"n",
 	"<C-space>",
