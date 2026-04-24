@@ -116,34 +116,42 @@ vim.keymap.set(
 -- Navigation
 -- ============================================================================
 
+vim.keymap.set("n", "<Tab>", "<cmd>wincmd w<CR>", { silent = true, desc = "Switch windows" })
+vim.keymap.set(
+	"n",
+	"<C-i>",
+	function() vim.api.nvim_feedkeys(vim.keycode "<C-i>", "n", false) end,
+	{ silent = true, desc = "Forward in jumplist" }
+)
+
 -- vim.keymap.set("n", "q", "<cmd>wincmd w<CR>", { silent = true, desc = "Toggle window" })
 -- Horrible hack to make q cycle correctly
-local cycle_wins = function()
-	local cur = vim.api.nvim_get_current_win()
-	local ws = vim.tbl_filter(function(w)
-		local c = vim.api.nvim_win_get_config(w)
-		return c.relative == "" or c.focusable ~= false
-	end, vim.api.nvim_list_wins())
-	if #ws <= 1 then return end
-	local idx = 1
-	for i, w in ipairs(ws) do
-		if w == cur then idx = i end
-	end
-	vim.api.nvim_set_current_win(ws[idx % #ws + 1])
-end
-vim.keymap.set("n", "q", cycle_wins, { silent = true, desc = "Cycle windows" })
-vim.api.nvim_create_autocmd("WinEnter", {
-	callback = function()
-		local w = vim.api.nvim_get_current_win()
-		if vim.api.nvim_win_get_config(w).relative ~= "" then
-			vim.schedule(function()
-				if vim.api.nvim_win_is_valid(w) then
-					vim.keymap.set("n", "q", cycle_wins, { buffer = true, silent = true })
-				end
-			end)
-		end
-	end,
-})
+-- local cycle_wins = function()
+-- 	local cur = vim.api.nvim_get_current_win()
+-- 	local ws = vim.tbl_filter(function(w)
+-- 		local c = vim.api.nvim_win_get_config(w)
+-- 		return c.relative == "" or c.focusable ~= false
+-- 	end, vim.api.nvim_list_wins())
+-- 	if #ws <= 1 then return end
+-- 	local idx = 1
+-- 	for i, w in ipairs(ws) do
+-- 		if w == cur then idx = i end
+-- 	end
+-- 	vim.api.nvim_set_current_win(ws[idx % #ws + 1])
+-- end
+-- vim.keymap.set("n", "q", cycle_wins, { silent = true, desc = "Cycle windows" })
+-- vim.api.nvim_create_autocmd("WinEnter", {
+-- 	callback = function()
+-- 		local w = vim.api.nvim_get_current_win()
+-- 		if vim.api.nvim_win_get_config(w).relative ~= "" then
+-- 			vim.schedule(function()
+-- 				if vim.api.nvim_win_is_valid(w) then
+-- 					vim.keymap.set("n", "q", cycle_wins, { buffer = true, silent = true })
+-- 				end
+-- 			end)
+-- 		end
+-- 	end,
+-- })
 
 vim.keymap.set(
 	"t",

@@ -11,6 +11,7 @@ if is_macos then
 	config.default_prog = { "/usr/local/bin/orb", "-m", "nixi", "-u", "root" }
 elseif is_windows then
 	config.default_prog = { "wsl.exe", "~", "-d", "nixi", "-u", "root" }
+	config.allow_win32_input_mode = false
 end
 
 ------------- Configuration -------------
