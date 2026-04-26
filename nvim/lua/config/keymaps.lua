@@ -78,8 +78,8 @@ vim.keymap.set("n", "<CR>", "ox<BS><ESC>", {
 })
 
 -- Toggle comment
-vim.keymap.set("n", "f", "gcc", { remap = true, silent = true, desc = "Comment line" })
-vim.keymap.set("x", "f", "gc", { remap = true, silent = true, desc = "Comment selection" })
+vim.keymap.set("n", "q", "gcc", { remap = true, silent = true, desc = "Comment line" })
+vim.keymap.set("x", "q", "gc", { remap = true, silent = true, desc = "Comment selection" })
 
 -- In normal and visual modes, Ctrl+C yanks either the current line (in normal mode)
 -- or the selection (in visual mode) to the system clipboard, trimming leading and trailing whitespace
