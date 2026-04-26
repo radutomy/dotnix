@@ -142,5 +142,11 @@ end
 vim.keymap.set("n", "<C-u>", function() scroll_and_center "k" end, { silent = true })
 vim.keymap.set("n", "<C-d>", function() scroll_and_center "j" end, { silent = true })
 
+-- Ctrl+q quit without saving
+vim.keymap.set({ "n", "v", "i", "t" }, "<C-q>", "<cmd>qa!<cr>", { noremap = true, silent = true, desc = "Quit without saving" })
+
+-- Ctrl+s save and close all
+vim.keymap.set({ "n", "v", "i", "t" }, "<C-s>", "<cmd>wqa!<cr>", { noremap = true, silent = true, desc = "Save and close all" })
+
 -- Remap : to ;
 vim.keymap.set("n", ";", ":", { noremap = true, silent = false })
