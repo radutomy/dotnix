@@ -15,6 +15,7 @@
       self.nixosModules.git
       self.nixosModules.nvim
       self.nixosModules.rust
+      self.nixosModules.csharp
       self.nixosModules.tmux
       self.nixosModules.work
       self.nixosModules.wsl

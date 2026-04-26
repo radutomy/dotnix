@@ -15,6 +15,7 @@
       self.nixosModules.nvim
       self.nixosModules.orb
       self.nixosModules.rust
+      self.nixosModules.csharp
       self.nixosModules.tmux
       self.nixosModules.work
     ];
