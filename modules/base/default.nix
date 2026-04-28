@@ -41,6 +41,7 @@
         jq
         bat
         age
+        zip
 
         tmux
         wget
