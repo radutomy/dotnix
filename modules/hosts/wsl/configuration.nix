@@ -8,6 +8,16 @@
       networking.hostName = "wsl";
       system.stateVersion = "25.11";
 
+      # make /root accessible from native Windows via File Explorer
+      users.users.root = {
+        group = lib.mkForce "users";
+        homeMode = "775";
+      };
+      system.activationScripts.rootHomePermissions = lib.stringAfter [ "users" ] ''
+        chown root:users /root
+        chmod 0775 /root
+      '';
+
       # Horrible work hack!!! Remove when done with TUI
       # WSL has no native browser launcher; wslu provides wslview and the
       # xdg-open shim delegates to it so tools like the `open` Rust crate work.
