@@ -40,6 +40,8 @@
           merge.conflictstyle = "diff3";
           diff.colorMoved = "default";
 
+          core.excludesFile = "${pkgs.writeText "gitignore" ".codex\n"}";
+
           core.pager = "delta --dark --paging=never --line-numbers";
           interactive.diffFilter = "delta --color-only";
           delta = {
