@@ -13,6 +13,7 @@
       self.nixosModules.fish
       self.nixosModules.git
       self.nixosModules.nvim
+      self.nixosModules.tailscale
       self.nixosModules.nas
       self.nixosModules.nasHardware
     ];
