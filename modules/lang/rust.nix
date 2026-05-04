@@ -9,6 +9,9 @@ _: {
         rust-analyzer
         rustc
         rustfmt
+
+        # Others
+        rustlings
       ];
     };
 }
