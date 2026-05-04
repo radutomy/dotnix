@@ -4,6 +4,7 @@
     { modulesPath, ... }:
     {
       environment.etc."resolv.conf".source = "/opt/orbstack-guest/etc/resolv.conf";
+      networking.resolvconf.enable = false;
       environment.shellInit = ''
         . /opt/orbstack-guest/etc/profile-early
         . /opt/orbstack-guest/etc/profile-late
