@@ -35,6 +35,8 @@ _:
       # Nested tmux: pane-aware Alt+h/l on the inner session.
       programs.tmux.extraConfig = ''
         bind -n M-h if -F "#{pane_at_left}" "prev" "selectp -L"
+        bind -n M-j selectp -D
+        bind -n M-k selectp -U
         bind -n M-l if -F "#{pane_at_right}" "next" "selectp -R"
       '';
     };
