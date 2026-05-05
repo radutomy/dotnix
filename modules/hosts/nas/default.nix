@@ -14,6 +14,7 @@
       self.nixosModules.git
       self.nixosModules.nvim
       self.nixosModules.tailscale
+      self.nixosModules.tmux
       self.nixosModules.nas
       self.nixosModules.nasHardware
     ];
