@@ -22,6 +22,7 @@
       };
 
       networking.hostName = "orb";
+      environment.sessionVariables.HOST_ICON = "󰏖";
       services.openssh.enable = false;
 
       # make /root accessible from native macOS via Finder

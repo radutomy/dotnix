@@ -6,6 +6,7 @@
       wsl.enable = true;
       wsl.interop.register = true;
       networking.hostName = "wsl";
+      environment.sessionVariables.HOST_ICON = "󰖳";
       system.stateVersion = "25.11";
 
       # make /root accessible from native Windows via File Explorer
