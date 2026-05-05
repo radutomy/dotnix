@@ -10,15 +10,19 @@ _: {
         if not set -q TMUX
           cd ~
           tmux attach 2>/dev/null; and exit
-          tmux new-session -d -s main -n boot
-          tmux new-window -n core
+          tmux new-session -d -s main -n core
+          tmux split-window -h
+          tmux select-pane -U
           tmux new-window -n heap
+          tmux split-window -h
+          tmux select-pane -U
           tmux new-window -n kernel
           tmux split-window -v
           tmux select-pane -U
-          tmux new-window -n cache
           tmux new-window -n stack
-          tmux new-window -n swap
+          tmux new-window -n cache
+          tmux split-window -h
+          tmux select-pane -U
           tmux select-window -t 0
           exec tmux attach
         end
