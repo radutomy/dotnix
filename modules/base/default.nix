@@ -42,6 +42,7 @@
         bat
         age
         zip
+        python3
 
         tmux
         wget
