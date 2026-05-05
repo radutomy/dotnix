@@ -37,14 +37,12 @@
       };
 
       environment.systemPackages = with pkgs; [
-        git
         jq
         bat
         age
         zip
         python3
 
-        tmux
         wget
 
         claude-code

@@ -2,6 +2,7 @@ _: {
   flake.nixosModules.tmux =
     { lib, ... }:
     {
+      programs.tmux.enable = true;
       # Symlink the repo's tmux config into ~/.config
       systemd.tmpfiles.rules = [ "L+ %h/.config/tmux - - - - %h/dotnix/tmux" ];
 
