@@ -1,15 +1,17 @@
 _: {
-  flake.nixosModules.nasBootDisko =
+  flake.nixosModules.nasOSDisko =
     { lib, ... }:
     {
       disko.devices.disk = {
-        main = {
+
+        os = {
           device = lib.mkDefault "/dev/disk/by-path/pci-0000:05:00.0-nvme-1";
           type = "disk";
           content = {
             type = "gpt";
             partitions = {
               ESP = {
+                label = "disk-main-ESP";
                 name = "ESP";
                 size = "1G";
                 type = "EF00";
@@ -25,6 +27,7 @@ _: {
               };
 
               swap = {
+                label = "disk-main-swap";
                 name = "swap";
                 size = "16G";
                 content = {
@@ -37,6 +40,7 @@ _: {
               };
 
               "zz-root" = {
+                label = "disk-main-root";
                 name = "root";
                 size = "100%";
                 content = {
@@ -52,6 +56,16 @@ _: {
             };
           };
         };
+      };
+
+      # Mount the existing ZFS data pool into the OS at /tank
+      fileSystems."/tank" = {
+        device = lib.mkDefault "tank";
+        fsType = lib.mkDefault "zfs";
+        options = lib.mkDefault [
+          "defaults"
+          "zfsutil"
+        ];
       };
     };
 }
