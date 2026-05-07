@@ -20,6 +20,13 @@ return {
 						},
 					},
 				},
+				nil_ls = {
+					settings = {
+						["nil"] = {
+							nix = { autoArchive = true },
+						},
+					},
+				},
 				-- Disable OmniSharp which comes by default with lang.dotnet
 				omnisharp = {
 					enabled = false,
