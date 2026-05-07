@@ -1,3 +1,4 @@
+# https://192.168.0.2:9090
 _: {
   flake.nixosModules.cockpit =
     { pkgs, ... }:
