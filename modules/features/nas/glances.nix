@@ -29,6 +29,9 @@ _: {
         [network]
         hide=lo,ip6tnl0
 
+        [connections]
+        disable=True
+
         [diskio]
         disable=True
 
@@ -46,7 +49,11 @@ _: {
       services.glances = {
         enable = true;
         openFirewall = true;
-        extraArgs = [ "--webserver" "--config" "/etc/glances/glances.conf" ];
+        extraArgs = [
+          "--webserver"
+          "--config"
+          "/etc/glances/glances.conf"
+        ];
       };
     };
 }

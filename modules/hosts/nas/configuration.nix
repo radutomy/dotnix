@@ -45,7 +45,10 @@ _: {
       system.stateVersion = "25.11";
       time.timeZone = "Europe/London";
 
-      environment.systemPackages = [ pkgs.nvme-cli ];
+      environment.systemPackages = with pkgs; [
+        nvme-cli
+        smartmontools
+      ];
 
       # Nested tmux: pane-aware Alt+h/l on the inner session.
       programs.tmux.extraConfig = ''
