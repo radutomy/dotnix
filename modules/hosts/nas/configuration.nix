@@ -10,9 +10,15 @@ _: {
       };
     };
 
-    users.users.root.openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOcSG9I0xIYG43LhgnsfR7Y1hOkoVpE5RGSfgr3usDt9 radu@rtom.dev"
-    ];
+    users = {
+      mutableUsers = false;
+      users.root = {
+        hashedPassword = "$6$wPyJClj6n.vkl0SD$EMQi12W1rSpTFn3XuDGYW8jpRb8Ns0I/JKSp3L19D.W8z.hcstDml3Nl5sjgGpJpMe95SOcNXgTcvcfFqWknu1";
+        openssh.authorizedKeys.keys = [
+          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOcSG9I0xIYG43LhgnsfR7Y1hOkoVpE5RGSfgr3usDt9 radu@rtom.dev"
+        ];
+      };
+    };
 
     services = {
       openssh = {
