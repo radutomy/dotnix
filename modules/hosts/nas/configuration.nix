@@ -32,6 +32,10 @@ _: {
           pools = [ "tank" ];
           interval = "monthly";
         };
+
+        udev.extraRules = ''
+          ACTION=="add|change", SUBSYSTEM=="nvme", KERNEL=="nvme[0-9]*", RUN+="${pkgs.nvme-cli}/bin/nvme set-feature /dev/%k -f 0x02 -V 2"
+        '';
       };
 
       networking = {
