@@ -78,8 +78,8 @@ vim.keymap.set("n", "<CR>", "ox<BS><ESC>", {
 })
 
 -- Toggle comment
-vim.keymap.set("n", "q", "gcc", { remap = true, silent = true, desc = "Comment line" })
-vim.keymap.set("x", "q", "gc", { remap = true, silent = true, desc = "Comment selection" })
+vim.keymap.set("n", "f", "gcc", { remap = true, silent = true, desc = "Comment line" })
+vim.keymap.set("x", "f", "gc", { remap = true, silent = true, desc = "Comment selection" })
 
 -- In normal and visual modes, Ctrl+C yanks either the current line (in normal mode)
 -- or the selection (in visual mode) to the system clipboard, trimming leading and trailing whitespace
@@ -143,10 +143,20 @@ vim.keymap.set("n", "<C-u>", function() scroll_and_center "k" end, { silent = tr
 vim.keymap.set("n", "<C-d>", function() scroll_and_center "j" end, { silent = true })
 
 -- Ctrl+q quit without saving
-vim.keymap.set({ "n", "v", "i", "t" }, "<C-q>", "<cmd>qa!<cr>", { noremap = true, silent = true, desc = "Quit without saving" })
+vim.keymap.set(
+	{ "n", "v", "i", "t" },
+	"<C-q>",
+	"<cmd>qa!<cr>",
+	{ noremap = true, silent = true, desc = "Quit without saving" }
+)
 
 -- Ctrl+s save and close all
-vim.keymap.set({ "n", "v", "i", "t" }, "<C-s>", "<cmd>wqa!<cr>", { noremap = true, silent = true, desc = "Save and close all" })
+vim.keymap.set(
+	{ "n", "v", "i", "t" },
+	"<C-s>",
+	"<cmd>wqa!<cr>",
+	{ noremap = true, silent = true, desc = "Save and close all" }
+)
 
 -- Remap : to ;
 vim.keymap.set("n", ";", ":", { noremap = true, silent = false })

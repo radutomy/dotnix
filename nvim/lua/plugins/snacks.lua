@@ -46,6 +46,12 @@ return {
 					jump = { close = false }, -- Don't close when jumping to files
 					follow_file = true, -- Automatically reveal current file in explorer
 					hidden = true, -- Show hidden files by default
+					actions = {
+						explorer_clear_selection = function(picker)
+							picker.list:set_selected()
+						end,
+						explorer_noop = function() end,
+					},
 					layout = {
 						hidden = { "input" }, -- Hide the search bar
 						layout = {
@@ -57,10 +63,13 @@ return {
 					win = {
 						list = {
 							keys = {
-								["<Esc>"] = false,
+								["<Esc>"] = "explorer_clear_selection",
 								["<C-n>"] = false,
+								["<c-c>"] = "explorer_noop",
 								["<Tab>"] = false,
-								["q"] = false,
+								["v"] = { "select_and_next", mode = { "n", "x" } },
+								["V"] = { "select_and_prev", mode = { "n", "x" } },
+								["q"] = "explorer_noop",
 							},
 						},
 					},
