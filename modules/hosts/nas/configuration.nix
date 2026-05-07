@@ -19,6 +19,12 @@ _: {
         enable = true;
         settings.PasswordAuthentication = false;
       };
+
+      zfs.autoScrub = {
+        enable = true;
+        pools = [ "tank" ];
+        interval = "monthly";
+      };
     };
 
     networking = {
