@@ -30,6 +30,7 @@ in
     { pkgs, ... }:
     {
       environment.systemPackages = with pkgs; [
+        bazelisk
         devenv
         direnv
         git-lfs
