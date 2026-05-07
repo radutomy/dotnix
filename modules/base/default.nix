@@ -37,6 +37,7 @@
       };
 
       environment.systemPackages = with pkgs; [
+        lsd
         jq
         bat
         age

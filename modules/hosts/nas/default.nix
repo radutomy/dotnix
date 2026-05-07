@@ -2,6 +2,7 @@
 let
   commonModules = [
     self.nixosModules.base
+    self.nixosModules.fish
     self.nixosModules.git
     self.nixosModules.nas
     self.nixosModules.nasOSDisko
@@ -23,7 +24,6 @@ in
       modules = [
         inputs.disko.nixosModules.disko
         self.nixosModules.tmux
-        self.nixosModules.fish
         self.nixosModules.tailscale
         self.nixosModules.nvim
       ]

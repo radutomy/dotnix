@@ -5,7 +5,6 @@ _: {
       environment.systemPackages = with pkgs; [
         fishPlugins.autopair
         fishPlugins.hydro
-        lsd
       ];
 
       users.defaultUserShell = pkgs.fish;
