@@ -23,7 +23,7 @@ return {
 				nil_ls = {
 					settings = {
 						["nil"] = {
-							nix = { autoArchive = true },
+							nix = { flake = { autoArchive = true } },
 						},
 					},
 				},
