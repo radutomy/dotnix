@@ -23,6 +23,7 @@ in
       system = "x86_64-linux";
       modules = [
         inputs.disko.nixosModules.disko
+        self.nixosModules.cockpit
         self.nixosModules.tmux
         self.nixosModules.tailscale
         self.nixosModules.nvim
