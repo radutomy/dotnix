@@ -51,6 +51,8 @@
         gemini-cli
       ];
 
+      systemd.tmpfiles.rules = [ "L+ %h/.claude/settings.json - - - - %h/dotnix/ai/claude.json" ];
+
       programs.ssh.extraConfig = ''
         Host *
           StrictHostKeyChecking no

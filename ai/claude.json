@@ -1,0 +1,10 @@
+{
+  "enabledPlugins": {
+    "lua-lsp@claude-plugins-official": true
+  },
+  "effortLevel": "medium",
+  "theme": "dark",
+  "permissions": {
+    "defaultMode": "bypassPermissions"
+  }
+}
