@@ -52,6 +52,7 @@ _: {
       environment.systemPackages = with pkgs; [
         nvme-cli
         smartmontools
+        psutils
       ];
 
       # Nested tmux: pane-aware Alt+h/l on the inner session.

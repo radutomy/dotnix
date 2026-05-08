@@ -5,11 +5,11 @@ _: {
     let
       sensorAliases = builtins.concatStringsSep "," [
         "Package id 0:0 CPU"
-        "Composite 1:1 Fanxiang (nvme0)"
+        "Composite:1 Fanxiang (nvme0)"
         "Composite 9:2 WD Black (nvme1)"
         "Composite 6:3 WD Black (nvme2)"
         "Composite 3:4 WD Black (nvme3)"
-        "Composite:5 Kioxia (nvme4)"
+        "Composite 1:5 Kioxia (nvme4)"
       ];
     in
     {
