@@ -4,7 +4,7 @@
 
 -- disable auto comment
 vim.cmd [[autocmd FileType * set formatoptions-=ro]]
---vim.g.clipboard = "osc52"
+vim.g.clipboard = "osc52"
 vim.g.ai_cmp = false
 
 local o = vim.opt
