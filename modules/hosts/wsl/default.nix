@@ -11,6 +11,7 @@
     modules = [
       inputs.nixos-wsl.nixosModules.default
       self.nixosModules.base
+      self.nixosModules.ai
       self.nixosModules.fish
       self.nixosModules.git
       self.nixosModules.nvim

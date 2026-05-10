@@ -1,5 +1,4 @@
-{ inputs, ... }:
-{
+_: {
   flake.nixosModules.base =
     { pkgs, dotnix, ... }:
     {
@@ -13,12 +12,6 @@
         ];
         warn-dirty = false;
       };
-
-      nixpkgs.overlays = [
-        inputs.claude-code.overlays.default
-        inputs.codex.overlays.default
-        inputs.gemini-cli.overlays.default
-      ];
 
       environment.shellAliases = {
         ls = "lsd --group-dirs=first";
@@ -45,13 +38,7 @@
         python3
 
         wget
-
-        claude-code
-        codex
-        gemini-cli
       ];
-
-      systemd.tmpfiles.rules = [ "L+ %h/.claude/settings.json - - - - %h/dotnix/ai/claude.json" ];
 
       programs.ssh.extraConfig = ''
         Host *

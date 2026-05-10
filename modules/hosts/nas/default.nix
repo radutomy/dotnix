@@ -2,6 +2,7 @@
 let
   commonModules = [
     self.nixosModules.base
+    self.nixosModules.ai
     self.nixosModules.fish
     self.nixosModules.git
     self.nixosModules.nas

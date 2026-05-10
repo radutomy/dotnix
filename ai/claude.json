@@ -3,6 +3,7 @@
     "lua-lsp@claude-plugins-official": true
   },
   "effortLevel": "medium",
+  "skipDangerousModePermissionPrompt": true,
   "theme": "dark",
   "permissions": {
     "defaultMode": "bypassPermissions"
