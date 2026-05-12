@@ -18,6 +18,12 @@ _: {
             "valid users" = "root";
             "force user" = "root";
           };
+          vault = {
+            path = "/tank/vault";
+            "read only" = "no";
+            "valid users" = "root";
+            "force user" = "root";
+          };
         };
       };
 

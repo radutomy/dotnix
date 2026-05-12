@@ -51,5 +51,14 @@ in
       ]
       ++ commonModules;
     };
+
+    # wipes and reconfigures the zpool
+    nasDataWiper = inputs.nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      modules = [
+        inputs.disko.nixosModules.disko
+        self.nixosModules.nasDataDisko
+      ];
+    };
   };
 }

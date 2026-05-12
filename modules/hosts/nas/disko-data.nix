@@ -75,6 +75,14 @@ _: {
           xattr = "sa";
         };
         mountpoint = "/tank";
+        datasets.vault = {
+          type = "zfs_fs";
+          options = {
+            copies = "3";
+            quota = "100G";
+          };
+          mountpoint = "/tank/vault";
+        };
       };
     };
 }
