@@ -27,6 +27,7 @@ in
         self.nixosModules.cockpit
         self.nixosModules.glances
         self.nixosModules.homepage
+        self.nixosModules.samba
         self.nixosModules.tmux
         self.nixosModules.tailscale
         self.nixosModules.nvim
