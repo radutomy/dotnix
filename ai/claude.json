@@ -1,11 +1,12 @@
 {
+  "permissions": {
+    "defaultMode": "bypassPermissions"
+  },
   "enabledPlugins": {
-    "lua-lsp@claude-plugins-official": true
+    "lua-lsp@claude-plugins-official": true,
+    "rust-analyzer-lsp@claude-plugins-official": true
   },
   "effortLevel": "medium",
   "skipDangerousModePermissionPrompt": true,
-  "theme": "dark",
-  "permissions": {
-    "defaultMode": "bypassPermissions"
-  }
+  "theme": "dark"
 }
