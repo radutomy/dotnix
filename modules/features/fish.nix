@@ -24,7 +24,7 @@ _: {
         fish = {
           enable = true;
           shellInit = ''
-            function fish_title; echo (prompt_pwd)  $HOST_ICON (hostname); end
+            function fish_title; echo (prompt_pwd)    $HOST_ICON (hostname); end
 
             set fish_prompt_pwd_dir_length 100 # max length of dir path
             set fish_greeting # surpress fish greeting
