@@ -14,4 +14,24 @@ return {
 		"fei6409/log-highlight.nvim",
 		opts = {},
 	},
+	{
+		"TaDaa/vimade",
+		opts = {
+			ncmode = "windows",
+			fadelevel = 0.5,
+			enablefocusfading = true,
+			blocklist = {
+				block_inactive_floats = function(win, active)
+					return not (win.buf_opts.filetype or ""):match "^snacks_picker_"
+						and win.win_config.relative ~= ""
+						and (win ~= active or win.buf_opts.buftype == "terminal")
+				end,
+			},
+			link = {
+				keep_editor_bright_during_lazygit = function(win, active)
+					return active.buf_name:match "lazygit$" and win.win_config.relative == ""
+				end,
+			},
+		},
+	},
 }

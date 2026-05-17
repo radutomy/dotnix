@@ -10,6 +10,7 @@ vim.g.ai_cmp = false
 local o = vim.opt
 
 o.clipboard = ""
+o.swapfile = false
 o.autoindent = true
 o.smarttab = true
 o.smartindent = true
