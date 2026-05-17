@@ -36,6 +36,7 @@ _: {
         age
         zip
         python3
+        yazi
 
         wget
       ];
