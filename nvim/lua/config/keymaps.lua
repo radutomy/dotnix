@@ -5,16 +5,8 @@
 -- LSP
 -- ============================================================================
 
--- F1 - next ERROR
-vim.keymap.set(
-	"n",
-	"<F1>",
-	function() vim.diagnostic.jump({ count = 1, severity = vim.diagnostic.severity.ERROR }) end,
-	{ noremap = true, silent = true, desc = "Go to next error" }
-)
-
--- F2 - Show signature help if inside function call, otherwise show hover docs
-vim.keymap.set("n", "<F2>", function()
+-- F1 - Show signature help if inside function call, otherwise show hover docs
+vim.keymap.set("n", "<F1>", function()
 	local line = vim.api.nvim_get_current_line()
 	local col = vim.api.nvim_win_get_cursor(0)[2]
 	local before = line:sub(1, col + 1)
@@ -32,6 +24,14 @@ vim.keymap.set("n", "<F2>", function()
 	vim.lsp.buf.hover()
 end, { noremap = true, silent = true, desc = "LSP documentation" })
 
+-- F2 - next ERROR
+vim.keymap.set(
+	"n",
+	"<F2>",
+	function() vim.diagnostic.jump({ count = 1, severity = vim.diagnostic.severity.ERROR }) end,
+	{ noremap = true, silent = true, desc = "Go to next error" }
+)
+
 -- F3 - Show and copy full file path
 vim.keymap.set("n", "<F3>", function()
 	local path = vim.fn.expand "%:p"
@@ -45,6 +45,14 @@ vim.keymap.set("n", "<F4>", function()
 	vim.fn.setreg("+", folder)
 	vim.notify(folder, vim.log.levels.INFO, { title = "Directory location" })
 end, { noremap = true, silent = false, desc = "Copy folder location" })
+
+-- F5 - Restart Neovim
+vim.keymap.set(
+	"n",
+	"<F5>",
+	function() vim.cmd [[restart lua require("config.restart").restore_last_session()]] end,
+	{ noremap = true, silent = true, desc = "Restart Neovim and restore session" }
+)
 
 -- Rename
 vim.keymap.set(
