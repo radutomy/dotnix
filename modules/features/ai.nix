@@ -18,6 +18,6 @@
         gemini-cli
       ];
 
-      systemd.tmpfiles.rules = [ "L+ %h/.claude/settings.json - - - - %h/dotnix/ai/claude.json" ];
+      system.activationScripts.claudeSettings = "install -D -m 644 /root/dotnix/ai/claude.json /root/.claude/settings.json";
     };
 }
