@@ -81,24 +81,6 @@ return {
 				},
 			},
 		},
-		terminal = {
-			win = {
-				position = "float",
-				on_win = function()
-					vim.schedule(function()
-						local k, b = vim.keymap.set, vim.api.nvim_get_current_buf()
-						k("t", "<C-u>", "<C-\\><C-n><C-u>zz", { buffer = b })
-						k("t", "<C-d>", "<Nop>", { buffer = b })
-						k("n", "<C-d>", function()
-							vim.cmd "normal! \x04zz"
-							if vim.fn.line "w$" == vim.fn.line "$" then vim.cmd "startinsert" end
-						end, { buffer = b })
-						k("t", "<Esc>", "<cmd>close<cr>", { buffer = b })
-						k("n", "<Esc>", "<cmd>close<cr>", { buffer = b })
-					end)
-				end,
-			},
-		},
 	},
 	keys = {
 		-- Explorer

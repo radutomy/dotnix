@@ -123,16 +123,9 @@ vim.keymap.set(
 )
 
 vim.keymap.set(
-	"t",
+	{ "n", "t" },
 	"<C-space>",
-	function() Snacks.terminal.toggle() end,
-	{ noremap = true, silent = true, desc = "Toggle Terminal" }
-)
-
-vim.keymap.set(
-	"n",
-	"<C-space>",
-	function() Snacks.terminal.toggle() end,
+	"<cmd>ToggleTerm<cr>",
 	{ noremap = true, silent = true, desc = "Toggle Terminal" }
 )
 
