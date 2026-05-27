@@ -77,12 +77,18 @@ for _, key in ipairs({ "i", "a", "A", "I" }) do
 end
 
 -- Exits insert mode and returns the cursor to the same position it was before insert mode.
---vim.keymap.set("i", "<Esc>", "<Esc>`^", { noremap = true, silent = true })
+vim.keymap.set("i", "<Esc>", "<Esc>`[", { noremap = true, silent = true })
 
 -- Enter in normal mode inserts a new line below with proper indentation
 vim.keymap.set("n", "<CR>", "ox<BS><ESC>", {
 	noremap = true,
 	desc = "󰌑 Insert line below",
+})
+
+-- Shift+Enter inserts a new line above with proper indentation
+vim.keymap.set("n", "<S-CR>", "Ox<BS><ESC>", {
+	noremap = true,
+	desc = "󰌑 Insert line above",
 })
 
 -- Toggle comment
