@@ -1,64 +1,49 @@
 { self, inputs, ... }:
 let
-  commonModules = [
-    self.nixosModules.base
-    self.nixosModules.ai
-    self.nixosModules.fish
-    self.nixosModules.git
-    self.nixosModules.nas
-    self.nixosModules.nasOSDisko
-    self.nixosModules.nasHardware
+  mkNasHost =
+    modules:
+    inputs.nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      modules = common ++ modules;
+    };
+
+  common = with self.modules.nixos; [
+    base
+    nas-config
+    nasOSDisko
+    nasHardware
+    {
+      home-manager.users.root.imports = with self.modules.homeManager; [
+        base
+        ai
+        fish
+        git
+        tmux
+        nvim
+      ];
+    }
   ];
 in
 {
-  perSystem =
-    { mkBootstrapApp, ... }:
-    {
-      apps.nas.program = mkBootstrapApp "nas";
-    };
-
   flake.nixosConfigurations = {
-
     # this gets used when executing `ns` command
-    nas = inputs.nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      modules = [
-        inputs.disko.nixosModules.disko
-        self.nixosModules.cockpit
-        self.nixosModules.glances
-        self.nixosModules.homepage
-        self.nixosModules.samba
-        self.nixosModules.tmux
-        self.nixosModules.tailscale
-        self.nixosModules.nvim
+    nas = mkNasHost (
+      with self.modules.nixos;
+      [
+        glances
+        samba
+        tailscale
       ]
-      ++ commonModules;
-    };
+    );
 
-    nasFullReinstall = inputs.nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      modules = [
-        inputs.disko.nixosModules.disko
-        self.nixosModules.nasDataDisko
-      ]
-      ++ commonModules;
-    };
+    # alternate boot configs for the same machine
+    nasFullReinstall = mkNasHost [ self.modules.nixos.nasDataDisko ];
+    nasOSRecovery = mkNasHost [ ];
 
-    nasOSRecovery = inputs.nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      modules = [
-        inputs.disko.nixosModules.disko
-      ]
-      ++ commonModules;
-    };
-
-    # wipes and reconfigures the zpool
+    # wipes and reconfigures the zpool; only its diskoScript is ever used
     nasDataWiper = inputs.nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
-      modules = [
-        inputs.disko.nixosModules.disko
-        self.nixosModules.nasDataDisko
-      ];
+      modules = [ self.modules.nixos.nasDataDisko ];
     };
   };
 }

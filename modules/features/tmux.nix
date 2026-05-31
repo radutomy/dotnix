@@ -1,10 +1,19 @@
 _: {
-  flake.nixosModules.tmux =
-    { lib, ... }:
+  flake.modules.homeManager.tmux =
     {
-      programs.tmux.enable = true;
+      pkgs,
+      config,
+      lib,
+      ...
+    }:
+    {
+      # plain package instead of programs.tmux so HM doesn't generate its own
+      # tmux.conf over the repo's config symlinked below
+      home.packages = [ pkgs.tmux ];
+
       # Symlink the repo's tmux config into ~/.config
-      systemd.tmpfiles.rules = [ "L+ %h/.config/tmux - - - - %h/dotnix/tmux" ];
+      xdg.configFile."tmux".source =
+        config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotnix/tmux";
 
       programs.fish.interactiveShellInit = lib.mkAfter ''
         # skip if already inside tmux (prevents recursive session creation in new panes)

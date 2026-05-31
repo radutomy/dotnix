@@ -1,5 +1,5 @@
 _: {
-  flake.nixosModules.samba =
+  flake.modules.nixos.samba =
     { pkgs, lib, ... }:
     {
       environment.etc."samba/root.smbpasswd" = {

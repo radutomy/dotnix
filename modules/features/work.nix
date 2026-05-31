@@ -26,7 +26,7 @@ let
   '';
 in
 {
-  flake.nixosModules.work =
+  flake.modules.nixos.work =
     { pkgs, ... }:
     {
       environment.systemPackages = with pkgs; [

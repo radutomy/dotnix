@@ -1,8 +1,8 @@
 _: {
-  flake.nixosModules.rust =
+  flake.modules.homeManager.rust =
     { pkgs, ... }:
     {
-      environment.systemPackages = with pkgs; [
+      home.packages = with pkgs; [
         cargo
         cargo-binstall
         clippy

@@ -1,8 +1,8 @@
 _: {
-  flake.nixosModules.csharp =
+  flake.modules.homeManager.csharp =
     { pkgs, ... }:
     {
-      environment.systemPackages = with pkgs; [
+      home.packages = with pkgs; [
         dotnet-sdk_11
         csharpier # Formatter
         netcoredbg # Debugger for nvim-dap

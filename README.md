@@ -1,6 +1,6 @@
 # dotnix
 
-Personal NixOS configuration covering my WSL setup, OrbStack VM, and home NAS, plus the editor/terminal/shell dotfiles that go with them. Built as a flake-parts flake; modules are auto-imported from `modules/` via `import-tree`.
+Personal Nix configuration covering my WSL setup, OrbStack VM, home NAS, and an Ubuntu box, plus the editor/terminal/shell dotfiles that go with them. Built as a flake-parts flake; modules are auto-imported from `modules/` via `import-tree`, and hosts/features are composed with [den](https://den.denful.dev/) aspects — each feature declares its `nixos` and `homeManager` config side by side, so the same feature works on NixOS hosts and on non-NixOS machines via standalone home-manager.
 
 ## Install or update a host
 
@@ -9,6 +9,16 @@ Pick the host name (`wsl`, `orb`, or `nas`) and run it on the target machine:
 ```sh
 nix --extra-experimental-features "nix-command flakes" run github:radutomy/dotnix#<wsl|orb|nas>
 ```
+
+## Ubuntu (nix without NixOS)
+
+The `ubuntu` host runs plain Ubuntu with Nix installed. Only the user environment is managed, through the standalone home-manager configuration den generates (`homeConfigurations.radu`, with the ai/fish/git/nvim/rust/tmux aspects):
+
+```sh
+nix --extra-experimental-features "nix-command flakes" run github:radutomy/dotnix#ubuntu
+```
+
+Afterwards `ns` / `nu` rebuild via `nh home switch`.
 
 ## NAS provisioning
 

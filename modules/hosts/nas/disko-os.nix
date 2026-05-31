@@ -1,7 +1,10 @@
-_: {
-  flake.nixosModules.nasOSDisko =
+{ inputs, ... }:
+{
+  flake.modules.nixos.nasOSDisko =
     { lib, ... }:
     {
+      imports = [ inputs.disko.nixosModules.disko ];
+
       disko.devices.disk = {
 
         os = {

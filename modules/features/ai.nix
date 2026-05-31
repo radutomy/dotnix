@@ -1,23 +1,34 @@
 { inputs, ... }:
 {
-  flake.nixosModules.ai =
-    { pkgs, ... }:
-    {
-      nixpkgs.overlays = [
-        inputs.claude-code.overlays.default
-        inputs.codex.overlays.default
-        inputs.gemini-cli.overlays.default
-      ];
+  flake.modules.homeManager.ai = _: {
+    nixpkgs.overlays = [
+      inputs.claude-code.overlays.default
+      inputs.codex.overlays.default
+    ];
 
-      # Lets Claude Code run with bypassPermissions as root
-      environment.variables.IS_SANDBOX = "1";
+    # Lets Claude Code run with bypassPermissions as root
+    home.sessionVariables.IS_SANDBOX = "1";
 
-      environment.systemPackages = with pkgs; [
-        claude-code
-        codex
-        gemini-cli
-      ];
-
-      system.activationScripts.claudeSettings = "install -D -m 644 /root/dotnix/ai/claude.json /root/.claude/settings.json";
+    programs.claude-code = {
+      enable = true;
+      settings = {
+        permissions.defaultMode = "bypassPermissions";
+        enabledPlugins = {
+          "lua-lsp@claude-plugins-official" = true;
+          "rust-analyzer-lsp@claude-plugins-official" = true;
+        };
+        effortLevel = "medium";
+        skipDangerousModePermissionPrompt = true;
+        theme = "dark";
+      };
     };
+
+    programs.codex = {
+      enable = true;
+      settings = {
+        approval_policy = "never";
+        sandbox_mode = "danger-full-access";
+      };
+    };
+  };
 }

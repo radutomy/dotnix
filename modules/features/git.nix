@@ -1,11 +1,11 @@
 { self, ... }:
 {
-  flake.nixosModules.git =
+  flake.modules.homeManager.git =
     { pkgs, ... }:
     {
-      imports = [ self.nixosModules.git-smart-checkout ];
+      imports = [ self.modules.homeManager.git-smart-checkout ];
 
-      environment.systemPackages = with pkgs; [ delta ];
+      home.packages = [ pkgs.delta ];
 
       programs.lazygit = {
         enable = true;
@@ -23,9 +23,9 @@
       programs.git = {
         enable = true;
         lfs.enable = true;
-        config = {
+        settings = {
           user = {
-            name = "radutomy";
+            name = "Radu T";
             email = "radu@rtom.dev";
             signingkey = "~/.ssh/id_ed25519";
           };
@@ -40,16 +40,12 @@
           merge.conflictstyle = "diff3";
           diff.colorMoved = "default";
 
-          core.excludesFile = "${pkgs.writeText "gitignore" ".codex\n"}";
-
           core.pager = "delta --dark --paging=never --line-numbers";
           interactive.diffFilter = "delta --color-only";
           delta = {
             navigate = true;
             "line-numbers" = true;
           };
-
-          url."git@gitlab.protontech.ch:".insteadOf = "https://gitlab.protontech.ch/";
         };
       };
     };

@@ -1,28 +1,29 @@
 _: {
-  flake.nixosModules.fish =
+  flake.modules.homeManager.fish =
     { pkgs, ... }:
     {
-      environment.systemPackages = with pkgs; [
-        fishPlugins.autopair
-        fishPlugins.hydro
-      ];
-
-      users.defaultUserShell = pkgs.fish;
-
       programs = {
-
         zoxide = {
           enable = true;
-          flags = [ "--cmd cd" ];
+          options = [ "--cmd cd" ];
         };
 
-        fzf = {
-          fuzzyCompletion = true;
-          keybindings = true;
-        };
+        fzf.enable = true;
 
         fish = {
           enable = true;
+
+          plugins = [
+            {
+              name = "autopair";
+              src = pkgs.fishPlugins.autopair.src;
+            }
+            {
+              name = "hydro";
+              src = pkgs.fishPlugins.hydro.src;
+            }
+          ];
+
           shellInit = ''
             function fish_title; prompt_pwd; end
 
@@ -34,6 +35,7 @@ _: {
 
             fish_add_path ~/.cargo/bin
           '';
+
           interactiveShellInit = ''
             bind \ce 'clear; commandline -f repaint'
             function __auto_ls --on-variable PWD

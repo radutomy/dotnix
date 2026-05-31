@@ -46,19 +46,12 @@
   perSystem =
     { pkgs, ... }:
     {
-      apps.liveUsb.program =
-        let
-          inherit (self.nixosConfigurations.liveUsb.config.system.build) isoImage;
-        in
-        "${
-          pkgs.writeShellApplication {
-            name = "copy-live-usb-iso";
-            runtimeInputs = [ pkgs.coreutils ];
-            text = ''
-              cp ${isoImage}/iso/*.iso /tmp/live-usb.iso
-              echo /tmp/live-usb.iso
-            '';
-          }
-        }/bin/copy-live-usb-iso";
+      apps.liveUsb.program = pkgs.writeShellApplication {
+        name = "copy-live-usb-iso";
+        text = ''
+          cp ${self.nixosConfigurations.liveUsb.config.system.build.isoImage}/iso/*.iso /tmp/live-usb.iso
+          echo /tmp/live-usb.iso
+        '';
+      };
     };
 }

@@ -1,5 +1,5 @@
 _: {
-  flake.nixosModules.nas =
+  flake.modules.nixos.nas-config =
     { pkgs, ... }:
     {
       boot = {

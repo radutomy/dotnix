@@ -1,17 +1,15 @@
 _: {
-  flake.nixosModules.nvim =
-    { pkgs, ... }:
+  flake.modules.homeManager.nvim =
+    { pkgs, config, ... }:
     {
       programs.neovim = {
         enable = true;
         defaultEditor = true;
         vimAlias = true;
+        sideloadInitLua = true;
       };
 
-      # symlink the repo's neovim config into ~/.config
-      systemd.tmpfiles.rules = [ "L+ %h/.config/nvim - - - - %h/dotnix/nvim" ];
-
-      environment.systemPackages = with pkgs; [
+      home.packages = with pkgs; [
         # Lazyvim
         fd
         fzf
@@ -43,5 +41,9 @@ _: {
         nixfmt
         statix
       ];
+
+      # symlink the repo's neovim config into ~/.config
+      xdg.configFile."nvim".source =
+        config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotnix/nvim";
     };
 }
