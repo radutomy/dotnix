@@ -25,7 +25,7 @@
         lfs.enable = true;
         config = {
           user = {
-            name = "radutomy";
+            name = "Radu";
             email = "radu@rtom.dev";
             signingkey = "~/.ssh/id_ed25519";
           };
@@ -48,8 +48,6 @@
             navigate = true;
             "line-numbers" = true;
           };
-
-          url."git@gitlab.protontech.ch:".insteadOf = "https://gitlab.protontech.ch/";
         };
       };
     };

@@ -26,11 +26,6 @@
 
             git -C "$HOME/dotnix" remote set-url origin git@github.com:radutomy/dotnix.git
             nvim --headless "+Lazy! sync" +qa
-
-            ${self'.packages.cloneWorkRepos}/bin/clone-work-repos || {
-              echo "Cloning work repos failed... is the VPN on?" >&2
-              echo "Re-try with: nix run github:radutomy/dotnix#cloneWorkRepos" >&2
-            }
           '';
         };
     };
