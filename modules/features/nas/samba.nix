@@ -1,12 +1,7 @@
-_: {
+{
   flake.modules.nixos.samba =
-    { pkgs, lib, ... }:
+    { pkgs, ... }:
     {
-      environment.etc."samba/root.smbpasswd" = {
-        text = "root:0:XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX:FDE38D6AAC7D08878AD6025CBA7FB8AF:[U          ]:LCT-6A037714:\n";
-        mode = "0400";
-      };
-
       services.samba = {
         enable = true;
         openFirewall = true;
@@ -32,12 +27,17 @@ _: {
         openFirewall = true;
       };
 
+      # decrypt the root smbpasswd (age-encrypted to root's SSH key, which the
+      # bootstrap lays down before this runs) and import it, so the plaintext
+      # hash never lands in git or the world-readable nix store
       system.activationScripts.sambaUsers = {
         deps = [ "etc" ];
         text = ''
-          PATH=$PATH:${lib.makeBinPath [ pkgs.samba ]}
-          install -d -m 0755 /var/lib/samba/private
-          pdbedit -i smbpasswd:/etc/samba/root.smbpasswd -e tdbsam:/var/lib/samba/private/passdb.tdb
+          install -d /var/lib/samba/private
+          passdb=$(mktemp -p /run)
+          trap 'rm -f "$passdb"' EXIT
+          ${pkgs.age}/bin/age -d -i /root/.ssh/id_ed25519 ${../../../secrets/samba_passdb.age} > "$passdb"
+          ${pkgs.samba}/bin/pdbedit -i smbpasswd:"$passdb" -e tdbsam:/var/lib/samba/private/passdb.tdb
         '';
       };
     };
