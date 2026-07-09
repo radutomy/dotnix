@@ -10,15 +10,15 @@
     modules = [
       self.modules.nixos.base
       {
-        home-manager.users.root.imports = with self.modules.homeManager; [
-          base
-          ai
-          fish
-          git
-          nvim
-          rust
-          csharp
-          tmux
+        home-manager.users.root.imports = [
+          self.modules.homeManager.base
+          self.modules.homeManager.ai
+          self.modules.homeManager.fish
+          self.modules.homeManager.git
+          self.modules.homeManager.nvim
+          self.modules.homeManager.rust
+          self.modules.homeManager.csharp
+          self.modules.homeManager.tmux
         ];
       }
       (
@@ -52,7 +52,7 @@
 
           time.timeZone = "Europe/London";
           nix.settings.extra-platforms = [ "x86_64-linux" ];
-          system.stateVersion = "25.11";
+          system.stateVersion = "26.05";
 
           # copies wezterm.lua from this repo to wezterm MacOS config folder
           system.activationScripts.weztermCopy = ''

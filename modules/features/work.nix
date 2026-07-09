@@ -1,4 +1,3 @@
-{ lib, ... }:
 let
   email = "radu.tomuleasa@external.proton.ch";
   name = "Radu Tomuleasa";
@@ -53,7 +52,7 @@ in
     };
 
   perSystem =
-    { pkgs, ... }:
+    { pkgs, lib, ... }:
     {
       packages.cloneWorkRepos = pkgs.writeShellApplication {
         name = "clone-work-repos";

@@ -1,10 +1,7 @@
-{ self, ... }:
 {
   flake.modules.homeManager.git =
     { pkgs, ... }:
     {
-      imports = [ self.modules.homeManager.git-smart-checkout ];
-
       home.packages = [ pkgs.delta ];
 
       programs.lazygit = {

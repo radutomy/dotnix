@@ -1,5 +1,4 @@
 # what every home gets, NixOS or not: cli tools, aliases, nix config
-_:
 let
   dotnix = "$HOME/dotnix";
 in

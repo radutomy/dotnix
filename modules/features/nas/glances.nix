@@ -1,5 +1,4 @@
 # http://192.168.0.2:61208
-_:
 let
   sensorAliases = builtins.concatStringsSep "," [
     "Package id 0:0 CPU"

@@ -3,16 +3,15 @@ _: {
     { pkgs, ... }:
     {
       programs = {
+        fzf.enable = true;
+
         zoxide = {
           enable = true;
           options = [ "--cmd cd" ];
         };
 
-        fzf.enable = true;
-
         fish = {
           enable = true;
-
           plugins = [
             {
               name = "autopair";

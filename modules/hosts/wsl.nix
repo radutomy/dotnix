@@ -11,22 +11,22 @@
       inputs.nixos-wsl.nixosModules.default
       self.modules.nixos.base
       {
-        home-manager.users.root.imports = with self.modules.homeManager; [
-          base
-          ai
-          fish
-          git
-          nvim
-          rust
-          csharp
-          tmux
+        home-manager.users.root.imports = [
+          self.modules.homeManager.base
+          self.modules.homeManager.ai
+          self.modules.homeManager.fish
+          self.modules.homeManager.git
+          self.modules.homeManager.nvim
+          self.modules.homeManager.rust
+          self.modules.homeManager.csharp
+          self.modules.homeManager.tmux
         ];
 
         wsl.enable = true;
         wsl.interop.register = true;
         networking.hostName = "wsl";
         environment.sessionVariables.HOST_ICON = "󰖳";
-        system.stateVersion = "25.11";
+        system.stateVersion = "26.05";
 
         # make /root accessible from native Windows via File Explorer
         users.users.root = {

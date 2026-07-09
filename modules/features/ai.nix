@@ -1,6 +1,5 @@
-{ inputs, ... }:
-{
-  flake.modules.homeManager.ai = _: {
+{ inputs, ... }: {
+  flake.modules.homeManager.ai = { config, ... }: {
     nixpkgs.overlays = [
       inputs.claude-code.overlays.default
       inputs.codex.overlays.default
@@ -28,6 +27,7 @@
       settings = {
         approval_policy = "never";
         sandbox_mode = "danger-full-access";
+        projects."${config.home.homeDirectory}/dotnix".trust_level = "trusted";
       };
     };
   };

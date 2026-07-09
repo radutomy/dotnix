@@ -37,7 +37,7 @@
             "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOcSG9I0xIYG43LhgnsfR7Y1hOkoVpE5RGSfgr3usDt9 radu@rtom.dev"
           ];
 
-          system.stateVersion = "25.11";
+          system.stateVersion = "26.05";
         }
       )
     ];
