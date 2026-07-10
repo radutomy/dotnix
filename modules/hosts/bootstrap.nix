@@ -1,6 +1,6 @@
 # provisioning apps: nix run github:radutomy/dotnix#<machine> on a fresh box.
 # each clones the repo + ssh key, provisions with `switch`, then finishes setup
-{
+_: {
   perSystem =
     { pkgs, ... }:
     let

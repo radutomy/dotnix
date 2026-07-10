@@ -71,20 +71,21 @@
       disko.devices.zpool.tank = {
         type = "zpool";
         mode = "raidz1";
+        mountpoint = "/tank";
         rootFsOptions = {
           acltype = "posixacl";
           atime = "off";
           compression = "zstd";
           xattr = "sa";
         };
-        mountpoint = "/tank";
-        datasets.vault = {
+
+        datasets.drive = {
           type = "zfs_fs";
+          mountpoint = "/drive";
           options = {
             copies = "3";
             quota = "100G";
           };
-          mountpoint = "/tank/vault";
         };
       };
     };

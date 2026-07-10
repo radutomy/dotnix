@@ -29,7 +29,12 @@ in
     nas = mkNasHost (
       with self.modules.nixos;
       [
+        adguard
+        caddy
         glances
+        immich
+        invidious
+        rclone
         samba
         tailscale
       ]
