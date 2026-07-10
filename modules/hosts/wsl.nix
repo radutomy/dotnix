@@ -33,6 +33,7 @@
           group = lib.mkForce "users";
           homeMode = "775";
         };
+
         system.activationScripts.rootHomePermissions = lib.stringAfter [ "users" ] ''
           chown root:users /root
           chmod 0775 /root

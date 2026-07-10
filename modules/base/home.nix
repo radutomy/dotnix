@@ -46,8 +46,6 @@
       };
 
       nixpkgs.config.allowUnfree = true;
-      # home-manager generates the user nix.conf with this nix
-      # (on hosts the home-manager module overrides it with the system one)
       nix.package = lib.mkDefault pkgs.nix;
       nix.settings = {
         warn-dirty = false;
