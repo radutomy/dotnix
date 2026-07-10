@@ -26,7 +26,6 @@ let
 in
 {
   flake.nixosConfigurations = {
-    # this gets used when executing `ns` command
     nas = mkNasHost (
       with self.modules.nixos;
       [

@@ -30,5 +30,7 @@
         projects."${config.home.homeDirectory}/dotnix".trust_level = "trusted";
       };
     };
+
+    home.file.".codex/config.toml".force = true;
   };
 }

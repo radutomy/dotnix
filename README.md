@@ -18,7 +18,8 @@ The `ubuntu` host runs plain Ubuntu with Nix installed. Only the user environmen
 nix --extra-experimental-features "nix-command flakes" run github:radutomy/dotnix#ubuntu
 ```
 
-Afterwards `ns` / `nu` rebuild via `nh home switch`.
+Afterwards, run `just switch` to rebuild or `just update` to update the flake,
+rebuild, commit `flake.lock`, and push it.
 
 ## NAS provisioning
 

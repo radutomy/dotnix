@@ -1,7 +1,4 @@
-# what every home gets, NixOS or not: cli tools, aliases, nix config
-let
-  dotnix = "$HOME/dotnix";
-in
+# Shared Home Manager configuration.
 {
   flake.modules.homeManager.base =
     { pkgs, lib, ... }:
@@ -15,6 +12,7 @@ in
           jq
           bat
           age
+          just
           zip
           python3
           yazi
@@ -28,11 +26,6 @@ in
           cat = "bat --style=plain";
           p = "python";
           gg = "lazygit";
-
-          # on non-NixOS machines ns/nu rebuild just the home; on NixOS hosts
-          # the higher-priority definitions in nixos.nix win
-          ns = lib.mkDefault "nh home switch ${dotnix}";
-          nu = lib.mkDefault "nh home switch ${dotnix} --update && git -C ${dotnix} commit -m 'flake.lock' -- flake.lock && git -C ${dotnix} push";
         };
       };
 
