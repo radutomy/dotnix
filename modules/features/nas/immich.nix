@@ -3,8 +3,6 @@ _: {
   flake.modules.nixos.immich =
     { config, pkgs, ... }:
     {
-      # Full JSON body for the admin-sign-up call below:
-      # {"email":..., "password":..., "name":...}
       age.secrets.immich.file = ../../../secrets/immich.age;
 
       services.immich = {

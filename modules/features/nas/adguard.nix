@@ -43,32 +43,24 @@ _: {
           }
         ];
 
-        filtering.rewrites = [
-          {
-            enabled = true;
-            domain = "nas.me";
-            answer = "192.168.0.2";
-          }
-          {
-            enabled = true;
-            domain = "adguard.me";
-            answer = "192.168.0.2";
-          }
-          {
-            enabled = true;
-            domain = "immich.me";
-            answer = "192.168.0.2";
-          }
-          {
-            enabled = true;
-            domain = "invidious.me";
-            answer = "192.168.0.2";
-          }
-        ];
+        filtering.rewrites =
+          map
+            (domain: {
+              enabled = true;
+              inherit domain;
+              answer = "192.168.0.2";
+            })
+            [
+              "nas.me"
+              "home.me"
+              "adguard.me"
+              "immich.me"
+              "invidious.me"
+            ];
 
-        # DHCP takes over for the LAN once "Use Router as DHCP Server" is
-        # unticked on the Sky hub (192.168.0.1). Leave that unticked until
-        # this is deployed, or devices will get no IP at all in between.
+        # AdGuard is the LAN's DHCP server. The Sky hub's built-in DHCP
+        # ("Use Router as DHCP Server" at 192.168.0.1) must stay disabled,
+        # or the two would hand out conflicting leases.
         dhcp = {
           enabled = true;
           interface_name = "enp7s0";

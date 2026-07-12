@@ -32,6 +32,7 @@ in
         adguard
         caddy
         glances
+        home-assistant
         immich
         invidious
         rclone
