@@ -35,6 +35,7 @@ in
         home-assistant
         immich
         invidious
+        owncloud
         rclone
         samba
         tailscale

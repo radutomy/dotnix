@@ -8,9 +8,17 @@ _: {
         "http://adguard.me".extraConfig = "reverse_proxy 127.0.0.1:3000";
         "http://invidious.me".extraConfig = "reverse_proxy 127.0.0.1:3001";
         "http://nas.me".extraConfig = "reverse_proxy 127.0.0.1:61208";
+
+        "owncloud.me".extraConfig = ''
+          tls internal
+          reverse_proxy 127.0.0.1:9200
+        '';
       };
     };
 
-    networking.firewall.allowedTCPPorts = [ 80 ];
+    networking.firewall.allowedTCPPorts = [
+      80
+      443
+    ];
   };
 }
