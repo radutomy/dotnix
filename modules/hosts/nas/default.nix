@@ -31,6 +31,7 @@ in
       [
         adguard
         caddy
+        filebrowser
         glances
         home-assistant
         immich

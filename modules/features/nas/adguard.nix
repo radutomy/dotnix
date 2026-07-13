@@ -57,6 +57,7 @@ _: {
               "immich.me"
               "invidious.me"
               "owncloud.me"
+              "drive.me"
             ];
 
         # AdGuard is the LAN's DHCP server. The Sky hub's built-in DHCP
