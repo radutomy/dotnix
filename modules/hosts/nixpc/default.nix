@@ -5,6 +5,7 @@
       self.modules.nixos.base
       self.modules.nixos.nixpcHardware
       self.modules.nixos.hyprland
+      self.modules.nixos.dms
       ({ pkgs, ... }: {
         networking = {
           hostName = "nixpc";
@@ -39,12 +40,16 @@
             rust
             tmux
             hyprland
+            dms
           ])
           ++ [
             (
               { config, pkgs, ... }:
               {
-                home.packages = [ pkgs.wezterm ];
+                home.packages = with pkgs; [
+                  firefox
+                  wezterm
+                ];
                 xdg.configFile."wezterm".source =
                   config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotnix/wezterm";
               }
