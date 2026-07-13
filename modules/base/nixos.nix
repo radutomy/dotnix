@@ -11,6 +11,6 @@
         "flakes"
       ];
       programs.fish.enable = true;
-      users.users.root.shell = pkgs.fish;
+      users.defaultUserShell = pkgs.fish;
     };
 }

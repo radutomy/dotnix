@@ -1,7 +1,10 @@
 # nix-on-ubuntu machine (not NixOS): standalone home-manager only.
 { self, inputs, ... }:
+let
+  user = "radu";
+in
 {
-  flake.homeConfigurations.radu = inputs.home-manager.lib.homeManagerConfiguration {
+  flake.homeConfigurations.${user} = inputs.home-manager.lib.homeManagerConfiguration {
     pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
     modules = [
       self.modules.homeManager.base
@@ -15,8 +18,8 @@
       (
         { pkgs, ... }:
         {
-          home.username = "radu";
-          home.homeDirectory = "/home/radu";
+          home.username = user;
+          home.homeDirectory = "/home/${user}";
 
           # home-manager can't chsh on a foreign distro; hand bash off to fish
           programs.bash = {

@@ -1,0 +1,4 @@
+*.lock
+cosmic/**
+hypr/**
+secrets/**

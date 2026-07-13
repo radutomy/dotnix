@@ -20,7 +20,8 @@ config.color_scheme = "Vs Code Dark+ (Gogh)"
 config.font = wezterm.font("JetBrains Mono")
 config.disable_default_key_bindings = true
 config.audible_bell = "Disabled"
-config.window_decorations = "RESIZE"
+config.window_decorations = "NONE"
+config.enable_wayland = false
 config.font_size = is_macos and 14 or 11
 config.warn_about_missing_glyphs = false
 config.window_close_confirmation = "NeverPrompt"
@@ -37,8 +38,10 @@ config.colors = {
 }
 
 -- Start maximized
-config.initial_rows = 999
-config.initial_cols = 999
+if is_macos or is_windows then
+	config.initial_rows = 999
+	config.initial_cols = 999
+end
 
 ------------- Keybindings -------------
 

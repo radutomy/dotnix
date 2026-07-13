@@ -20,8 +20,13 @@ _: {
           "sd_mod"
         ];
         initrd.kernelModules = [ ];
-        kernelModules = [ "kvm-amd" ];
-        extraModulePackages = [ ];
+        kernelModules = [
+          "kvm-amd"
+          "nct6687"
+        ];
+        extraModulePackages = [ config.boot.kernelPackages.nct6687d ];
+        blacklistedKernelModules = [ "nct6683" ];
+        extraModprobeConfig = "options nct6687 force=1";
       };
 
       fileSystems."/" = {
