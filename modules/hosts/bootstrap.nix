@@ -15,26 +15,35 @@ _: {
           ];
 
           text = ''
-            git clone -b main https://github.com/radutomy/dotnix "$HOME/dotnix"
+            if [ -d "$HOME/dotnix" ]; then
+              git -C "$HOME/dotnix" pull --ff-only
+            else
+              git clone -b main https://github.com/radutomy/dotnix "$HOME/dotnix"
+            fi
+
             install -d -m 700 "$HOME/.ssh"
-            age -d -o "$HOME/.ssh/id_ed25519" "$HOME/dotnix/secrets/ssh_keys.age"
+
+            if [ ! -f "$HOME/.ssh/id_ed25519" ]; then
+              age -d -o "$HOME/.ssh/id_ed25519" "$HOME/dotnix/secrets/ssh_keys.age"
+            fi
+
             chmod 600 "$HOME/.ssh/id_ed25519"
 
             ${switch}
 
             git -C "$HOME/dotnix" remote set-url origin git@github.com:radutomy/dotnix.git
-            nvim --headless "+Lazy! sync" +qa
+            "$HOME/.nix-profile/bin/nvim" --headless "+Lazy! sync" +qa
           '';
         };
 
       # the two ways of applying the config: rebuild the NixOS system,
       # or (on a foreign distro) switch just the home
-      nixos = name: ''
-        nixos-rebuild switch \
+      nixos = name: elevate: ''
+        ${elevate}nixos-rebuild switch \
           --option experimental-features "nix-command flakes" \
           --flake "$HOME/dotnix#${name}"
 
-        hostnamectl set-hostname "${name}" || hostname "${name}"
+        ${elevate}hostnamectl set-hostname "${name}" || ${elevate}hostname "${name}"
       '';
 
       home = ''
@@ -45,9 +54,10 @@ _: {
     in
     {
       apps = {
-        wsl.program = bootstrap "wsl" (nixos "wsl");
-        orb.program = bootstrap "orb" (nixos "orb");
-        nas.program = bootstrap "nas" (nixos "nas");
+        wsl.program = bootstrap "wsl" (nixos "wsl" "");
+        orb.program = bootstrap "orb" (nixos "orb" "");
+        nas.program = bootstrap "nas" (nixos "nas" "");
+        nixpc.program = bootstrap "nixpc" (nixos "nixpc" "sudo ");
         ubuntu.program = bootstrap "ubuntu" home;
       };
     };
