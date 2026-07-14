@@ -26,7 +26,7 @@ let
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotnix/wezterm";
   };
 
-  nixos = { ... }: {
+  nixos = _: {
     networking = {
       hostName = host;
       networkmanager.enable = true;

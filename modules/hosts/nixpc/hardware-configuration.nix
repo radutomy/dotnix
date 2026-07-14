@@ -30,21 +30,17 @@ _: {
       };
 
       fileSystems."/" = {
-        device = "/dev/disk/by-uuid/8e7d8796-2ca8-4c68-808e-041e1636690e";
+        device = "/dev/disk/by-label/root";
         fsType = "ext4";
       };
 
       fileSystems."/boot" = {
-        device = "/dev/disk/by-uuid/CB4A-72F0";
+        device = "/dev/disk/by-label/BOOT";
         fsType = "vfat";
-        options = [
-          "fmask=0077"
-          "dmask=0077"
-        ];
       };
 
       swapDevices = [
-        { device = "/dev/disk/by-uuid/ded23ff6-89e0-4460-8051-958851dcc4a4"; }
+        { device = "/dev/disk/by-label/swap"; }
       ];
 
       nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
