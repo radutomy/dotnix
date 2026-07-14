@@ -29,20 +29,6 @@ _: {
         extraModprobeConfig = "options nct6687 force=1";
       };
 
-      fileSystems."/" = {
-        device = "/dev/disk/by-label/root";
-        fsType = "ext4";
-      };
-
-      fileSystems."/boot" = {
-        device = "/dev/disk/by-label/BOOT";
-        fsType = "vfat";
-      };
-
-      swapDevices = [
-        { device = "/dev/disk/by-label/swap"; }
-      ];
-
       nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
       hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
     };

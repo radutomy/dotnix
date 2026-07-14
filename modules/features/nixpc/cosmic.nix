@@ -1,8 +1,15 @@
 _: {
   flake.modules.nixos.cosmic = { pkgs, ... }: {
-    #environment.cosmic.excludePackages = [ pkgs.cosmic-term ];
+    environment.cosmic.excludePackages = with pkgs; [
+      cosmic-initial-setup
+      cosmic-term
+    ];
+
     services = {
-      desktopManager.cosmic.enable = true;
+      desktopManager.cosmic = {
+        enable = true;
+        showExcludedPkgsWarning = false;
+      };
       displayManager.cosmic-greeter.enable = true;
     };
 
