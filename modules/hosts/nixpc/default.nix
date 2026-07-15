@@ -74,8 +74,9 @@ let
       ];
     };
 
-    # ask for sudo password once per login, not once per terminal, never expire it
-    security.sudo.extraConfig = "Defaults timestamp_timeout=-1, !tty_tickets";
+    # Ask for the sudo password once per login, not once per terminal, never
+    # expire it, and suppress sudo's introductory lecture.
+    security.sudo.extraConfig = "Defaults lecture=never, timestamp_timeout=-1, !tty_tickets";
     time.timeZone = "Europe/London";
     i18n.defaultLocale = "en_GB.UTF-8";
     system.stateVersion = "26.05";

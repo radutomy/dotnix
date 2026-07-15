@@ -5,7 +5,6 @@ _: {
         enable = true;
         protontricks.enable = true;
         extraCompatPackages = [ pkgs.proton-ge-bin ];
-        extest.enable = true;
         remotePlay.openFirewall = true;
         localNetworkGameTransfers.openFirewall = true;
       };

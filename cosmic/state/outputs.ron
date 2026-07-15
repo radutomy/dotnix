@@ -2,6 +2,75 @@
     config: {
         [
             (
+                connector: "HDMI-A-3",
+                make: "Invalid Vendor Codename - WAN",
+                model: "PM27D-Q95HZ",
+            ),
+        ]: [
+            (
+                mode: ((2560, 1440), Some(94999)),
+                vrr: r#false,
+                scale: 1.15,
+                transform: _90,
+                position: (0, 0),
+                enabled: r#true,
+                max_bpc: Some(16),
+                xwayland_primary: true,
+            ),
+        ],
+        [
+            (
+                connector: "DP-1",
+                make: "LG Electronics",
+                model: "38GL950G",
+            ),
+        ]: [
+            (
+                mode: ((3840, 1600), Some(159952)),
+                vrr: r#true,
+                scale: 1.15,
+                transform: Normal,
+                position: (0, 0),
+                enabled: r#true,
+                max_bpc: Some(16),
+                xwayland_primary: true,
+            ),
+        ],
+        [
+            (
+                connector: "DP-1",
+                make: "LG Electronics",
+                model: "38GL950G",
+            ),
+            (
+                connector: "HDMI-A-2",
+                make: "Invalid Vendor Codename - WAN",
+                model: "PM27D-Q95HZ",
+            ),
+        ]: [
+            (
+                mode: ((3840, 1600), Some(159952)),
+                vrr: r#false,
+                scale: 1.15,
+                transform: Normal,
+                position: (0, 683),
+                enabled: r#true,
+                max_bpc: Some(16),
+                xwayland_primary: true,
+            ),
+            (
+                mode: ((2560, 1440), Some(94999)),
+                vrr: r#false,
+                scale: 1.15,
+                transform: _90,
+                position: (3339, 0),
+                enabled: r#true,
+                max_bpc: Some(16),
+                xwayland_primary: false,
+            ),
+        ],
+        [
+            (
                 connector: "DP-1",
                 make: "LG Electronics",
                 model: "38GL950G",

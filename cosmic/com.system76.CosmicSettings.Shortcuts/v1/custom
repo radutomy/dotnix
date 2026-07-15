@@ -4,4 +4,9 @@
             Super,
         ],
     ): System(Launcher),
+    (
+        modifiers: [],
+        key: "F24",
+        description: Some("Cycle audio output"),
+    ): Spawn("pactl set-default-sink $(pactl list short sinks | cut -f2 | grep -vxm1 $(pactl get-default-sink))"),
 }
