@@ -22,8 +22,10 @@ let
       wezterm
     ];
 
+    xdg.userDirs.enable = false;
     xdg.configFile."wezterm".source =
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotnix/wezterm";
+
   };
 
   nixos = _: {
@@ -64,6 +66,7 @@ in
     modules = [
       self.modules.nixos.base
       self.modules.nixos.nixpcDisko
+      self.modules.nixos.nixpcPreservation
       self.modules.nixos.nixpcHardware
       self.modules.nixos.cosmic
       self.modules.nixos.coolercontrol
@@ -87,18 +90,25 @@ in
           pkgs.git
         ];
         text = ''
+          if [ "$EUID" -eq 0 ]; then
+            echo "Run nixpc-install without sudo"
+            exit 1
+          fi
+
           target=$(mktemp -d)
 
           install -d -m 700 "$target/.ssh"
-          git clone -b main https://github.com/radutomy/dotnix "$target/dotnix"
-          age -d -o "$target/.ssh/id_ed25519" "$target/dotnix/secrets/ssh_keys.age"
+          # nix run has already fetched this flake into the Nix store, hence why we have the age key before the git clone
+          age -d -o "$target/.ssh/id_ed25519" ${self}/secrets/ssh_keys.age
           chmod 600 "$target/.ssh/id_ed25519"
+
+          git clone -b main https://github.com/radutomy/dotnix "$target/dotnix"
           git -C "$target/dotnix" remote set-url origin git@github.com:radutomy/dotnix.git
 
           sudo ${disko}/bin/disko-install \
             --flake "path:$target/dotnix#nixpc" \
             --disk main ${self.nixosConfigurations.${host}.config.disko.devices.disk.main.device} \
-            --extra-files "$target" /home/${user}
+            --extra-files "$target" /persistent/home/${user}
         '';
       };
     };

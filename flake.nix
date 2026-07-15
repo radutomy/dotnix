@@ -4,6 +4,7 @@
     nixos-wsl.url = "github:nix-community/NixOS-WSL";
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
+    preservation.url = "github:nix-community/preservation";
     flake-parts.url = "github:hercules-ci/flake-parts";
     import-tree.url = "github:vic/import-tree";
     home-manager.url = "github:nix-community/home-manager";
