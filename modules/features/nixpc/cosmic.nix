@@ -19,13 +19,28 @@ _: {
     };
   };
 
-  flake.modules.homeManager.cosmic = { config, ... }: {
-    xdg = {
-      configFile."cosmic".source =
-        config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotnix/cosmic";
+  flake.modules.homeManager.cosmic =
+    { config, pkgs, ... }:
+    let
+      desktopEntry = package: name: "${package}/share/applications/${name}.desktop";
+    in
+    {
+      xdg = {
+        autostart = {
+          enable = true;
+          entries = [
+            #(desktopEntry pkgs.discord "discord")
+            (desktopEntry config.programs.firefox.package "firefox")
+            (desktopEntry pkgs.steam "steam")
+            (desktopEntry pkgs.wezterm "org.wezfurlong.wezterm")
+          ];
+        };
 
-      stateFile."cosmic-comp/outputs.ron".source =
-        config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotnix/cosmic/state/outputs.ron";
+        configFile."cosmic".source =
+          config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotnix/cosmic";
+
+        stateFile."cosmic-comp/outputs.ron".source =
+          config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotnix/cosmic/state/outputs.ron";
+      };
     };
-  };
 }
