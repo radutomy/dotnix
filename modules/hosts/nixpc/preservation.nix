@@ -39,6 +39,7 @@
               ".codex"
               ".cache/nix"
               ".config/mozilla"
+              ".config/discord"
               ".local/state/nvim"
               ".local/share/fish"
               ".local/share/nvim"

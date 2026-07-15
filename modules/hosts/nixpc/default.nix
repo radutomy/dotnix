@@ -19,6 +19,7 @@ let
     home.packages = with pkgs; [
       cosmic-ext-applet-sysinfo
       cosmic-ext-applet-weather
+      discord
       wezterm
     ];
 
