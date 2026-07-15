@@ -11,6 +11,9 @@ _: {
         showExcludedPkgsWarning = false;
       };
       displayManager.cosmic-greeter.enable = true;
+
+      # do not allow applications to prompt for keyring
+      gnome.gnome-keyring.enable = false;
     };
 
     xdg.terminal-exec = {

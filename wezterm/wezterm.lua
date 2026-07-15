@@ -20,6 +20,7 @@ config.color_scheme = "Vs Code Dark+ (Gogh)"
 config.font = wezterm.font("JetBrains Mono")
 config.disable_default_key_bindings = true
 config.audible_bell = "Disabled"
+config.notification_handling = "NeverShow"
 config.window_decorations = "NONE"
 config.enable_wayland = false
 config.font_size = is_macos and 14 or 11

@@ -21,6 +21,8 @@ let
       cosmic-ext-applet-weather
       discord
       simplenote
+      chromium
+      spotify
       wezterm
     ];
 

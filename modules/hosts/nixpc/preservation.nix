@@ -38,6 +38,7 @@
               ".claude"
               ".codex"
               ".cache/nix"
+              ".cache/spotify"
               ".config/mozilla"
               ".config/discord"
               ".local/state/nvim"

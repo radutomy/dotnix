@@ -14,6 +14,7 @@
           age
           just
           zip
+          unzip
           python3
           yazi
           wget
