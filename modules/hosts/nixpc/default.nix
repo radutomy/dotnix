@@ -13,12 +13,12 @@ let
       rust
       tmux
       cosmic
+      firefox
     ];
 
     home.packages = with pkgs; [
       cosmic-ext-applet-sysinfo
       cosmic-ext-applet-weather
-      firefox
       wezterm
     ];
 
