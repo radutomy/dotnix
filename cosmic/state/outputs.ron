@@ -20,7 +20,7 @@
                 position: (0, 463),
                 enabled: r#true,
                 max_bpc: Some(16),
-                xwayland_primary: false,
+                xwayland_primary: true,
             ),
             (
                 mode: ((2560, 1440), Some(94999)),
@@ -30,7 +30,7 @@
                 position: (3339, 0),
                 enabled: r#true,
                 max_bpc: Some(16),
-                xwayland_primary: true,
+                xwayland_primary: false,
             ),
         ],
     },

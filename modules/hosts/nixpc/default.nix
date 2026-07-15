@@ -23,7 +23,20 @@ let
       wezterm
     ];
 
-    xdg.userDirs.enable = false;
+    xdg.userDirs = {
+      enable = true;
+      createDirectories = false;
+
+      desktop = null;
+      documents = null;
+      music = null;
+      pictures = null;
+      projects = null;
+      publicShare = null;
+      templates = null;
+      videos = null;
+    };
+
     xdg.configFile."wezterm".source =
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotnix/wezterm";
 
