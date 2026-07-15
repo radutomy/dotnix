@@ -6,7 +6,6 @@ _: {
         settings = {
           "browser.newtabpage.enabled" = false;
           "browser.startup.homepage" = "about:blank";
-
           "layout.css.devPixelsPerPx" = "1.1";
           "privacy.globalprivacycontrol.enabled" = true;
           "signon.firefoxRelay.feature" = "disabled";
@@ -39,6 +38,15 @@ _: {
           "datareporting.healthreport.uploadEnabled" = false;
 
           # What to sync
+          "services.sync.engine.bookmarks" = true;
+          "services.sync.engine.history" = true;
+          "services.sync.engine.tabs" = true;
+          "services.sync.engine.addons" = true;
+          "services.sync.engine.prefs" = true;
+          "services.sync.engine.passwords" = false;
+          "services.sync.engine.addresses" = false;
+          "services.sync.engine.creditcards" = false;
+
           "services.sync.prefs.sync.browser.uiCustomization.state" = true;
           "services.sync.prefs.sync.browser.uiCustomization.navBarWhenVerticalTabs" = true;
           "services.sync.prefs.sync.sidebar.main.tools" = true;
