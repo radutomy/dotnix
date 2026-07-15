@@ -5,11 +5,15 @@
       inputs.codex.overlays.default
     ];
 
-    # Lets Claude Code run with bypassPermissions as root
-    home.sessionVariables.IS_SANDBOX = "1";
+    home = {
+      sessionVariables.IS_SANDBOX = "1";
+      # Makes Codex use $XDG_CONFIG_HOME/codex via CODEX_HOME
+      preferXdgDirectories = true;
+    };
 
     programs.claude-code = {
       enable = true;
+      configDir = "${config.xdg.configHome}/claude";
       settings = {
         permissions.defaultMode = "bypassPermissions";
         enabledPlugins = {
@@ -31,7 +35,5 @@
         projects."${config.home.homeDirectory}/dotnix".trust_level = "trusted";
       };
     };
-
-    home.file.".codex/config.toml".force = true;
   };
 }

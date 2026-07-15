@@ -7,6 +7,7 @@
       programs.lazygit = {
         enable = true;
         settings = {
+          disableStartupPopups = true;
           git.overrideGpg = true;
           git.pagers = [
             {
