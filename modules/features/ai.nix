@@ -23,7 +23,7 @@
         effortLevel = "medium";
         skipDangerousModePermissionPrompt = true;
         theme = "dark";
-        tui = "fullscreen";
+        #tui = "fullscreen";
       };
     };
 
