@@ -18,8 +18,15 @@ in
       (
         { pkgs, ... }:
         {
-          home.username = user;
-          home.homeDirectory = "/home/${user}";
+          home = {
+            username = user;
+            homeDirectory = "/home/${user}";
+
+            packages = with pkgs; [
+              wezterm
+              simplenote
+            ];
+          };
 
           # home-manager can't chsh on a foreign distro; hand bash off to fish
           programs.bash = {

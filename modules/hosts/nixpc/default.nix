@@ -20,6 +20,7 @@ let
       cosmic-ext-applet-sysinfo
       cosmic-ext-applet-weather
       discord
+      simplenote
       wezterm
     ];
 
