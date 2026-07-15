@@ -31,7 +31,7 @@ _: {
           # tmux select-pane -U
           tmux new-window -n stack
           tmux new-window -n cache -c ~/dotnix
-          tmux split-window -h -p 33 -c ~/dotnix
+          tmux split-window -h -p 30 -c ~/dotnix
           tmux split-window -v -p 25 -c ~/dotnix
           tmux select-pane -L
           tmux select-window -t 0

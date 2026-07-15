@@ -45,5 +45,11 @@ _: {
       # symlink the repo's neovim config into ~/.config
       xdg.configFile."nvim".source =
         config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotnix/nvim";
+
+      # hide the wrapper's "Neovim wrapper" launcher entry
+      xdg.desktopEntries.nvim = {
+        name = "Neovim";
+        noDisplay = true;
+      };
     };
 }
