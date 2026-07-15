@@ -14,11 +14,4 @@ return {
 		"fei6409/log-highlight.nvim",
 		opts = {},
 	},
-	{
-		"TaDaa/vimade",
-		opts = {
-			fadelevel = 0.5,
-			enablefocusfading = true,
-		},
-	},
 }
