@@ -1,5 +1,25 @@
 _: {
   flake.modules.homeManager.firefox = {
+    home.file.".config/mozilla/firefox/default/customKeys.json" = {
+      force = true;
+      text = builtins.toJSON {
+        focusURLBar = {
+          modifiers = "alt";
+          key = "L";
+        };
+        key_openDownloads = {
+          modifiers = "accel,shift";
+          key = "J";
+        };
+        showAllHistoryKb = { };
+        key_gotoHistory = {
+          modifiers = "accel,shift";
+          key = "H";
+        };
+        key_browserConsole = { };
+      };
+    };
+
     programs.firefox = {
       enable = true;
       profiles.default = {
