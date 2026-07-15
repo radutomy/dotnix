@@ -6,7 +6,7 @@ _: {
         settings = {
           "browser.newtabpage.enabled" = false;
           "browser.startup.homepage" = "about:blank";
-          "layout.css.devPixelsPerPx" = "1.1";
+          "layout.css.devPixelsPerPx" = "1.2";
           "privacy.globalprivacycontrol.enabled" = true;
           "signon.firefoxRelay.feature" = "disabled";
           "signon.rememberSignons" = false;
