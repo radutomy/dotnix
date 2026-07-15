@@ -42,6 +42,7 @@
               ".local/state/nvim"
               ".local/share/fish"
               ".local/share/nvim"
+              ".local/share/Steam"
               ".local/share/zoxide"
 
               # User Data

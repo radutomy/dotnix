@@ -71,6 +71,7 @@ in
       self.modules.nixos.nixpcHardware
       self.modules.nixos.cosmic
       self.modules.nixos.coolercontrol
+      self.modules.nixos.steam
       nixos
       {
         home-manager.users.${user} = home;
