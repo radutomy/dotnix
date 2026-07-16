@@ -6,10 +6,22 @@ _: {
       lib,
       ...
     }:
+    let
+      # Percentage pane dimming is implemented upstream but not in tmux 3.7b.
+      tmux = pkgs.tmux.overrideAttrs {
+        version = "next-3.8";
+        src = pkgs.fetchFromGitHub {
+          owner = "tmux";
+          repo = "tmux";
+          rev = "15746a1bc796a76cd855636e0073c339b517b1c2";
+          hash = "sha256-0BNdaU79Kj2URxGzyGgyp0XLKVxI3M3YEs0btAe3lwE=";
+        };
+      };
+    in
     {
       # plain package instead of programs.tmux so HM doesn't generate its own
       # tmux.conf over the repo's config symlinked below
-      home.packages = [ pkgs.tmux ];
+      home.packages = [ tmux ];
 
       # Symlink the repo's tmux config into ~/.config
       xdg.configFile."tmux".source =
