@@ -2,6 +2,6 @@
     state: Enabled,
     acceleration: Some((
         profile: Some(Adaptive),
-        speed: -0.4140164050346486,
+        speed: -0.4,
     )),
 )

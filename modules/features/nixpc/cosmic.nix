@@ -11,27 +11,6 @@ _: {
       };
       displayManager.cosmic-greeter.enable = true;
 
-      pipewire.wireplumber.extraConfig."51-audio-devices" = {
-        "monitor.alsa.rules" = [
-          {
-            matches = [
-              { "device.name" = "alsa_card.pci-0000_03_00.1"; }
-              { "device.name" = "alsa_card.pci-0000_12_00.1"; }
-              { "device.name" = "alsa_card.usb-SJ-180517-N_1080P_Webcam-02"; }
-            ];
-            actions.update-props."device.disabled" = true;
-          }
-          {
-            matches = [
-              { "node.name" = "alsa_output.usb-Generic_USB_Audio-00.HiFi__Headphones__sink"; }
-              { "node.name" = "alsa_input.usb-Generic_USB_Audio-00.HiFi__Line__source"; }
-              { "node.name" = "alsa_input.usb-FiiO_DigiHug_USB_Audio-01.analog-stereo"; }
-            ];
-            actions.update-props."node.disabled" = true;
-          }
-        ];
-      };
-
       # do not allow applications to prompt for keyring
       gnome.gnome-keyring.enable = false;
     };
@@ -48,6 +27,12 @@ _: {
       desktopEntry = package: name: "${package}/share/applications/${name}.desktop";
     in
     {
+      home.packages = with pkgs; [
+        cosmic-ext-applet-sysinfo
+        cosmic-ext-applet-weather
+        cosmic-ext-applet-minimon
+      ];
+
       xdg = {
         autostart = {
           enable = true;

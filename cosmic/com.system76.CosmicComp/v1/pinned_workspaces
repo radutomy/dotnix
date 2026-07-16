@@ -1,18 +1,18 @@
 [
     (
         output: (
-            name: "DP-1",
+            name: "HDMI-A-2",
             edid: Some((
-                manufacturer: ('G', 'S', 'M'),
-                product: 30517,
-                serial: Some(4294967295),
-                manufacture_week: 0,
-                manufacture_year: 0,
-                model_year: Some(2019),
+                manufacturer: ('W', 'A', 'N'),
+                product: 9984,
+                serial: None,
+                manufacture_week: 9,
+                manufacture_year: 2019,
+                model_year: None,
             )),
         ),
         tiling_enabled: true,
-        id: Some("160cdfa"),
+        id: Some("9479a5"),
         name: None,
     ),
     (
@@ -28,7 +28,7 @@
             )),
         ),
         tiling_enabled: true,
-        id: Some("ef11f3"),
+        id: Some("160cdfa"),
         name: None,
     ),
 ]
