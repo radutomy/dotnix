@@ -3,8 +3,9 @@ Some(([
     "io.github.cosmic_utils.weather-applet",
 ], [
     "io.github.TopiCsarno.YapCap",
-    "com.github.radutomy.cosmic-process-applet",
     "com.system76.CosmicAppletStatusArea",
+    "com.github.radutomy.cosmic-process-applet",
+    "com.system76.CosmicAppletNotifications",
     "com.system76.CosmicAppletTiling",
     "com.system76.CosmicAppletPower",
     "com.system76.CosmicAppletTime",

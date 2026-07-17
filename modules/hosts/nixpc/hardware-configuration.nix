@@ -6,6 +6,15 @@ _: {
       modulesPath,
       ...
     }:
+    let
+      setFixedFans = ''
+        controller=(/sys/devices/platform/nct6687.*/hwmon/hwmon*)
+        echo 1 > "''${controller[0]}/pwm2_enable"
+        echo 1 > "''${controller[0]}/pwm4_enable"
+        echo 115 > "''${controller[0]}/pwm2"
+        echo 26 > "''${controller[0]}/pwm4"
+      '';
+    in
     {
       imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
@@ -31,6 +40,8 @@ _: {
       nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
       hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
       hardware.amdgpu.overdrive.enable = true;
+      system.activationScripts.fixedFans = setFixedFans;
+      powerManagement.resumeCommands = setFixedFans;
       services = {
 
         lact = {
@@ -51,11 +62,6 @@ _: {
           # Power off the unused Windows drive (WD_BLACK SN770) to keep it cool
           ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x15b7", \
             ATTR{device}=="0x5017", ATTR{remove}="1"
-
-          # Fix the pump at 45% and the front SSD fan at 10% (PWM range: 0–255)
-          ACTION=="add", SUBSYSTEM=="hwmon", ATTR{name}=="nct6687", \
-            ATTR{pwm2_enable}="1", ATTR{pwm2}="115", \
-            ATTR{pwm4_enable}="1", ATTR{pwm4}="26"
         '';
 
         # The MAD receiver does not advertise its active sensor resolution, so
