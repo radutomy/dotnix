@@ -32,6 +32,13 @@
       settings = {
         approval_policy = "never";
         sandbox_mode = "danger-full-access";
+        notice.hide_rate_limit_model_nudge = true;
+        tui.status_line = [
+          "model-with-reasoning"
+          "current-dir"
+          "git-branch"
+          "weekly-limit"
+        ];
         projects."${config.home.homeDirectory}/dotnix".trust_level = "trusted";
       };
     };
