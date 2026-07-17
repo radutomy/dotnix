@@ -15,6 +15,7 @@ let
       cosmic
       yapcap
       firefox
+      glances
     ];
 
     home.packages = with pkgs; [
@@ -25,6 +26,7 @@ let
       chromium
       spotify
       flameshot
+      pear-desktop
     ];
 
     xdg.userDirs = {
@@ -92,7 +94,6 @@ in
       self.modules.nixos.nixpcPreservation
       self.modules.nixos.nixpcHardware
       self.modules.nixos.cosmic
-      self.modules.nixos.coolercontrol
       self.modules.nixos.steam
       nixos
       {

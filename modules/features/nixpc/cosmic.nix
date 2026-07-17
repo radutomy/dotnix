@@ -33,7 +33,6 @@ _: {
     in
     {
       home.packages = with pkgs; [
-        cosmic-ext-applet-sysinfo
         cosmic-ext-applet-weather
         cosmic-ext-applet-minimon
       ];

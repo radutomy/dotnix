@@ -10,6 +10,9 @@ return {
 		})
 	end,
 	opts = {
+		explorer = {
+			trash = false,
+		},
 		scroll = {
 			animate = {
 				duration = { step = 20, total = 120 },

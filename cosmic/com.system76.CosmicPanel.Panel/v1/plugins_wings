@@ -1,10 +1,11 @@
 Some(([
     "com.system76.CosmicAppletWorkspaces",
     "io.github.cosmic_utils.weather-applet",
+    "com.system76.CosmicAppletAudio",
 ], [
-    "io.github.TopiCsarno.YapCap",
-    "com.system76.CosmicAppletStatusArea",
+    "io.github.cosmic_utils.minimon-applet",
     "com.github.radutomy.cosmic-process-applet",
+    "com.system76.CosmicAppletStatusArea",
     "com.system76.CosmicAppletNotifications",
     "com.system76.CosmicAppletTiling",
     "com.system76.CosmicAppletPower",

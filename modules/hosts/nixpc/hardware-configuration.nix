@@ -1,23 +1,7 @@
 _: {
   flake.modules.nixos.nixpcHardware =
+    { config, ... }:
     {
-      config,
-      lib,
-      modulesPath,
-      ...
-    }:
-    let
-      setFixedFans = ''
-        controller=(/sys/devices/platform/nct6687.*/hwmon/hwmon*)
-        echo 1 > "''${controller[0]}/pwm2_enable"
-        echo 1 > "''${controller[0]}/pwm4_enable"
-        echo 115 > "''${controller[0]}/pwm2"
-        echo 26 > "''${controller[0]}/pwm4"
-      '';
-    in
-    {
-      imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
-
       boot = {
         initrd.availableKernelModules = [
           "nvme"
@@ -37,13 +21,55 @@ _: {
         extraModprobeConfig = "options nct6687 force=1";
       };
 
-      nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-      hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
-      hardware.amdgpu.overdrive.enable = true;
-      system.activationScripts.fixedFans = setFixedFans;
-      powerManagement.resumeCommands = setFixedFans;
-      services = {
+      nixpkgs.hostPlatform = "x86_64-linux";
+      hardware = {
+        enableRedistributableFirmware = true;
+        cpu.amd.updateMicrocode = true;
+        amdgpu.overdrive.enable = true;
+      };
 
+      # Control the CPU, pump, and front SSD fans
+      systemd.services.fan-control = {
+        wantedBy = [ "multi-user.target" ];
+        after = [ "systemd-modules-load.service" ];
+        script = ''
+          temp=(/sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon*/temp1_input)
+          fan=(/sys/devices/platform/nct6687.*/hwmon/hwmon*)
+          while sleep 2; do
+            c=$(( $(<"$temp") / 1000 ))
+
+            if ((c <= 60)); then
+              value=107 # ≤60°C: 42%
+            elif ((c <= 70)); then
+              value=$((107 + (c - 60) * 15 / 10)) # 60–70°C: 42–48%
+            elif ((c <= 80)); then
+              value=$((122 + (c - 70) * 31 / 10)) # 70–80°C: 48–60%
+            elif ((c <= 85)); then
+              value=$((153 + (c - 80) * 26 / 5)) # 80–85°C: 60–70%
+            else
+              value=179 # >85°C: 70%
+            fi
+
+            echo 1 > "$fan/pwm1_enable"
+            echo "$value" > "$fan/pwm1"
+
+            # Pump: 47%
+            echo 1 > "$fan/pwm2_enable"
+            echo 120 > "$fan/pwm2"
+
+            # Front SSD fan: 10%
+            echo 1 > "$fan/pwm4_enable"
+            echo 26 > "$fan/pwm4"
+          done
+        '';
+        serviceConfig = {
+          Restart = "always";
+          RestartSec = "2s";
+        };
+      };
+
+      services = {
+        # Undervolt the GPU and keep the fan capped at 2000 RPM
         lact = {
           enable = true;
           settings = {
@@ -53,18 +79,18 @@ _: {
               performance_level = "manual";
               voltage_offset = -65;
               fan_control_enabled = false;
-              pmfw_options.acoustic_limit = 1980;
+              pmfw_options.acoustic_limit = 2000;
             };
           };
         };
 
+        # Power off the unused Windows drive (WD_BLACK SN770) to keep it cool
         udev.extraRules = ''
-          # Power off the unused Windows drive (WD_BLACK SN770) to keep it cool
           ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x15b7", \
             ATTR{device}=="0x5017", ATTR{remove}="1"
         '';
 
-        # The MAD receiver does not advertise its active sensor resolution, so
+        # The MAD mouse receiver does not advertise its active sensor resolution, so
         # libinput otherwise falls back to 1000 DPI and misclassifies motion speed.
         udev.extraHwdb = ''
           mouse:usb:v373bp1040:name:Compx MAD 8K DONGLE*:*
