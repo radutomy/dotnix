@@ -10,10 +10,9 @@
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     agenix.url = "github:ryantm/agenix";
-    agenix.inputs.nixpkgs.follows = "nixpkgs";
-
     claude-code.url = "github:sadjow/claude-code-nix";
     codex.url = "github:sadjow/codex-cli-nix";
+    cosmic-process-applet.url = "github:radutomy/cosmic-process-applet";
   };
 
   outputs =

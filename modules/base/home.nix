@@ -16,8 +16,15 @@
           zip
           unzip
           python3
-          yazi
           wget
+          gh
+          ripgrep
+          fd
+          lsof
+          sqlite
+          shellcheck
+          yq-go
+          dnsutils
         ];
 
         shellAliases = {

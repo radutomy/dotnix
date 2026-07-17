@@ -4,9 +4,7 @@
       "inputs": {
         "darwin": "darwin",
         "home-manager": "home-manager",
-        "nixpkgs": [
-          "nixpkgs"
-        ],
+        "nixpkgs": "nixpkgs",
         "systems": "systems"
       },
       "locked": {
@@ -26,7 +24,7 @@
     "claude-code": {
       "inputs": {
         "flake-utils": "flake-utils",
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs_2"
       },
       "locked": {
         "lastModified": 1784157477,
@@ -45,7 +43,7 @@
     "codex": {
       "inputs": {
         "flake-utils": "flake-utils_2",
-        "nixpkgs": "nixpkgs_2"
+        "nixpkgs": "nixpkgs_3"
       },
       "locked": {
         "lastModified": 1784171300,
@@ -58,6 +56,24 @@
       "original": {
         "owner": "sadjow",
         "repo": "codex-cli-nix",
+        "type": "github"
+      }
+    },
+    "cosmic-process-applet": {
+      "inputs": {
+        "nixpkgs": "nixpkgs_4"
+      },
+      "locked": {
+        "lastModified": 1784246041,
+        "narHash": "sha256-KyOtkFio0s+jorRqSmCc87sGpcHEveJX1oI+Qpemeaw=",
+        "owner": "radutomy",
+        "repo": "cosmic-process-applet",
+        "rev": "d83b585c3673d93dedcc13cc25cd27e3eb8c1a63",
+        "type": "github"
+      },
+      "original": {
+        "owner": "radutomy",
+        "repo": "cosmic-process-applet",
         "type": "github"
       }
     },
@@ -232,7 +248,7 @@
     "nixos-wsl": {
       "inputs": {
         "flake-compat": "flake-compat",
-        "nixpkgs": "nixpkgs_3"
+        "nixpkgs": "nixpkgs_5"
       },
       "locked": {
         "lastModified": 1784058842,
@@ -250,16 +266,16 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1784115452,
-        "narHash": "sha256-BoYPdqk6jlKXy+DyUzyGV/CtRGfAhk2MmIgBhsemTGI=",
+        "lastModified": 1767313136,
+        "narHash": "sha256-16KkgfdYqjaeRGBaYsNrhPRRENs0qzkQVUooNHtoy2w=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "35d3407a3816f3b341d8cf1d60abaf2b7b8166ac",
+        "rev": "ac62194c3917d5f474c1a844b6fd6da2db95077d",
         "type": "github"
       },
       "original": {
         "owner": "NixOS",
-        "ref": "nixpkgs-unstable",
+        "ref": "nixos-25.05",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -297,6 +313,38 @@
     },
     "nixpkgs_3": {
       "locked": {
+        "lastModified": 1784115452,
+        "narHash": "sha256-BoYPdqk6jlKXy+DyUzyGV/CtRGfAhk2MmIgBhsemTGI=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "35d3407a3816f3b341d8cf1d60abaf2b7b8166ac",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixpkgs-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_4": {
+      "locked": {
+        "lastModified": 1784120854,
+        "narHash": "sha256-KesHgItiZPgGX740axSiQLcIQ8D24MDqNpkKYWIek8k=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "753cc8a3a87467296ddd1fa93f0cc3e81120ee46",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_5": {
+      "locked": {
         "lastModified": 1783776592,
         "narHash": "sha256-UgCQzxeWI75XM8G+hPrPh+MKzEPjG3SpAj7dtqSbksA=",
         "owner": "NixOS",
@@ -311,7 +359,7 @@
         "type": "github"
       }
     },
-    "nixpkgs_4": {
+    "nixpkgs_6": {
       "locked": {
         "lastModified": 1784120854,
         "narHash": "sha256-KesHgItiZPgGX740axSiQLcIQ8D24MDqNpkKYWIek8k=",
@@ -347,12 +395,13 @@
         "agenix": "agenix",
         "claude-code": "claude-code",
         "codex": "codex",
+        "cosmic-process-applet": "cosmic-process-applet",
         "disko": "disko",
         "flake-parts": "flake-parts",
         "home-manager": "home-manager_2",
         "import-tree": "import-tree",
         "nixos-wsl": "nixos-wsl",
-        "nixpkgs": "nixpkgs_4",
+        "nixpkgs": "nixpkgs_6",
         "preservation": "preservation"
       }
     },

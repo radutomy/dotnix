@@ -17,11 +17,14 @@ let
     ];
 
     home.packages = with pkgs; [
-      discord
+      inputs.cosmic-process-applet.packages.${pkgs.stdenv.hostPlatform.system}.default
+      wezterm
       simplenote
+      discord
       chromium
       spotify
-      wezterm
+      flameshot
+      fan2go
     ];
 
     xdg.userDirs = {

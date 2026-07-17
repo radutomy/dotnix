@@ -30,35 +30,44 @@ _: {
 
       nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
       hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+      services = {
 
-      # The MAD receiver does not advertise its active sensor resolution, so
-      # libinput otherwise falls back to 1000 DPI and misclassifies motion speed.
-      services.udev.extraHwdb = ''
-        mouse:usb:v373bp1040:name:Compx MAD 8K DONGLE*:*
-         MOUSE_DPI=1600@1000
-      '';
+        # The unused Windows drive (WD_BLACK SN770, 15b7:5017) sits in full-power
+        # idle under Linux and runs hot. Detaching it from the PCI bus lets its
+        # root port runtime-suspend, dropping the slot to D3cold (power off).
+        udev.extraRules = ''
+          ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x15b7", ATTR{device}=="0x5017", ATTR{remove}="1"
+        '';
 
-      # Hide unused audio devices (GPU HDMI outputs, webcam mic, and the
-      # onboard/FiiO inputs and outputs we never use).
-      services.pipewire.wireplumber.extraConfig."51-audio-devices" = {
-        "monitor.alsa.rules" = [
-          {
-            matches = [
-              { "device.name" = "alsa_card.pci-0000_03_00.1"; }
-              { "device.name" = "alsa_card.pci-0000_12_00.1"; }
-              { "device.name" = "alsa_card.usb-SJ-180517-N_1080P_Webcam-02"; }
-            ];
-            actions.update-props."device.disabled" = true;
-          }
-          {
-            matches = [
-              { "node.name" = "alsa_output.usb-Generic_USB_Audio-00.HiFi__Headphones__sink"; }
-              { "node.name" = "alsa_input.usb-Generic_USB_Audio-00.HiFi__Line__source"; }
-              { "node.name" = "alsa_input.usb-FiiO_DigiHug_USB_Audio-01.analog-stereo"; }
-            ];
-            actions.update-props."node.disabled" = true;
-          }
-        ];
+        # The MAD receiver does not advertise its active sensor resolution, so
+        # libinput otherwise falls back to 1000 DPI and misclassifies motion speed.
+        udev.extraHwdb = ''
+          mouse:usb:v373bp1040:name:Compx MAD 8K DONGLE*:*
+           MOUSE_DPI=1600@1000
+        '';
+
+        # Hide unused audio devices (GPU HDMI outputs, webcam mic, and the
+        # onboard/FiiO inputs and outputs we never use).
+        pipewire.wireplumber.extraConfig."51-audio-devices" = {
+          "monitor.alsa.rules" = [
+            {
+              matches = [
+                { "device.name" = "alsa_card.pci-0000_03_00.1"; }
+                { "device.name" = "alsa_card.pci-0000_12_00.1"; }
+                { "device.name" = "alsa_card.usb-SJ-180517-N_1080P_Webcam-02"; }
+              ];
+              actions.update-props."device.disabled" = true;
+            }
+            {
+              matches = [
+                { "node.name" = "alsa_output.usb-Generic_USB_Audio-00.HiFi__Headphones__sink"; }
+                { "node.name" = "alsa_input.usb-Generic_USB_Audio-00.HiFi__Line__source"; }
+                { "node.name" = "alsa_input.usb-FiiO_DigiHug_USB_Audio-01.analog-stereo"; }
+              ];
+              actions.update-props."node.disabled" = true;
+            }
+          ];
+        };
       };
     };
 }
