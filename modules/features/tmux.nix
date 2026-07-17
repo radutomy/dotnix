@@ -28,9 +28,12 @@ _: {
         config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotnix/tmux";
 
       programs.fish.interactiveShellInit = lib.mkAfter ''
-        # skip if already inside tmux (prevents recursive session creation in new panes)
+        # Skip inside tmux to avoid nested sessions.
         if not set -q TMUX
           cd ~
+          # Start tmux only in the first open terminal.
+          tmux list-clients 2>/dev/null | string match -qr .; and return
+
           tmux attach 2>/dev/null; and exit
           tmux new-session -d -s main -n core
           # tmux split-window -h

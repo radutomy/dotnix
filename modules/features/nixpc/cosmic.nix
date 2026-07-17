@@ -1,5 +1,10 @@
 _: {
   flake.modules.nixos.cosmic = { pkgs, ... }: {
+    fonts.packages = with pkgs; [
+      jetbrains-mono
+      nerd-fonts.symbols-only
+    ];
+
     environment.cosmic.excludePackages = with pkgs; [
       cosmic-initial-setup
     ];
