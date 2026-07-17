@@ -25,7 +25,6 @@ let
       chromium
       spotify
       flameshot
-      fan2go
     ];
 
     xdg.userDirs = {

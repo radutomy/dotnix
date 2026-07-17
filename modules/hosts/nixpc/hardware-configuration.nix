@@ -30,13 +30,32 @@ _: {
 
       nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
       hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+      hardware.amdgpu.overdrive.enable = true;
       services = {
 
-        # The unused Windows drive (WD_BLACK SN770, 15b7:5017) sits in full-power
-        # idle under Linux and runs hot. Detaching it from the PCI bus lets its
-        # root port runtime-suspend, dropping the slot to D3cold (power off).
+        lact = {
+          enable = true;
+          settings = {
+            version = 6;
+            daemon.log_level = "info";
+            gpus."1002:744C-1DA2:471E-0000:03:00.0" = {
+              performance_level = "manual";
+              voltage_offset = -65;
+              fan_control_enabled = false;
+              pmfw_options.acoustic_limit = 1980;
+            };
+          };
+        };
+
         udev.extraRules = ''
-          ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x15b7", ATTR{device}=="0x5017", ATTR{remove}="1"
+          # Power off the unused Windows drive (WD_BLACK SN770) to keep it cool
+          ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x15b7", \
+            ATTR{device}=="0x5017", ATTR{remove}="1"
+
+          # Fix the pump at 45% and the front SSD fan at 10% (PWM range: 0–255)
+          ACTION=="add", SUBSYSTEM=="hwmon", ATTR{name}=="nct6687", \
+            ATTR{pwm2_enable}="1", ATTR{pwm2}="115", \
+            ATTR{pwm4_enable}="1", ATTR{pwm4}="26"
         '';
 
         # The MAD receiver does not advertise its active sensor resolution, so
