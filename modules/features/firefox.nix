@@ -26,6 +26,7 @@ _: {
         settings = {
           "browser.newtabpage.enabled" = false;
           "browser.startup.homepage" = "about:blank";
+          "browser.uidensity" = 0;
           "layout.css.devPixelsPerPx" = "1.1";
           "privacy.globalprivacycontrol.enabled" = true;
           "signon.firefoxRelay.feature" = "disabled";
