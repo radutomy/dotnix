@@ -59,9 +59,6 @@ _: {
 
         configFile."cosmic".source =
           config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotnix/cosmic";
-
-        stateFile."cosmic-comp/outputs.ron".source =
-          config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotnix/cosmic/state/outputs.ron";
       };
     };
 }

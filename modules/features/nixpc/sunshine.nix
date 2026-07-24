@@ -11,11 +11,29 @@
       rm = "${pkgs.coreutils}/bin/rm";
       steam = "${pkgs.steam}/bin/steam";
       sleep = "${pkgs.coreutils}/bin/sleep";
-      systemctl = "${pkgs.systemd}/bin/systemctl";
       systemdRun = "${pkgs.systemd}/bin/systemd-run";
       runSteam = "${systemdRun} --user --collect --quiet --working-directory=${home} ${steam}";
       setMode = pkgs.writeShellScript "sunshine-set-mode" ''
         ${randr} mode "$@" || { ${sleep} 0.1; ${randr} mode "$@"; }
+      '';
+      stopSteamGames = pkgs.writeShellScript "sunshine-stop-steam-games" ''
+        collectTree() {
+          local child
+          for child in $(<"/proc/$1/task/$1/children"); do collectTree "$child"; done
+          gamePids+=("$1")
+        }
+
+        gamePids=()
+        for process in /proc/[0-9]*; do
+          [[ $(<"$process/comm") == reaper ]] || continue
+          [[ $(tr '\0' ' ' < "$process/cmdline") == *" SteamLaunch AppId="* ]] || continue
+          collectTree "''${process##*/}"
+        done
+
+        ((''${#gamePids[@]})) || exit 0
+        kill -TERM "''${gamePids[@]}" 2>/dev/null || true
+        ${sleep} 1
+        kill -KILL "''${gamePids[@]}" 2>/dev/null || true
       '';
       streamLayout = pkgs.writeShellScript "sunshine-stream-layout" ''
         set -e
@@ -67,9 +85,7 @@
         set -e
 
         # Stop any streamed game, including one that has frozen.
-        ${systemctl} --user kill --kill-whom=all --signal=TERM 'app-steam-app*.scope'
-        ${sleep} 1
-        ${systemctl} --user kill --kill-whom=all --signal=KILL 'app-steam-app*.scope'
+        ${stopSteamGames}
 
         ${randr} kdl <<'KDL'
         output "DP-1" enabled=#true {
