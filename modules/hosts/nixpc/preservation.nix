@@ -44,6 +44,7 @@
               ".config/discord"
               ".config/Simplenote"
               ".config/spotify"
+              ".config/sunshine"
               ".config/YouTube Music"
               ".local/state/nvim"
               ".local/share/flatpak"
