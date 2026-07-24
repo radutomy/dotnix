@@ -77,9 +77,9 @@ let
       ];
     };
 
-    # Ask for the sudo password once per login, not once per terminal, never
-    # expire it, and suppress sudo's introductory lecture.
-    security.sudo.extraConfig = "Defaults lecture=never, timestamp_timeout=-1, !tty_tickets";
+    # Never ask for a sudo password, and suppress sudo's introductory lecture.
+    security.sudo.wheelNeedsPassword = false;
+    security.sudo.extraConfig = "Defaults lecture=never";
     time.timeZone = "Europe/London";
     i18n.defaultLocale = "en_GB.UTF-8";
     system.stateVersion = "26.05";
@@ -94,6 +94,7 @@ in
       self.modules.nixos.nixpcPreservation
       self.modules.nixos.nixpcHardware
       self.modules.nixos.cosmic
+      self.modules.nixos.sunshine
       self.modules.nixos.steam
       nixos
       {
