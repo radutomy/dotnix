@@ -20,6 +20,15 @@ _: {
       gnome.gnome-keyring.enable = false;
     };
 
+    # autoLogin skips this service entirely at boot, so it's only ever hit by
+    # the lock screen (idle screen-off, suspend, hibernate resume). Make it
+    # auto-succeed so resuming never prompts for a password.
+    security.pam.services.cosmic-greeter.rules.auth.permit = {
+      control = "sufficient";
+      modulePath = "${pkgs.pam}/lib/security/pam_permit.so";
+      order = 10000;
+    };
+
     xdg.terminal-exec = {
       enable = true;
       settings.default = [ "org.wezfurlong.wezterm.desktop" ];
