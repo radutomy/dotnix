@@ -13,7 +13,6 @@ let
       rust
       tmux
       cosmic
-      yapcap
       firefox
       glances
     ];
