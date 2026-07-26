@@ -4,6 +4,9 @@
     home.packages = [ pkgs.glances ];
 
     xdg.configFile."glances/glances.conf".text = ''
+      [global]
+      refresh=1
+
       [load]
       disable=True
 

@@ -12,7 +12,7 @@
     agenix.url = "github:ryantm/agenix";
     claude-code.url = "github:sadjow/claude-code-nix";
     codex.url = "github:sadjow/codex-cli-nix";
-    # Used only by sunshine.nix; remove this input if that module is removed.
+    # Used by sunshine.nix and cos-cli.nix; remove it if both modules are removed.
     cos-cli.url = "github:estin/cos-cli";
     cos-cli.inputs.nixpkgs.follows = "nixpkgs";
     cosmic-process-applet.url = "github:radutomy/cosmic-process-applet";

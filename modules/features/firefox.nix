@@ -36,6 +36,8 @@ _: {
           "extensions.formautofill.addresses.enabled" = false;
 
           "browser.startup.page" = 3;
+          "browser.sessionstore.restore_on_demand" = false;
+          "browser.sessionstore.restore_hidden_tabs" = true;
           "ui.key.menuAccessKeyFocuses" = false;
           "media.hardwaremediakeys.enabled" = false;
           "browser.ml.chat.enabled" = false;

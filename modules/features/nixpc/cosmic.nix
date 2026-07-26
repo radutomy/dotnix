@@ -9,6 +9,9 @@ _: {
       cosmic-initial-setup
     ];
 
+    # use wayland where possible
+    environment.sessionVariables.NIXOS_OZONE_WL = "1";
+
     services = {
       desktopManager.cosmic = {
         enable = true;
@@ -20,15 +23,6 @@ _: {
       gnome.gnome-keyring.enable = false;
     };
 
-    # autoLogin skips this service entirely at boot, so it's only ever hit by
-    # the lock screen (idle screen-off, suspend, hibernate resume). Make it
-    # auto-succeed so resuming never prompts for a password.
-    security.pam.services.cosmic-greeter.rules.auth.permit = {
-      control = "sufficient";
-      modulePath = "${pkgs.pam}/lib/security/pam_permit.so";
-      order = 10000;
-    };
-
     xdg.terminal-exec = {
       enable = true;
       settings.default = [ "org.wezfurlong.wezterm.desktop" ];
@@ -37,28 +31,13 @@ _: {
 
   flake.modules.homeManager.cosmic =
     { config, pkgs, ... }:
-    let
-      desktopEntry = package: name: "${package}/share/applications/${name}.desktop";
-    in
     {
       home.packages = with pkgs; [
         cosmic-ext-applet-weather
         cosmic-ext-applet-minimon
       ];
 
-      xdg = {
-        autostart = {
-          enable = true;
-          entries = [
-            #(desktopEntry pkgs.discord "discord")
-            #(desktopEntry pkgs.steam "steam")
-            (desktopEntry config.programs.firefox.package "firefox")
-            (desktopEntry pkgs.wezterm "org.wezfurlong.wezterm")
-          ];
-        };
-
-        configFile."cosmic".source =
-          config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotnix/cosmic";
-      };
+      xdg.configFile."cosmic".source =
+        config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotnix/cosmic";
     };
 }

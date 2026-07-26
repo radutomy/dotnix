@@ -12,13 +12,14 @@ let
       nvim
       rust
       tmux
+      coscli
       cosmic
       firefox
       glances
     ];
 
     home.packages = with pkgs; [
-      inputs.cosmic-process-applet.packages.${pkgs.stdenv.hostPlatform.system}.default
+      inputs.cosmic-process-applet.packages.${pkgs.stdenv.hostPlatform.system}.default # my taskbar applet for killing memory-heavy processes
       wezterm
       simplenote
       discord
