@@ -23,7 +23,7 @@ rebuild, commit `flake.lock`, and push it.
 
 ## NAS provisioning
 
-The NAS has three installation modes, each driven by [`nixos-anywhere`](https://github.com/nix-community/nixos-anywhere). All three assume SSH access to the target as `root` and, except for the full reinstall, that Ubuntu (or any reachable Linux) is already running on the disk.
+The NAS has two installation modes, each driven by [`nixos-anywhere`](https://github.com/nix-community/nixos-anywhere). Both assume SSH access to the target as `root` and, except for the full reinstall, that Ubuntu (or any reachable Linux) is already running on the disk.
 
 ### Full reinstall — wipes the OS disk and recreates the ZFS pool
 
@@ -39,15 +39,6 @@ nix run github:nix-community/nixos-anywhere -- \
 nix run github:nix-community/nixos-anywhere -- \
   --flake github:radutomy/dotnix#nasOSRecovery \
   --target-host root@192.168.0.2
-```
-
-### ZFS pool wipe — wipes and reconfigures the data pool only
-
-```sh
-nix run github:nix-community/nixos-anywhere -- \
-  --flake github:radutomy/dotnix#nasDataWiper \
-  --target-host root@192.168.0.2 \
-  --phases kexec,disko,reboot
 ```
 
 ## Live USB
