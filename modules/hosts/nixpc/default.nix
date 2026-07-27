@@ -1,8 +1,5 @@
 { self, inputs, ... }:
 let
-  user = "radu";
-  host = "nixpc";
-
   home = { config, pkgs, ... }: {
     imports = with self.modules.homeManager; [
       base
@@ -50,7 +47,7 @@ let
 
   nixos = _: {
     networking = {
-      hostName = host;
+      hostName = "nixpc";
       networkmanager.enable = true;
     };
 
@@ -64,11 +61,11 @@ let
 
     services.displayManager.autoLogin = {
       enable = true;
-      inherit user;
+      user = "radu";
     };
 
     users.mutableUsers = false;
-    users.users.${user} = {
+    users.users.radu = {
       isNormalUser = true;
       hashedPassword = "$y$j9T$1wLAffWwSDgcdAyBLVOe3/$JIs2iEJPfTzemMx/EBvfWsJo.MswBJH/ekhyxmANKP9";
       extraGroups = [
@@ -86,7 +83,7 @@ let
   };
 in
 {
-  flake.nixosConfigurations.${host} = inputs.nixpkgs.lib.nixosSystem {
+  flake.nixosConfigurations.nixpc = inputs.nixpkgs.lib.nixosSystem {
     system = "x86_64-linux";
     modules = [
       self.modules.nixos.base
@@ -98,7 +95,7 @@ in
       self.modules.nixos.steam
       nixos
       {
-        home-manager.users.${user} = home;
+        home-manager.users.radu = home;
       }
     ];
   };
@@ -133,8 +130,8 @@ in
 
           sudo ${disko}/bin/disko-install \
             --flake "path:$target/dotnix#nixpc" \
-            --disk main ${self.nixosConfigurations.${host}.config.disko.devices.disk.main.device} \
-            --extra-files "$target" /persistent/home/${user}
+            --disk main ${self.nixosConfigurations.nixpc.config.disko.devices.disk.main.device} \
+            --extra-files "$target" /persistent/home/radu
         '';
       };
     };

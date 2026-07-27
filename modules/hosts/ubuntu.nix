@@ -1,10 +1,7 @@
 # nix-on-ubuntu machine (not NixOS): standalone home-manager only.
 { self, inputs, ... }:
-let
-  user = "radu";
-in
 {
-  flake.homeConfigurations.${user} = inputs.home-manager.lib.homeManagerConfiguration {
+  flake.homeConfigurations.radu = inputs.home-manager.lib.homeManagerConfiguration {
     pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
     modules = [
       self.modules.homeManager.base
@@ -19,8 +16,8 @@ in
         { pkgs, ... }:
         {
           home = {
-            username = user;
-            homeDirectory = "/home/${user}";
+            username = "radu";
+            homeDirectory = "/home/radu";
 
             packages = with pkgs; [
               wezterm
