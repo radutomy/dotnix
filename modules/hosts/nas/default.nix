@@ -37,8 +37,8 @@ in
         immich
         invidious
         owncloud
+        nfs
         rclone
-        samba
         tailscale
       ]
     );
