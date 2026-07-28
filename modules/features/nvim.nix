@@ -1,6 +1,11 @@
 _: {
   flake.modules.homeManager.nvim =
-    { pkgs, config, ... }:
+    {
+      pkgs,
+      config,
+      lib,
+      ...
+    }:
     {
       programs.neovim = {
         enable = true;
@@ -46,8 +51,8 @@ _: {
       xdg.configFile."nvim".source =
         config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotnix/nvim";
 
-      # hide the wrapper's "Neovim wrapper" launcher entry
-      xdg.desktopEntries.nvim = {
+      # Hide Home Manager's Neovim launcher on Linux.
+      xdg.desktopEntries.nvim = lib.mkIf pkgs.stdenv.isLinux {
         name = "Neovim";
         noDisplay = true;
       };

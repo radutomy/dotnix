@@ -74,7 +74,10 @@ _: {
           enable = true;
           settings = {
             version = 6;
-            daemon.log_level = "info";
+            daemon = {
+              log_level = "info";
+              admin_group = "wheel";
+            };
             gpus."1002:744C-1DA2:471E-0000:03:00.0" = {
               performance_level = "manual";
               voltage_offset = -65;

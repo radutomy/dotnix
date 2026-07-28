@@ -1,31 +1,51 @@
 # dotnix
 
-Personal Nix configuration covering my WSL setup, OrbStack VM, home NAS, and an Ubuntu box, plus the editor/terminal/shell dotfiles that go with them. Built as a flake-parts flake; modules are auto-imported from `modules/` via `import-tree`, and hosts/features are composed with [den](https://den.denful.dev/) aspects — each feature declares its `nixos` and `homeManager` config side by side, so the same feature works on NixOS hosts and on non-NixOS machines via standalone home-manager.
+Shared Nix configuration for NixOS, macOS, Ubuntu, WSL, OrbStack, and NAS. It
+uses the [dendritic pattern](https://www.vimjoyer.com/vid79-parts-wrapped) and
+[impermanence](https://www.vimjoyer.com/vid89-impermanent) to keep the setup
+easy to reuse and each machine clean.
 
-## Install or update a host
+## Install
 
-Pick the host name (`wsl`, `orb`, or `nas`) and run it on the target machine:
-
-```sh
-nix --extra-experimental-features "nix-command flakes" run github:radutomy/dotnix#<wsl|orb|nas>
-```
-
-## Ubuntu (nix without NixOS)
-
-The `ubuntu` host runs plain Ubuntu with Nix installed. Only the user environment is managed, through the standalone home-manager configuration den generates (`homeConfigurations.radu`, with the ai/fish/git/nvim/rust/tmux aspects):
+Replace `<host>` with `wsl`, `orb`, `nas`, `ubuntu`, or `macos`:
 
 ```sh
-nix --extra-experimental-features "nix-command flakes" run github:radutomy/dotnix#ubuntu
+nix --extra-experimental-features "nix-command flakes" run --refresh \
+  github:radutomy/dotnix#<host>
 ```
 
-Afterwards, run `just switch` to rebuild or `just update` to update the flake,
-rebuild, commit `flake.lock`, and push it.
+For a fresh NixOS installation on NixPC, find the target disk:
 
-## NAS provisioning
+```sh
+lsblk -pdo NAME,SIZE,MODEL
+```
 
-The NAS has two installation modes, each driven by [`nixos-anywhere`](https://github.com/nix-community/nixos-anywhere). Both assume SSH access to the target as `root` and, except for the full reinstall, that Ubuntu (or any reachable Linux) is already running on the disk.
+Install NixOS, replacing `<disk>` with a device such as `/dev/nvme0n1`:
 
-### Full reinstall — wipes the OS disk and recreates the ZFS pool
+```sh
+nix --extra-experimental-features "nix-command flakes" run --refresh \
+  github:radutomy/dotnix#nixpc -- <disk>
+```
+
+This formats then installs NixOS on the selected disk.
+
+## Rebuild
+
+Run from `~/dotnix` on any configured machine:
+
+```sh
+just switch
+```
+
+Update, rebuild, commit, and push:
+
+```sh
+just update
+```
+
+## NAS recovery
+
+Full reinstall:
 
 ```sh
 nix run github:nix-community/nixos-anywhere -- \
@@ -33,7 +53,7 @@ nix run github:nix-community/nixos-anywhere -- \
   --target-host root@192.168.0.2
 ```
 
-### OS-only recovery — reinstalls the OS disk, keeps the existing ZFS pool intact
+Reinstall the OS disk only:
 
 ```sh
 nix run github:nix-community/nixos-anywhere -- \
@@ -43,8 +63,9 @@ nix run github:nix-community/nixos-anywhere -- \
 
 ## Live USB
 
-Build a bootable installer image at `/tmp/live-usb.iso`. Flash it with [Balena Etcher](https://etcher.balena.io/) or Rufus in `dd` mode:
+Build `/tmp/live-usb.iso`:
 
 ```sh
-nix --extra-experimental-features "nix-command flakes" run github:radutomy/dotnix#liveUsb
+nix --extra-experimental-features "nix-command flakes" run --refresh \
+  github:radutomy/dotnix#liveUsb
 ```

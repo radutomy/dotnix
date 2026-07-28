@@ -9,6 +9,8 @@
     import-tree.url = "github:vic/import-tree";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    nix-darwin.url = "github:nix-darwin/nix-darwin/master";
+    nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
     agenix.url = "github:ryantm/agenix";
     claude-code.url = "github:sadjow/claude-code-nix";
     codex.url = "github:sadjow/codex-cli-nix";
