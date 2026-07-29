@@ -5,7 +5,7 @@
     {
       imports = [ inputs.agenix.nixosModules.default ];
 
-      age.identityPaths = [ "/root/.ssh/id_ed25519" ];
+      age.identityPaths = [ "/var/lib/agenix/nas.agekey" ];
 
       boot = {
         supportedFilesystems = [ "zfs" ];

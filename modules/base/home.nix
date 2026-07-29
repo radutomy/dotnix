@@ -1,7 +1,12 @@
 # Shared Home Manager configuration.
 {
   flake.modules.homeManager.base =
-    { pkgs, lib, ... }:
+    {
+      config,
+      pkgs,
+      lib,
+      ...
+    }:
     {
       home = {
         stateVersion = "26.05";
@@ -33,6 +38,7 @@
           l = "lsd -A --group-dirs=first";
           cat = "bat --style=plain";
           p = "python";
+          gg = "lazygit";
           cx = "codex";
           cxr = "codex resume";
           cc = "claude";
@@ -52,9 +58,15 @@
           nas = {
             HostName = "192.168.0.2";
             User = "root";
+            ForwardAgent = true;
           };
         };
       };
+
+      # Bitwarden's SSH agent replaces the old file-based identity.
+      home.activation.removeLegacySshKeys = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+        rm -f "$HOME/.ssh/id_ed25519" "$HOME/.ssh/id_ed25519.bak"
+      '';
 
       nixpkgs.config.allowUnfree = true;
       nix.package = lib.mkDefault pkgs.nix;

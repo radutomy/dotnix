@@ -1,10 +1,9 @@
 # nix --extra-experimental-features "nix-command flakes" run --refresh github:radutomy/dotnix#nixpc -- <disk>
-{ self, ... }: {
+_: {
   perSystem = { pkgs, ... }: {
     apps.nixpc.program = pkgs.writeShellApplication {
       name = "nixpc";
       runtimeInputs = with pkgs; [
-        age
         git
         disko
       ];
@@ -20,12 +19,9 @@
           exit 2
         fi
 
-        umask 0077
-        target=$(mktemp -d); mkdir "$target/.ssh"
+        target=$(mktemp -d)
 
         git clone -c remote.origin.pushurl=git@github.com:radutomy/dotnix.git https://github.com/radutomy/dotnix "$target/dotnix"
-
-        age -d ${self}/secrets/ssh_keys.age > "$target/.ssh/id_ed25519"
 
         sudo disko-install \
           --flake "path:$target/dotnix#nixpc" \

@@ -6,8 +6,8 @@
     Pictures,
     Videos,
     Network(
-        uri: "sftp://nas/gdrive",
+        uri: "sftp://root@nas/gdrive",
         name: "Google Drive",
-        path: "/run/user/1000/gvfs/sftp:host=nas/gdrive",
+        path: "/run/user/1000/gvfs/sftp:host=nas,user=root/gdrive",
     ),
 ]

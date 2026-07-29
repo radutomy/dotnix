@@ -1,9 +1,11 @@
 _: {
-  flake.modules.nixos.nixpc-config = {
+  flake.modules.nixos.nixpc-config = { config, ... }: {
     networking = {
       hostName = "nixpc";
       networkmanager.enable = true;
     };
+
+    environment.sessionVariables.SSH_AUTH_SOCK = "${config.users.users.radu.home}/.bitwarden-ssh-agent.sock";
 
     boot.loader = {
       systemd-boot = {

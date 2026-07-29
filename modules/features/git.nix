@@ -25,7 +25,7 @@
           user = {
             name = "Radu T";
             email = "radu@rtom.dev";
-            signingkey = "~/.ssh/id_ed25519";
+            signingkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOcSG9I0xIYG43LhgnsfR7Y1hOkoVpE5RGSfgr3usDt9 radu@rtom.dev";
           };
 
           commit.gpgsign = true;

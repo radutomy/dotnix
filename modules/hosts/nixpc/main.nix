@@ -26,6 +26,7 @@ let
         discord
         chromium
         spotify
+        bitwarden-desktop
         flameshot
         pear-desktop
       ];
