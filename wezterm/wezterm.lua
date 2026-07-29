@@ -26,6 +26,7 @@ config.font_size = is_macos and 14 or 11
 config.warn_about_missing_glyphs = false
 config.window_close_confirmation = "NeverPrompt"
 config.adjust_window_size_when_changing_font_size = false
+config.mux_enable_ssh_agent = false
 config.enable_tab_bar = false
 config.swallow_mouse_click_on_window_focus = true
 config.default_cursor_style = "SteadyBlock"
