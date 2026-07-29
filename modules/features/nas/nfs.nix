@@ -7,7 +7,7 @@ _: {
           "rw"
           "no_root_squash"
         ];
-        "/drive"."192.168.0.0/24" = [
+        "/gdrive"."192.168.0.0/24" = [
           "rw"
           "no_root_squash"
         ];
