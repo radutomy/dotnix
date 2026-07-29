@@ -1,5 +1,12 @@
-_: {
+{ self, ... }: {
   flake.modules.homeManager.ai = { config, ... }: {
+    xdg.configFile = {
+      "codex/AGENTS.md".source = "${self}/agents/AGENTS.md";
+      "codex/OPINIONS.md".source = "${self}/agents/OPINIONS.md";
+      "claude/CLAUDE.md".source = "${self}/agents/AGENTS.md";
+      "claude/OPINIONS.md".source = "${self}/agents/OPINIONS.md";
+    };
+
     home = {
       sessionVariables.IS_SANDBOX = "1";
       # Makes Codex use $XDG_CONFIG_HOME/codex via CODEX_HOME

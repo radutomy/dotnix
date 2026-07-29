@@ -33,7 +33,10 @@
           l = "lsd -A --group-dirs=first";
           cat = "bat --style=plain";
           p = "python";
-          gg = "lazygit";
+          cx = "codex";
+          cxr = "codex resume";
+          cc = "claude";
+          ccr = "claude --resume";
         };
       };
 
