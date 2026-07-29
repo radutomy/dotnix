@@ -1,19 +1,21 @@
+let
+  proxy = port: ''
+    tls internal
+    reverse_proxy 127.0.0.1:${toString port}
+  '';
+in
 _: {
   flake.modules.nixos.caddy = {
     services.caddy = {
       enable = true;
       virtualHosts = {
-        "http://home.me".extraConfig = "reverse_proxy 127.0.0.1:8123";
-        "http://drive.me".extraConfig = "reverse_proxy 127.0.0.1:8080";
-        "http://immich.me".extraConfig = "reverse_proxy 127.0.0.1:2283";
-        "http://adguard.me".extraConfig = "reverse_proxy 127.0.0.1:3000";
-        "http://invidious.me".extraConfig = "reverse_proxy 127.0.0.1:3001";
-        "http://nas.me".extraConfig = "reverse_proxy 127.0.0.1:61208";
-
-        "owncloud.me".extraConfig = ''
-          tls internal
-          reverse_proxy 127.0.0.1:9200
-        '';
+        "home.me".extraConfig = proxy 8123;
+        "drive.me".extraConfig = proxy 8080;
+        "immich.me".extraConfig = proxy 2283;
+        "adguard.me".extraConfig = proxy 3000;
+        "invidious.me".extraConfig = proxy 3001;
+        "nas.me".extraConfig = proxy 61208;
+        "owncloud.me".extraConfig = proxy 9200;
       };
     };
 

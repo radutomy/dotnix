@@ -29,6 +29,7 @@
         ".cargo"
         ".cache/nix"
         ".cache/spotify"
+        ".config/Bitwarden"
         ".config/claude"
         ".config/codex"
         ".config/flameshot"
