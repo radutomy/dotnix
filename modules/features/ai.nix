@@ -1,10 +1,5 @@
-{ inputs, ... }: {
+_: {
   flake.modules.homeManager.ai = { config, ... }: {
-    nixpkgs.overlays = [
-      inputs.claude-code.overlays.default
-      inputs.codex.overlays.default
-    ];
-
     home = {
       sessionVariables.IS_SANDBOX = "1";
       # Makes Codex use $XDG_CONFIG_HOME/codex via CODEX_HOME
