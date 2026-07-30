@@ -22,13 +22,13 @@ _: {
       };
 
       nixpkgs.hostPlatform = "x86_64-linux";
-      # Temporary LACT compatibility fix. Remove once LACT supports libdisplay-info 0.4.
+      #TODO: Temporary LACT compatibility fix. Remove once LACT supports libdisplay-info 0.4.
       nixpkgs.overlays = [
         (final: prev: {
           lact = prev.lact.overrideAttrs (old: {
-            buildInputs =
-              builtins.filter (input: input != prev.libdisplay-info) old.buildInputs
-              ++ [ prev.libdisplay-info_0_2 ];
+            buildInputs = builtins.filter (input: input != prev.libdisplay-info) old.buildInputs ++ [
+              prev.libdisplay-info_0_2
+            ];
           });
         })
       ];
