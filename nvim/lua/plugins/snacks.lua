@@ -10,6 +10,7 @@ return {
 		})
 	end,
 	opts = {
+		words = { enabled = false },
 		explorer = {
 			trash = false,
 		},
