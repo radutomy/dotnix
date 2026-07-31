@@ -4,8 +4,8 @@ Some(([
     "com.system76.CosmicAppletAudio",
 ], [
     "io.github.cosmic_utils.minimon-applet",
-    "com.github.radutomy.cosmic-process-applet",
     "com.system76.CosmicAppletStatusArea",
+    "com.github.radutomy.cosmic-process-applet",
     "com.system76.CosmicAppletNotifications",
     "com.system76.CosmicAppletTiling",
     "com.system76.CosmicAppletPower",

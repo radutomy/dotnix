@@ -63,11 +63,6 @@
         };
       };
 
-      # Bitwarden's SSH agent replaces the old file-based identity.
-      home.activation.removeLegacySshKeys = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-        rm -f "$HOME/.ssh/id_ed25519" "$HOME/.ssh/id_ed25519.bak"
-      '';
-
       nixpkgs.config.allowUnfree = true;
       nix.package = lib.mkDefault pkgs.nix;
       nix.settings = {

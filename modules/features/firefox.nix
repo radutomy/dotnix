@@ -2,6 +2,7 @@ _: {
   flake.modules.homeManager.firefox =
     { pkgs, ... }:
     let
+      # Update after a destructive NAS reinstall recreates Caddy's local CA
       nasRoot = pkgs.writeText "nas-root.crt" ''
         -----BEGIN CERTIFICATE-----
         MIIBpDCCAUqgAwIBAgIRAMaSUqQLiXfzsyN/MjlTGScwCgYIKoZIzj0EAwIwMDEu
@@ -52,7 +53,6 @@ _: {
             "signon.management.page.breach-alerts.enabled" = false;
             "extensions.formautofill.creditCards.enabled" = false;
             "extensions.formautofill.addresses.enabled" = false;
-
             "browser.startup.page" = 3;
             "browser.sessionstore.restore_on_demand" = false;
             "browser.sessionstore.restore_hidden_tabs" = true;

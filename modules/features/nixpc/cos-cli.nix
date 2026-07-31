@@ -25,6 +25,11 @@
         exec = "${workspaceLayout}/bin/cosmic-workspace-layout";
         noDisplay = true;
       };
+      bitwardenEntry = pkgs.makeDesktopItem {
+        name = "bitwarden";
+        desktopName = "Bitwarden";
+        exec = "${pkgs.bitwarden-desktop}/bin/bitwarden --autostart";
+      };
     in
     {
       home.packages = [ workspaceLayout ];
@@ -32,6 +37,7 @@
       xdg.autostart = {
         enable = true;
         entries = [
+          (desktopEntry bitwardenEntry "bitwarden")
           (desktopEntry pkgs.spotify "spotify")
           (desktopEntry pkgs.discord "discord")
           (desktopEntry pkgs.steam "steam")
