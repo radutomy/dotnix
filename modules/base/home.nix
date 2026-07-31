@@ -29,7 +29,9 @@
           sqlite
           shellcheck
           yq-go
+          xxd
           dnsutils
+          fastfetch
         ];
 
         shellAliases = {

@@ -1,67 +1,59 @@
+# nix run .#cloneRepos
 let
-  email = "radu.tomuleasa@external.proton.ch";
-  name = "Radu Tomuleasa";
+  email = "radu@rtom.dev";
+  name = "Radu T";
+  repo = "git@github.com";
   repos = [
     {
-      name = "chat-client";
-      branch = "develop";
-      url = "chat/chat-client";
-    }
-    {
-      name = "monorepo";
+      name = "dotnix";
+      url = "radutomy/dotnix";
       branch = "main";
-      url = "proton/clients/monorepo";
     }
     {
-      name = "muon";
-      branch = "master";
-      url = "ProtonVPN/rust/muon";
+      name = "rustlings";
+      url = "radutomy/rustlings";
+      branch = "main";
     }
   ];
   clone = r: ''
-    [ -d "$HOME/${r.name}/.git" ] || git clone -b ${r.branch} git@gitlab.protontech.ch:${r.url}.git "$HOME/${r.name}"
-    git -C "$HOME/${r.name}" config --local user.email "${email}"
-    git -C "$HOME/${r.name}" config --local user.name "${name}"
+    if [ ! -d "$HOME/${r.name}/.git" ]; then
+      git clone -b ${r.branch} ${repo}:${r.url}.git "$HOME/${r.name}"
+      git -C "$HOME/${r.name}" config --local user.email "${email}"
+      git -C "$HOME/${r.name}" config --local user.name "${name}"
+    fi
   '';
 in
 {
-  flake.modules.nixos.work =
-    { pkgs, ... }:
-    {
-      environment.systemPackages = with pkgs; [
-        bazelisk
-        devenv
-        direnv
+  flake.modules.nixos.work = { pkgs, ... }: {
+    environment.systemPackages = with pkgs; [
+      devenv
+      direnv
+      git
+      git-lfs
+      just
+      lazysql
+      openssh
+    ];
+
+    programs.direnv = {
+      enable = true;
+      enableFishIntegration = true;
+      nix-direnv.enable = true;
+    };
+
+    # nix-ld: lets prebuilt binaries find a dynamic linker
+    programs.nix-ld.enable = true;
+  };
+
+  perSystem = { pkgs, lib, ... }: {
+    packages.cloneRepos = pkgs.writeShellApplication {
+      name = "clone-repos";
+      runtimeInputs = with pkgs; [
+        git
         git-lfs
-        just
-        lazysql
+        openssh
       ];
-
-      programs.direnv = {
-        enable = true;
-        enableFishIntegration = true;
-        nix-direnv.enable = true;
-      };
-
-      # --- monorepo ---
-
-      # nix-ld: lets prebuilt binaries (bazelisk-downloaded bazel) find a dynamic linker
-      programs.nix-ld.enable = true;
-      # /bin/bash: bazel sandboxes PATH to /bin:/usr/bin:/usr/local/bin, so #!/usr/bin/env bash resolves
-      system.activationScripts.binBash.text = "ln -sfn ${pkgs.bash}/bin/bash /bin/bash";
+      text = lib.concatMapStringsSep "\n" clone repos;
     };
-
-  perSystem =
-    { pkgs, lib, ... }:
-    {
-      packages.cloneWorkRepos = pkgs.writeShellApplication {
-        name = "clone-work-repos";
-        runtimeInputs = with pkgs; [
-          git
-          git-lfs
-          openssh
-        ];
-        text = lib.concatMapStringsSep "\n" clone repos;
-      };
-    };
+  };
 }
