@@ -17,11 +17,17 @@ end
 ------------- Configuration -------------
 
 config.color_scheme = "Vs Code Dark+ (Gogh)"
+-- config.color_scheme = "Dark+"
+config.colors = {
+	foreground = "#F2F2F2",
+	cursor_bg = "#C44300",
+}
+
 config.font = wezterm.font("JetBrains Mono")
 config.disable_default_key_bindings = true
 config.audible_bell = "Disabled"
 config.notification_handling = "NeverShow"
---config.window_decorations = "RESIZE"
+-- config.window_decorations = "RESIZE"
 config.font_size = is_macos and 14 or 11
 config.warn_about_missing_glyphs = false
 config.window_close_confirmation = "NeverPrompt"
@@ -32,11 +38,21 @@ config.swallow_mouse_click_on_window_focus = true
 config.default_cursor_style = "SteadyBlock"
 config.max_fps = 240
 
-config.colors = {
-	foreground = "#F2F2F2",
-	cursor_bg = "#C44300",
-	cursor_border = "#1E1E1E",
-}
+-- Frosted glass on Cosmic DE
+config.window_background_opacity = 1
+if is_linux then
+	local glass = (os.getenv("HOME") or "") .. "/.config/cosmic/com.system76.CosmicTheme.Dark/v2/transparent_background"
+	local f = io.open(glass)
+	local alpha = f and f:read("a"):match('base:%s*"#%x+(%x%x)"')
+	if f then
+		f:close()
+	end
+	wezterm.add_to_config_reload_watch_list(glass)
+	if alpha then
+		config.window_background_opacity = tonumber(alpha, 16) / 255
+	end
+	config.wayland_window_background_blur = true
+end
 
 -- Start maximized
 if is_macos or is_windows then

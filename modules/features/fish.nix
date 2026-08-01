@@ -29,7 +29,7 @@ _: {
             set fish_prompt_pwd_dir_length 100 # max length of dir path
             set fish_greeting # surpress fish greeting
             set hydro_color_pwd green
-            set hydro_color_git 808080
+            set hydro_color_git brblack
             set hydro_color_prompt white
 
             fish_add_path ~/.cargo/bin

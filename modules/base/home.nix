@@ -15,7 +15,6 @@
           nh
           lsd
           jq
-          bat
           age
           just
           zip
@@ -46,6 +45,12 @@
           cc = "claude";
           ccr = "claude --resume";
         };
+      };
+
+      # bat ships VS Code Dark+, so `cat` matches the terminal without a theme file.
+      programs.bat = {
+        enable = true;
+        config.theme = "Visual Studio Dark+";
       };
 
       programs.ssh = {

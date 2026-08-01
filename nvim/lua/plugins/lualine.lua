@@ -2,12 +2,7 @@ return {
 	{
 		"nvim-lualine/lualine.nvim",
 		opts = function(_, opts)
-			opts.options = opts.options or {}
-
-			-- Custom theme based on vscode with darker normal mode text
-			local vscode = require "lualine.themes.vscode"
-			vscode.normal.a.fg = "#1e1e1e"
-			opts.options.theme = vscode
+			opts.sections.lualine_a = { { "mode", color = { fg = "#1e1e1e" } } }
 
 			-- remove date and time from the far-right corner
 			opts.sections.lualine_z = {}
@@ -18,7 +13,7 @@ return {
 					path = 1,
 					shorting_target = 0,
 					icon = "󰈙 ",
-					color = { fg = "green" },
+					color = { fg = vim.g.terminal_color_2 },
 					symbols = {
 						modified = "[+]",
 						readonly = "[-]",
