@@ -1,9 +1,9 @@
 Some(([
     "com.system76.CosmicAppletWorkspaces",
-    "io.github.cosmic_utils.weather-applet",
     "com.system76.CosmicAppletAudio",
-], [
+    "io.github.cosmic_utils.weather-applet",
     "io.github.cosmic_utils.minimon-applet",
+], [
     "com.system76.CosmicAppletStatusArea",
     "com.github.radutomy.cosmic-process-applet",
     "com.system76.CosmicAppletNotifications",
