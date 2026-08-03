@@ -5,7 +5,7 @@
         method: Some(TwoFinger),
         natural_scroll: Some(true),
         scroll_button: None,
-        scroll_factor: Some(0.7071067811865476),
+        scroll_factor: Some(0.4),
     )),
     tap_config: Some((
         enabled: true,

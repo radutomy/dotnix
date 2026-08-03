@@ -6,6 +6,9 @@
     fileSystems."/nix".neededForBoot = true;
     fileSystems."/persistent".neededForBoot = true;
 
+    zramSwap.enable = true;
+    boot.kernelParams = [ "nohibernate" ];
+
     disko.devices.nodev."/" = {
       fsType = "tmpfs";
       mountOptions = [
@@ -14,8 +17,6 @@
       ];
     };
 
-    # The laptop's second, factory-fitted NVMe sits at pci-0000:84:00.0 and is
-    # deliberately not described here, so disko never touches it.
     disko.devices.disk.main = {
       device = "/dev/disk/by-path/pci-0000:01:00.0-nvme-1";
       type = "disk";
@@ -36,38 +37,35 @@
               mountOptions = [ "umask=0077" ];
             };
           };
-          swap = {
-            size = "64G";
-            content = {
-              type = "swap";
-              extraArgs = [
-                "-L"
-                "swap"
-              ];
-            };
-          };
           root = {
             size = "100%";
             content = {
-              type = "btrfs";
-              preCreateHook = ''
-                mkfs.btrfs -f "$device"
-                udevadm trigger --settle --name-match="$device"
-              '';
-              subvolumes = {
-                "/nix" = {
-                  mountpoint = "/nix";
-                  mountOptions = [
-                    "noatime"
-                    "compress=zstd"
-                  ];
-                };
-                "/persistent" = {
-                  mountpoint = "/persistent";
-                  mountOptions = [
-                    "noatime"
-                    "compress=zstd"
-                  ];
+              type = "luks";
+              name = "cryptroot";
+              askPassword = true;
+              settings.allowDiscards = true;
+
+              content = {
+                type = "btrfs";
+                preCreateHook = ''
+                  mkfs.btrfs -f "$device"
+                  udevadm trigger --settle --name-match="$device"
+                '';
+                subvolumes = {
+                  "/nix" = {
+                    mountpoint = "/nix";
+                    mountOptions = [
+                      "noatime"
+                      "compress=zstd"
+                    ];
+                  };
+                  "/persistent" = {
+                    mountpoint = "/persistent";
+                    mountOptions = [
+                      "noatime"
+                      "compress=zstd"
+                    ];
+                  };
                 };
               };
             };
