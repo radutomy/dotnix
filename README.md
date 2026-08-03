@@ -14,17 +14,18 @@ nix --extra-experimental-features "nix-command flakes" run --refresh \
   github:radutomy/dotnix#<host>
 ```
 
-For a fresh NixOS installation on NixPC, find the target disk:
+For a fresh NixOS installation on NixPC or NixQS, find the target disk:
 
 ```sh
 lsblk -pdo NAME,SIZE,MODEL
 ```
 
-Install NixOS, replacing `<disk>` with a device such as `/dev/nvme0n1`:
+Install NixOS, replacing `<host>` with `nixpc` or `nixqs` and `<disk>` with a
+device such as `/dev/nvme0n1`:
 
 ```sh
 nix --extra-experimental-features "nix-command flakes" run --refresh \
-  github:radutomy/dotnix#nixpc -- <disk>
+  github:radutomy/dotnix#<host> -- <disk>
 ```
 
 This formats then installs NixOS on the selected disk.
