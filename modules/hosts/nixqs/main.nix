@@ -42,6 +42,7 @@ in
       self.modules.nixos.nixqsHardware
       self.modules.nixos.cosmic
       self.modules.nixos.steam
+      self.modules.nixos.work
       {
         home-manager.users.radu = homeModule;
       }

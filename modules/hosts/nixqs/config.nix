@@ -15,6 +15,11 @@ _: {
       efi.canTouchEfiVariables = true;
     };
 
+    services.displayManager.autoLogin = {
+      enable = true;
+      user = "radu";
+    };
+
     users.mutableUsers = false;
     users.users.radu = {
       isNormalUser = true;

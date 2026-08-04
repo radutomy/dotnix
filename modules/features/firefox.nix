@@ -46,7 +46,7 @@ _: {
             "browser.newtabpage.enabled" = false;
             "browser.startup.homepage" = "about:blank";
             "browser.uidensity" = 0;
-            "layout.css.devPixelsPerPx" = "1.1";
+            "layout.css.devPixelsPerPx" = "1.4";
             "privacy.globalprivacycontrol.enabled" = true;
             "signon.firefoxRelay.feature" = "disabled";
             "signon.rememberSignons" = false;

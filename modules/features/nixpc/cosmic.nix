@@ -36,8 +36,5 @@ _: {
         cosmic-ext-applet-weather
         cosmic-ext-applet-minimon
       ];
-
-      xdg.configFile."cosmic".source =
-        config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotnix/cosmic";
     };
 }

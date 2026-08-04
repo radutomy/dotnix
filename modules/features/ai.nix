@@ -44,5 +44,9 @@
         projects."${config.home.homeDirectory}/dotnix".trust_level = "trusted";
       };
     };
+
+    programs.github-copilot-cli = {
+      enable = true;
+    };
   };
 }

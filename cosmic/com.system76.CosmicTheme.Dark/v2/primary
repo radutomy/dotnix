@@ -14,7 +14,7 @@
         border: "#BEBEBEFF",
         disabled_border: "#BEBEBE80",
     ),
-    divider: "#504E60FF",
-    on: "#F8F8F8FF",
+    divider: "#514F61FF",
+    on: "#FFFFFFFF",
     small_widget: "#34343440",
 )

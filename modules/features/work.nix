@@ -32,7 +32,10 @@ in
       git-lfs
       just
       lazysql
-      openssh
+      ethtool
+      usbutils
+      arp-scan
+      tcpdump
     ];
 
     programs.direnv = {
