@@ -48,8 +48,16 @@
       };
     };
 
-    # Don't set `settings` here: Copilot writes its login token into the same
-    # config.json HM would manage, so any settings block causes a symlink conflict.
-    programs.github-copilot-cli.enable = true;
+    programs.github-copilot-cli = {
+      enable = true;
+      settings = {
+        footer = {
+          showModelEffort = true;
+          showDirectory = true;
+          showBranch = true;
+          showQuota = true;
+        };
+      };
+    };
   };
 }

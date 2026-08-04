@@ -44,6 +44,7 @@
           cxr = "codex resume";
           cc = "claude";
           ccr = "claude --resume";
+          co = "copilot --allow-all";
         };
       };
 

@@ -31,6 +31,7 @@
         ".cache/spotify"
         ".config/Bitwarden"
         ".config/claude"
+        ".config/cosmic"
         ".config/codex"
         ".config/flameshot"
         ".config/mozilla"

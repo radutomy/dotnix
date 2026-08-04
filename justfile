@@ -9,6 +9,9 @@ switch_command := if platform == "darwin" { darwin_switch } else if platform == 
 switch:
     {{ switch_command }}
 
+cosmic:
+    rsync -a --delete ~/.config/cosmic/ ./cosmic/
+
 update:
     nix flake update
     {{ switch_command }}

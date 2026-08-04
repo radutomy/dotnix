@@ -74,11 +74,16 @@ _: {
         # BIOS and EC updates, for the vendor firmware published on LVFS.
         fwupd.enable = true;
 
-        # The under-chassis lightbar powers on at full brightness and has no
-        # hotkey of its own. systemd saves and restores the keyboard backlight
-        # but not this, so without a rule it returns on every boot.
         udev.extraRules = ''
+          # The under-chassis lightbar powers on at full brightness and has no
+          # hotkey of its own. systemd saves and restores the keyboard backlight
+          # but not this, so without a rule it returns on every boot.
           ACTION=="add", SUBSYSTEM=="leds", KERNEL=="rgb:lightbar", ATTR{brightness}="0"
+
+          # The webcam's IR sensor (for Windows Hello) is indistinguishable from
+          # the real camera to apps, so they sometimes pick it and show black.
+          # Unbind its driver so its /dev/video* nodes never exist.
+          ACTION=="bind", SUBSYSTEM=="usb", DRIVER=="uvcvideo", ATTRS{interface}=="IR Camera", RUN+="/bin/sh -c 'echo $kernel > /sys/bus/usb/drivers/uvcvideo/unbind'"
         '';
       };
     };

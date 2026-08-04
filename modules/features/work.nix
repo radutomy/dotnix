@@ -57,6 +57,9 @@ in
 
     # nix-ld: lets prebuilt binaries find a dynamic linker
     programs.nix-ld.enable = true;
+
+    # Some tools hardcode /bin/bash, which doesn't exist on NixOS
+    systemd.tmpfiles.rules = [ "L+ /bin/bash - - - - ${pkgs.bash}/bin/bash" ];
   };
 
   perSystem = { pkgs, lib, ... }: {

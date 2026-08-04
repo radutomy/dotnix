@@ -15,6 +15,12 @@ _: {
       efi.canTouchEfiVariables = true;
     };
 
+    # Quiet boot: suppress the systemd unit spam and harmless kernel
+    # warnings (e.g. usbhid on control-only HID interfaces) before the
+    # LUKS PIN prompt.
+    boot.consoleLogLevel = 3;
+    boot.kernelParams = [ "quiet" ];
+
     services.displayManager.autoLogin = {
       enable = true;
       user = "radu";

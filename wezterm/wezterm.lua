@@ -55,10 +55,10 @@ if is_linux then
 end
 
 -- Start maximized
-if is_macos or is_windows then
-	config.initial_rows = 999
-	config.initial_cols = 999
-end
+wezterm.on("gui-startup", function(cmd)
+	local _, _, window = wezterm.mux.spawn_window(cmd or {})
+	window:gui_window():maximize()
+end)
 
 ------------- Keybindings -------------
 
