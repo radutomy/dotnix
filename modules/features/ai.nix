@@ -8,7 +8,10 @@
     };
 
     home = {
-      sessionVariables.IS_SANDBOX = "1";
+      sessionVariables = {
+        IS_SANDBOX = "1";
+        COPILOT_ALLOW_ALL = "true";
+      };
       # Makes Codex use $XDG_CONFIG_HOME/codex via CODEX_HOME
       preferXdgDirectories = true;
     };
@@ -45,8 +48,8 @@
       };
     };
 
-    programs.github-copilot-cli = {
-      enable = true;
-    };
+    # Don't set `settings` here: Copilot writes its login token into the same
+    # config.json HM would manage, so any settings block causes a symlink conflict.
+    programs.github-copilot-cli.enable = true;
   };
 }
