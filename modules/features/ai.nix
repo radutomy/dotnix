@@ -48,16 +48,13 @@
       };
     };
 
+    # No settings: config.json also holds the login token now that
+    # .config/copilot is persisted, so HM must not manage that file.
+    # Set footer display (showModelEffort/showDirectory/showBranch/showQuota)
+    # via Copilot's own /settings menu instead.
     programs.github-copilot-cli = {
       enable = true;
-      settings = {
-        footer = {
-          showModelEffort = true;
-          showDirectory = true;
-          showBranch = true;
-          showQuota = true;
-        };
-      };
+      context = "${self}/agents/AGENTS.md";
     };
   };
 }

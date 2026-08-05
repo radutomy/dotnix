@@ -33,6 +33,7 @@
         ".config/claude"
         ".config/cosmic"
         ".config/codex"
+        ".config/copilot"
         ".config/flameshot"
         ".config/mozilla"
         ".config/discord"
