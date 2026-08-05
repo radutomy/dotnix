@@ -21,6 +21,7 @@ let
         # My taskbar applet for killing memory-heavy processes
         inputs.cosmic-process-applet.packages.${pkgs.stdenv.hostPlatform.system}.default
 
+        vscodium
         wezterm
         simplenote
         discord

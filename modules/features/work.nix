@@ -73,6 +73,10 @@ in
 
     # Some tools hardcode /bin/bash, which doesn't exist on NixOS
     systemd.tmpfiles.rules = [ "L+ /bin/bash - - - - ${pkgs.bash}/bin/bash" ];
+
+    # Lets tcpdump capture packets without sudo (needs user in `pcap` group).
+    programs.tcpdump.enable = true;
+    users.users.radu.extraGroups = [ "pcap" ];
   };
 
   perSystem = { pkgs, lib, ... }: {

@@ -3,6 +3,7 @@ _: {
     networking = {
       hostName = "nixqs";
       networkmanager.enable = true;
+      firewall.trustedInterfaces = [ "enp131s0" ];
     };
 
     environment.sessionVariables.SSH_AUTH_SOCK = "${config.users.users.radu.home}/.bitwarden-ssh-agent.sock";
