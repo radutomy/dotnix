@@ -44,6 +44,7 @@ in
       self.modules.nixos.cosmic
       self.modules.nixos.sunshine
       self.modules.nixos.steam
+      self.modules.nixos.hwshared
       {
         home-manager.users.radu = homeModule;
       }

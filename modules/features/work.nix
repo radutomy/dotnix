@@ -24,7 +24,7 @@ let
   '';
 in
 {
-  flake.modules.nixos.work = { pkgs, ... }: {
+  flake.modules.nixos.work = { lib, pkgs, ... }: {
     environment.systemPackages = with pkgs; [
       devenv
       direnv
@@ -38,6 +38,9 @@ in
       tcpdump
       protobuf
       pkg-config
+      nodejs
+      electron_43
+      pnpm
 
       gst_all_1.gstreamer
       gst_all_1.gst-plugins-base
@@ -49,11 +52,21 @@ in
       gst_all_1.gst-editing-services
     ];
 
+    home-manager.users.radu.programs.fish.interactiveShellInit = lib.mkAfter ''
+      function mosaic-dev
+        pnpx concurrently -k --kill-signal SIGINT \
+          "cd $HOME/src/mosaic-uxs_mosaic-core-rs && cargo run -p mosaic --bin mosaic" \
+          "until curl -s http://localhost:8080 >/dev/null 2>&1; do sleep 1; done; pnpm --dir $HOME/src/mosaic-uxs_mosaic-frontend dev"
+      end
+    '';
+
     programs.direnv = {
       enable = true;
       enableFishIntegration = true;
       nix-direnv.enable = true;
     };
+
+    environment.sessionVariables.ELECTRON_OVERRIDE_DIST_PATH = "${pkgs.electron_43}/bin";
 
     # nix-ld: lets prebuilt binaries find a dynamic linker
     programs.nix-ld.enable = true;

@@ -42,7 +42,6 @@
         ".config/YouTube Music"
         ".local/state/cosmic-comp"
         ".local/state/nvim"
-        ".local/share/flatpak"
         ".local/share/fish"
         ".local/share/nvim"
         ".local/share/Steam"

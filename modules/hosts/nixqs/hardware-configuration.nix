@@ -71,9 +71,6 @@ _: {
         # devices stay unauthorised until boltd approves them.
         hardware.bolt.enable = true;
 
-        # BIOS and EC updates, for the vendor firmware published on LVFS.
-        fwupd.enable = true;
-
         udev.extraRules = ''
           # The under-chassis lightbar powers on at full brightness and has no
           # hotkey of its own. systemd saves and restores the keyboard backlight
