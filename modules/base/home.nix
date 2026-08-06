@@ -31,6 +31,7 @@
           xxd
           dnsutils
           fastfetch
+          yazi
         ];
 
         shellAliases = {
