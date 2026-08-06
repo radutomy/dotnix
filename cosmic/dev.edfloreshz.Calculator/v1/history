@@ -1,0 +1,7 @@
+[
+    (
+        expression: "8555*3",
+        outcome: "25665",
+        decimal_comma: false,
+    ),
+]

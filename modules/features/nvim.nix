@@ -45,6 +45,9 @@ _: {
         nil
         nixfmt
         statix
+
+        # Protobuf language server
+        buf
       ];
 
       # symlink the repo's neovim config into ~/.config

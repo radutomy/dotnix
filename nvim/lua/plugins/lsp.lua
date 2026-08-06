@@ -31,6 +31,7 @@ return {
 				omnisharp = {
 					enabled = false,
 				},
+				buf_ls = {},
 			},
 		},
 		init = function()

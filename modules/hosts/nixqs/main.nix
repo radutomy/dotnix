@@ -26,8 +26,6 @@ let
         chromium
         spotify
         bitwarden-desktop
-        flameshot
-        pear-desktop
       ];
     };
 in

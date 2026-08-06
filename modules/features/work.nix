@@ -24,7 +24,7 @@ let
   '';
 in
 {
-  flake.modules.nixos.work = { lib, pkgs, ... }: {
+  flake.modules.nixos.work = { pkgs, ... }: {
     environment.systemPackages = with pkgs; [
       devenv
       direnv
@@ -52,13 +52,10 @@ in
       gst_all_1.gst-editing-services
     ];
 
-    home-manager.users.radu.programs.fish.interactiveShellInit = lib.mkAfter ''
-      function mosaic-dev
-        pnpx concurrently -k --kill-signal SIGINT \
-          "cd $HOME/src/mosaic-uxs_mosaic-core-rs && cargo run -p mosaic --bin mosaic" \
-          "until curl -s http://localhost:8080 >/dev/null 2>&1; do sleep 1; done; pnpm --dir $HOME/src/mosaic-uxs_mosaic-frontend dev"
-      end
-    '';
+    home-manager.users.radu = { config, ... }: {
+      home.file."src/mosaic-uxs_mosaic-core-rs/justfile".source =
+        config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotnix/work/justfile";
+    };
 
     programs.direnv = {
       enable = true;

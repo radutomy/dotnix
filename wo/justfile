@@ -1,0 +1,22 @@
+frontend := "../mosaic-uxs_mosaic-frontend"
+
+mosaic-core:
+    cargo run -p mosaic --bin mosaic
+
+mosaic-ui:
+    pnpm --dir {{ frontend }} dev
+
+mosaic-dev:
+    pnpx concurrently -k \
+        "just mosaic-core" \
+        "just mosaic-ui"
+
+silvus:
+    cargo run -p silvus-client --bin silvus-client -vv
+
+mosaic:
+    pnpx concurrently -k \
+        "just mosaic-core" \
+        "just mosaic-ui" \
+        "just silvus"
+

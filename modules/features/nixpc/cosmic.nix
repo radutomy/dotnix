@@ -35,6 +35,7 @@ _: {
       home.packages = with pkgs; [
         cosmic-ext-applet-weather
         cosmic-ext-applet-minimon
+        cosmic-ext-calculator
       ];
     };
 }
