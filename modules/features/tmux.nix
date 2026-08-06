@@ -24,15 +24,12 @@ _: {
 
           tmux attach 2>/dev/null; and exit
           tmux new-session -d -s main -n core
-          # tmux split-window -h
-          # tmux select-pane -L
-          # tmux new-window -n heap
-          # tmux split-window -h
-          # tmux select-pane -L
-          # tmux new-window -n kernel
-          # tmux split-window -v
-          # tmux select-pane -U
+          tmux split-window -v
+          tmux select-pane -U
           tmux new-window -n stack
+          tmux split-window -v
+          tmux select-pane -U
+          tmux new-window -n heap
           tmux new-window -n cache -c ~/dotnix
           tmux split-window -h -p 30 -c ~/dotnix
           tmux split-window -v -p 25 -c ~/dotnix
