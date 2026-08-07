@@ -27,6 +27,8 @@ _: {
       user = "radu";
     };
 
+    services.tailscale.enable = true;
+
     users.mutableUsers = false;
     users.users.radu = {
       isNormalUser = true;
