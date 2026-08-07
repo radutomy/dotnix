@@ -58,6 +58,7 @@ _: {
             "browser.sessionstore.restore_hidden_tabs" = true;
             "dom.security.https_first" = false;
             "ui.key.menuAccessKeyFocuses" = false;
+            "ui.key.menuAccessKey" = 0;
             "media.hardwaremediakeys.enabled" = false;
             "browser.ml.chat.enabled" = false;
             "browser.ml.enabled" = false;
