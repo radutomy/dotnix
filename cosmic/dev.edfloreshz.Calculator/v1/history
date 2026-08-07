@@ -4,4 +4,19 @@
         outcome: "25665",
         decimal_comma: false,
     ),
+    (
+        expression: "225*35",
+        outcome: "7875",
+        decimal_comma: false,
+    ),
+    (
+        expression: "256*35",
+        outcome: "8960",
+        decimal_comma: false,
+    ),
+    (
+        expression: "8960+80",
+        outcome: "9040",
+        decimal_comma: false,
+    ),
 ]

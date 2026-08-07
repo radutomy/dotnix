@@ -3,7 +3,8 @@ _: {
     services.fwupd.enable = true;
 
     # Caps Lock is disabled and repurposed as a nav layer instead:
-    # caps+left/right/up/down and caps+hjkl both do home/end/page up/down.
+    # caps+left/right/up/down = home/end/page up/down.
+    # caps+h/l = home/end, caps+j/k = word left/right (like ctrl+left/right).
     services.keyd = {
       enable = true;
       keyboards.default = {
@@ -15,10 +16,10 @@ _: {
             right = "end";
             up = "pageup";
             down = "pagedown";
-            h = "home";
-            j = "pagedown";
-            k = "pageup";
-            l = "end";
+            j = "home";
+            h = "C-left";
+            l = "C-right";
+            k = "end";
           };
         };
       };

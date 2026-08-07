@@ -30,8 +30,10 @@
           yq-go
           xxd
           dnsutils
+          btop
           fastfetch
           yazi
+          geekbench
         ];
 
         shellAliases = {
