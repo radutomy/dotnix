@@ -26,7 +26,6 @@ in
 {
   flake.nixosConfigurations = {
     nas = inputs.nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
       modules = [
         hostModule
         self.modules.nixos.adguard
@@ -45,7 +44,6 @@ in
 
     # alternate boot configs for the same machine
     nasFullReinstall = inputs.nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
       modules = [
         hostModule
         self.modules.nixos.nasDataDisko
@@ -53,7 +51,6 @@ in
     };
 
     nasOSRecovery = inputs.nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
       modules = [ hostModule ];
     };
   };

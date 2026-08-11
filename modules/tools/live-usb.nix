@@ -1,10 +1,11 @@
 { self, inputs, ... }:
 {
   flake.nixosConfigurations.liveUsb = inputs.nixpkgs.lib.nixosSystem {
-    system = "x86_64-linux";
     modules = [
       "${inputs.nixpkgs}/nixos/modules/installer/cd-dvd/iso-image.nix"
       "${inputs.nixpkgs}/nixos/modules/profiles/minimal.nix"
+
+      { nixpkgs.hostPlatform = "x86_64-linux"; }
 
       (
         { config, lib, ... }:

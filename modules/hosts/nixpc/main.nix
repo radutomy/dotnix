@@ -33,7 +33,6 @@ let
 in
 {
   flake.nixosConfigurations.nixpc = inputs.nixpkgs.lib.nixosSystem {
-    system = "x86_64-linux";
     modules = [
       self.modules.nixos.base
       self.modules.nixos.nixpc-config

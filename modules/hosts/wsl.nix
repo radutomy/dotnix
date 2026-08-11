@@ -6,10 +6,10 @@
 }:
 {
   flake.nixosConfigurations.wsl = inputs.nixpkgs.lib.nixosSystem {
-    system = "x86_64-linux";
     modules = [
       inputs.nixos-wsl.nixosModules.default
       self.modules.nixos.base
+      { nixpkgs.hostPlatform = "x86_64-linux"; }
       {
         home-manager.users.root.imports = [
           self.modules.homeManager.base

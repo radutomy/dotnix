@@ -6,9 +6,9 @@
 }:
 {
   flake.nixosConfigurations.orb = inputs.nixpkgs.lib.nixosSystem {
-    system = "aarch64-linux";
     modules = [
       self.modules.nixos.base
+      { nixpkgs.hostPlatform = "aarch64-linux"; }
       {
         home-manager.users.root.imports = [
           self.modules.homeManager.base

@@ -56,6 +56,7 @@ _: {
             "browser.startup.page" = 3;
             "browser.sessionstore.restore_on_demand" = false;
             "browser.sessionstore.restore_hidden_tabs" = true;
+            "browser.sessionstore.max_concurrent_tabs" = 20;
             "dom.security.https_first" = false;
             "ui.key.menuAccessKeyFocuses" = false;
             "ui.key.menuAccessKey" = 0;
