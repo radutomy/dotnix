@@ -1,6 +1,7 @@
 # TUXEDO Stellaris 16 - Gen 7 Intel (board X6AR5xxY).
 # Core Ultra 9 275HX, Intel Arrow Lake iGPU + NVIDIA Blackwell dGPU.
-_: {
+{ self, ... }:
+{
   flake.modules.nixos.nixqsHardware =
     {
       config,
@@ -8,6 +9,15 @@ _: {
       ...
     }:
     {
+      # Pins mesa to 26.1.6 (see mesa-pin.nix) because 26.2.0 deterministically
+      # hangs the i915 driver on this Arrow Lake iGPU.
+      # To test whether a newer mesa fixes it: comment out this line, `git add -A`,
+      # re-eval/switch, and check `nix eval .#nixosConfigurations.nixqs.config.hardware.graphics.package.version`
+      # plus a real GPU workload (e.g. launch wezterm a few times) for GPU HANG
+      # entries in `journalctl -k -b`. If it's clean, delete this line and
+      # mesa-pin.nix for good; otherwise put the line back.
+      imports = [ self.modules.nixos.nixqsMesaPin ];
+
       boot = {
         initrd.availableKernelModules = [
           "nvme"
