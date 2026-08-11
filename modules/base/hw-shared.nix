@@ -4,7 +4,7 @@ _: {
 
     # Caps Lock is disabled and repurposed as a nav layer instead:
     # caps+left/right/up/down = home/end/page up/down.
-    # caps+h/l = home/end, caps+j/k = word left/right (like ctrl+left/right).
+    # caps+h/j/k/l = left/down/up/right arrows.
     services.keyd = {
       enable = true;
       keyboards.default = {
@@ -16,10 +16,10 @@ _: {
             right = "end";
             up = "pageup";
             down = "pagedown";
-            j = "home";
-            h = "C-left";
-            l = "C-right";
-            k = "end";
+            h = "left";
+            j = "down";
+            k = "up";
+            l = "right";
           };
         };
       };
