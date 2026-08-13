@@ -55,7 +55,7 @@ _: {
         config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotnix/nvim";
 
       # Hide Home Manager's Neovim launcher on Linux.
-      xdg.desktopEntries.nvim = lib.mkIf pkgs.stdenv.isLinux {
+      xdg.desktopEntries.nvim = lib.mkIf pkgs.stdenv.hostPlatform.isLinux {
         name = "Neovim";
         noDisplay = true;
       };

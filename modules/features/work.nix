@@ -31,6 +31,7 @@ in
       git
       git-lfs
       just
+      mise
       lazysql
       mold
       ethtool
