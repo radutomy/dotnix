@@ -32,6 +32,7 @@ in
       git-lfs
       just
       lazysql
+      mold
       ethtool
       usbutils
       arp-scan
