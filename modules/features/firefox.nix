@@ -66,7 +66,6 @@ _: {
             "sidebar.revamp" = true;
             "sidebar.verticalTabs" = true;
             "browser.urlbar.quicksuggest.enabled" = false;
-            "browser.urlbar.suggest.engines" = false;
             "browser.newtabpage.activity-stream.asrouter.userprefs.cfr.addons" = false;
             "browser.newtabpage.activity-stream.asrouter.userprefs.cfr.features" = false;
             "media.eme.enabled" = true;
@@ -80,6 +79,19 @@ _: {
             "extensions.pocket.enabled" = false;
             "toolkit.telemetry.enabled" = false;
             "datareporting.healthreport.uploadEnabled" = false;
+
+            # Search suggestions
+            "browser.search.suggest.enabled" = true;
+            "browser.search.suggest.enabled.private" = false;
+            "browser.urlbar.showSearchSuggestionsFirst" = false;
+            "browser.urlbar.suggest.trending" = false;
+            "browser.urlbar.suggest.history" = true;
+            "browser.urlbar.suggest.bookmark" = true;
+            "browser.urlbar.suggest.openpage" = true;
+            "browser.urlbar.suggest.topsites" = true;
+            "browser.urlbar.suggest.recentsearches" = true;
+            "browser.urlbar.suggest.engines" = false;
+            "browser.urlbar.suggest.quickactions" = false;
 
             # What to sync
             "services.sync.engine.bookmarks" = true;
