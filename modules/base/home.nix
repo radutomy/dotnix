@@ -34,6 +34,7 @@
           fastfetch
           yazi
           geekbench
+          poppler-utils
         ];
 
         shellAliases = {

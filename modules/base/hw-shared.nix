@@ -38,10 +38,10 @@ _: {
           right end
           up pgup
           down pgdn
-          h (tap-dance-eager 180 (left home))
+          h (tap-dance-eager 160 (left home))
           j down
           k up
-          l (tap-dance-eager 180 (right end))
+          l (tap-dance-eager 160 (right end))
         )
       '';
     };
