@@ -50,7 +50,7 @@ end, { noremap = true, silent = false, desc = "Copy folder location" })
 vim.keymap.set(
 	"n",
 	"<F5>",
-	function() vim.cmd [[restart lua require("config.restart").restore_last_session()]] end,
+	function() vim.cmd [[restart +qall! lua require("config.restart").restore_last_session()]] end,
 	{ noremap = true, silent = true, desc = "Restart Neovim and restore session" }
 )
 
