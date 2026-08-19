@@ -75,7 +75,10 @@
         # correct switch under Wayland-only COSMIC.
         xserver.videoDrivers = [ "nvidia" ];
 
-        thermald.enable = true;
+        thermald = {
+          enable = true;
+          ignoreCpuidCheck = true;
+        };
 
         # The Thunderbolt domain comes up at security level "user", so attached
         # devices stay unauthorised until boltd approves them.

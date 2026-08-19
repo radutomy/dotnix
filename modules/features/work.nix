@@ -40,8 +40,7 @@ in
       tcpdump
       protobuf
       pkg-config
-      nodejs
-      electron_43
+      nodejs-slim
       pnpm
 
       gst_all_1.gstreamer
@@ -56,7 +55,7 @@ in
 
     home-manager.users.radu = { config, ... }: {
       home.file."src/mosaic-uxs_mosaic-core-rs/justfile".source =
-        config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotnix/work/justfile";
+        config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotnix/wo/justfile";
     };
 
     programs.direnv = {
@@ -65,7 +64,9 @@ in
       nix-direnv.enable = true;
     };
 
-    environment.sessionVariables.ELECTRON_OVERRIDE_DIST_PATH = "${pkgs.electron_43}/bin";
+    environment.sessionVariables.PKG_CONFIG_PATH = pkgs.lib.makeSearchPath "lib/pkgconfig" [
+      pkgs.openssl.dev
+    ];
 
     # nix-ld: lets prebuilt binaries find a dynamic linker
     programs.nix-ld.enable = true;

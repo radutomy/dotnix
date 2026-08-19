@@ -14,19 +14,14 @@
         packages = with pkgs; [
           nh
           lsd
-          jq
           age
           just
           zip
           unzip
           python3
           wget
-          gh
-          ripgrep
-          fd
           lsof
           sqlite
-          shellcheck
           yq-go
           xxd
           dnsutils
@@ -34,7 +29,18 @@
           fastfetch
           yazi
           geekbench
+
+          # Mostly used by the AI tool
+          ripgrep
+          fd
+          jq
+          shellcheck
+          gh
           poppler-utils
+          ast-grep
+          tokei
+          hyperfine
+          nix-tree
         ];
 
         shellAliases = {
