@@ -40,7 +40,6 @@ in
       self.modules.nixos.nixpcPreservation
       self.modules.nixos.nixpcHardware
       self.modules.nixos.cosmic
-      self.modules.nixos.sunshine
       self.modules.nixos.steam
       self.modules.nixos.hwshared
       {

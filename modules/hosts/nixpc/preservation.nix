@@ -37,7 +37,6 @@
         ".config/discord"
         ".config/Simplenote"
         ".config/spotify"
-        ".config/sunshine"
         ".local/state/cosmic-comp"
         ".local/state/nvim"
         ".local/share/fish"
