@@ -1,7 +1,11 @@
 frontend := "../mosaic-uxs_mosaic-frontend"
 
 mosaic-core:
+    cargo build --bin video_grpc_server
     cargo run -p mosaic --bin mosaic
+
+mosaic-driver:
+    cargo run -p mosaic-driver -- "qsim-default"
 
 mosaic-ui:
     pnpm --dir {{ frontend }} dev
@@ -18,5 +22,4 @@ mosaic:
     pnpx concurrently -k \
         "just mosaic-core" \
         "just mosaic-ui" \
-        "just silvus"
-
+        "pnpx wait-on tcp:127.0.0.1:3000 && just mosaic-driver" \

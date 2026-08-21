@@ -71,7 +71,7 @@ _: {
             "media.eme.enabled" = true;
             "accessibility.typeaheadfind" = true;
             "network.trr.mode" = 5;
-            "media.autoplay.default" = 5;
+            "media.autoplay.default" = 1;
             "app.shield.optoutstudies.enabled" = false;
             "app.normandy.enabled" = false;
             "browser.aboutConfig.showWarning" = false;
