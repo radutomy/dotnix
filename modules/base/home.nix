@@ -29,6 +29,7 @@
           fastfetch
           yazi
           geekbench
+          witr
 
           # Mostly used by the AI tool
           ripgrep

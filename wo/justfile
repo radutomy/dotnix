@@ -5,7 +5,7 @@ mosaic-core:
     cargo run -p mosaic --bin mosaic
 
 mosaic-driver:
-    cargo run -p mosaic-driver -- "qsim-default"
+    cargo run -p mosaic-driver -- qsim 127.0.0.1:6500
 
 mosaic-ui:
     pnpm --dir {{ frontend }} dev
