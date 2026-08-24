@@ -66,7 +66,28 @@ in
 
     environment.sessionVariables.PKG_CONFIG_PATH = pkgs.lib.makeSearchPath "lib/pkgconfig" [
       pkgs.openssl.dev
+      pkgs.glib.dev
+      pkgs.gst_all_1.gstreamer.dev
+      pkgs.gst_all_1.gst-plugins-base.dev
+      pkgs.gst_all_1.gst-plugins-good.dev
+      pkgs.gst_all_1.gst-plugins-bad.dev
+      pkgs.gst_all_1.gst-plugins-ugly.dev
+      pkgs.gst_all_1.gst-libav.dev
+      pkgs.gst_all_1.gst-rtsp-server.dev
+      pkgs.gst_all_1.gst-editing-services.dev
     ];
+
+    environment.sessionVariables.GST_PLUGIN_SYSTEM_PATH_1_0 =
+      pkgs.lib.makeSearchPath "lib/gstreamer-1.0" [
+        pkgs.gst_all_1.gstreamer.out
+        pkgs.gst_all_1.gst-plugins-base.out
+        pkgs.gst_all_1.gst-plugins-good.out
+        pkgs.gst_all_1.gst-plugins-bad.out
+        pkgs.gst_all_1.gst-plugins-ugly.out
+        pkgs.gst_all_1.gst-libav.out
+        pkgs.gst_all_1.gst-rtsp-server.out
+        pkgs.gst_all_1.gst-editing-services.out
+      ];
 
     # nix-ld: lets prebuilt binaries find a dynamic linker
     programs.nix-ld.enable = true;
