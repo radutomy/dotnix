@@ -1,5 +1,5 @@
 { self, ... }: {
-  flake.modules.homeManager.ai = { config, ... }: {
+  flake.modules.homeManager.ai = { config, pkgs, ... }: {
     xdg.configFile = {
       "codex/AGENTS.md".source = "${self}/agents/AGENTS.md";
       "codex/OPINIONS.md".source = "${self}/agents/OPINIONS.md";
@@ -45,9 +45,10 @@
           "git-branch"
           "weekly-limit"
         ];
-        projects."${config.home.homeDirectory}/dotnix".trust_level = "trusted";
       };
     };
+
+    home.file."/.config/codex/config.toml".target = ".config/codex/nix.config.toml";
 
     # No settings: config.json also holds the login token now that
     # .config/copilot is persisted, so HM must not manage that file.

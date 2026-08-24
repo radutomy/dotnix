@@ -51,8 +51,8 @@
           cat = "bat --style=plain";
           p = "python";
           gg = "lazygit";
-          cx = "codex";
-          cxr = "codex resume";
+          cx = "codex --profile nix";
+          cxr = "codex --profile nix resume";
           cc = "claude";
           ccr = "claude --resume";
           copilot = "copilot --allow-all";
