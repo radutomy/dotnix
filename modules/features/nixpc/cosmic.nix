@@ -30,12 +30,18 @@ _: {
   };
 
   flake.modules.homeManager.cosmic =
-    { config, pkgs, ... }:
+    { lib, pkgs, ... }:
     {
       home.packages = with pkgs; [
         cosmic-ext-applet-weather
         cosmic-ext-applet-minimon
         cosmic-ext-calculator
+        cosmic-ext-ctl # `just cosmic`
       ];
+
+      home.activation.cosmicSettings = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+        run ${lib.getExe pkgs.cosmic-ext-ctl} apply ${../../../cosmic/config.json}
+        run ${lib.getExe pkgs.killall} cosmic-panel || true
+      '';
     };
 }

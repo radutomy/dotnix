@@ -10,7 +10,8 @@ switch:
     {{ switch_command }}
 
 cosmic:
-    rsync -a --delete ~/.config/cosmic/ ./cosmic/
+    cosmic-ctl backup -x config /tmp/cosmic-backup.json
+    jq -S '.operations |= sort_by(.component, .version)' /tmp/cosmic-backup.json > cosmic/config.json
 
 update:
     nix flake update
