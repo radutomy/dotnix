@@ -14,49 +14,52 @@
       };
       # Makes Codex use $XDG_CONFIG_HOME/codex via CODEX_HOME
       preferXdgDirectories = true;
+
+      file."/.config/codex/config.toml".target = ".config/codex/nix.config.toml";
     };
 
-    programs.claude-code = {
-      enable = true;
-      configDir = "${config.xdg.configHome}/claude";
-      settings = {
-        permissions.defaultMode = "bypassPermissions";
-        enabledPlugins = {
-          "lua-lsp@claude-plugins-official" = true;
-          "rust-analyzer-lsp@claude-plugins-official" = true;
+    programs = {
+      claude-code = {
+        enable = true;
+        configDir = "${config.xdg.configHome}/claude";
+        settings = {
+          permissions.defaultMode = "bypassPermissions";
+          enabledPlugins = {
+            "lua-lsp@claude-plugins-official" = true;
+            "rust-analyzer-lsp@claude-plugins-official" = true;
+          };
+          effortLevel = "medium";
+          skipDangerousModePermissionPrompt = true;
+          theme = "dark";
+          #tui = "fullscreen";
         };
-        effortLevel = "medium";
-        skipDangerousModePermissionPrompt = true;
-        theme = "dark";
-        #tui = "fullscreen";
+      };
+
+      codex = {
+        enable = true;
+        settings = {
+          approval_policy = "never";
+          sandbox_mode = "danger-full-access";
+          bypass_hook_trust = true;
+          notice.hide_rate_limit_model_nudge = true;
+          tui.status_line = [
+            "model-with-reasoning"
+            "current-dir"
+            "git-branch"
+            "weekly-limit"
+          ];
+        };
+      };
+
+      # No settings: config.json also holds the login token now that
+      # .config/copilot is persisted, so HM must not manage that file.
+      # Set footer display (showModelEffort/showDirectory/showBranch/showQuota)
+      # via Copilot's own /settings menu instead.
+      github-copilot-cli = {
+        enable = true;
+        context = "${self}/agents/AGENTS.md";
       };
     };
 
-    programs.codex = {
-      enable = true;
-      settings = {
-        approval_policy = "never";
-        sandbox_mode = "danger-full-access";
-        bypass_hook_trust = true;
-        notice.hide_rate_limit_model_nudge = true;
-        tui.status_line = [
-          "model-with-reasoning"
-          "current-dir"
-          "git-branch"
-          "weekly-limit"
-        ];
-      };
-    };
-
-    home.file."/.config/codex/config.toml".target = ".config/codex/nix.config.toml";
-
-    # No settings: config.json also holds the login token now that
-    # .config/copilot is persisted, so HM must not manage that file.
-    # Set footer display (showModelEffort/showDirectory/showBranch/showQuota)
-    # via Copilot's own /settings menu instead.
-    programs.github-copilot-cli = {
-      enable = true;
-      context = "${self}/agents/AGENTS.md";
-    };
   };
 }
