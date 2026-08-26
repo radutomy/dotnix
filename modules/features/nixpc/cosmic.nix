@@ -1,4 +1,5 @@
 _: {
+  # System-level flake
   flake.modules.nixos.cosmic = { pkgs, ... }: {
     fonts.packages = with pkgs; [
       jetbrains-mono
@@ -29,6 +30,7 @@ _: {
     };
   };
 
+  # User-level flake
   flake.modules.homeManager.cosmic =
     { lib, pkgs, ... }:
     {
