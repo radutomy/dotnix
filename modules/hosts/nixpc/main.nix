@@ -11,7 +11,6 @@ let
         self.modules.homeManager.nvim
         self.modules.homeManager.rust
         self.modules.homeManager.tmux
-        self.modules.homeManager.coscli
         self.modules.homeManager.cosmic
         self.modules.homeManager.firefox
         self.modules.homeManager.glances

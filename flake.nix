@@ -11,7 +11,7 @@
     nix-darwin.url = "github:nix-darwin/nix-darwin/master";
     agenix.url = "github:ryantm/agenix";
 
-    # Used by sunshine.nix and cos-cli.nix; remove it if both modules are removed.
+    # Used by nixqs/autostart.nix; remove it if that module goes.
     cos-cli.url = "github:estin/cos-cli";
     cosmic-process-applet.url = "github:radutomy/cosmic-process-applet";
   };
