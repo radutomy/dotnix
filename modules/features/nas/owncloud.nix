@@ -8,7 +8,6 @@ _: {
     }:
     {
       age.secrets.owncloud.file = ../../../secrets/owncloud.age;
-
       networking.hosts."127.0.0.1" = [ "owncloud.me" ];
 
       services.ocis = {

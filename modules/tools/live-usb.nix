@@ -1,5 +1,4 @@
-{ self, inputs, ... }:
-{
+{ self, inputs, ... }: {
   flake.nixosConfigurations.liveUsb = inputs.nixpkgs.lib.nixosSystem {
     modules = [
       "${inputs.nixpkgs}/nixos/modules/installer/cd-dvd/iso-image.nix"
@@ -44,15 +43,13 @@
     ];
   };
 
-  perSystem =
-    { pkgs, ... }:
-    {
-      apps.liveUsb.program = pkgs.writeShellApplication {
-        name = "copy-live-usb-iso";
-        text = ''
-          cp ${self.nixosConfigurations.liveUsb.config.system.build.isoImage}/iso/*.iso /tmp/live-usb.iso
-          echo /tmp/live-usb.iso
-        '';
-      };
+  perSystem = { pkgs, ... }: {
+    apps.liveUsb.program = pkgs.writeShellApplication {
+      name = "copy-live-usb-iso";
+      text = ''
+        cp ${self.nixosConfigurations.liveUsb.config.system.build.isoImage}/iso/*.iso /tmp/live-usb.iso
+        echo /tmp/live-usb.iso
+      '';
     };
+  };
 }

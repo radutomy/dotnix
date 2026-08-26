@@ -46,25 +46,23 @@ _: {
     i18n.defaultLocale = "en_GB.UTF-8";
     system.stateVersion = "26.05";
 
-    home-manager.users.radu =
-      { config, ... }:
-      {
-        xdg.userDirs = {
-          enable = true;
-          createDirectories = false;
+    home-manager.users.radu = { config, ... }: {
+      xdg.userDirs = {
+        enable = true;
+        createDirectories = false;
 
-          desktop = null;
-          documents = null;
-          music = null;
-          pictures = null;
-          projects = null;
-          publicShare = null;
-          templates = null;
-          videos = null;
-        };
-
-        xdg.configFile."wezterm".source =
-          config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotnix/wezterm";
+        desktop = null;
+        documents = null;
+        music = null;
+        pictures = null;
+        projects = null;
+        publicShare = null;
+        templates = null;
+        videos = null;
       };
+
+      xdg.configFile."wezterm".source =
+        config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotnix/wezterm";
+    };
   };
 }

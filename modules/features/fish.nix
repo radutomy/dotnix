@@ -1,47 +1,45 @@
 _: {
-  flake.modules.homeManager.fish =
-    { pkgs, ... }:
-    {
-      programs = {
-        fzf.enable = true;
+  flake.modules.homeManager.fish = { pkgs, ... }: {
+    programs = {
+      fzf.enable = true;
 
-        zoxide = {
-          enable = true;
-          options = [ "--cmd cd" ];
-        };
+      zoxide = {
+        enable = true;
+        options = [ "--cmd cd" ];
+      };
 
-        fish = {
-          enable = true;
-          plugins = [
-            {
-              name = "autopair";
-              src = pkgs.fishPlugins.autopair.src;
-            }
-            {
-              name = "hydro";
-              src = pkgs.fishPlugins.hydro.src;
-            }
-          ];
+      fish = {
+        enable = true;
+        plugins = [
+          {
+            name = "autopair";
+            src = pkgs.fishPlugins.autopair.src;
+          }
+          {
+            name = "hydro";
+            src = pkgs.fishPlugins.hydro.src;
+          }
+        ];
 
-          shellInit = ''
-            function fish_title; prompt_pwd; end
+        shellInit = ''
+          function fish_title; prompt_pwd; end
 
-            set fish_prompt_pwd_dir_length 100 # max length of dir path
-            set fish_greeting # surpress fish greeting
-            set hydro_color_pwd green
-            set hydro_color_git brblack
-            set hydro_color_prompt white
+          set fish_prompt_pwd_dir_length 100 # max length of dir path
+          set fish_greeting # surpress fish greeting
+          set hydro_color_pwd green
+          set hydro_color_git brblack
+          set hydro_color_prompt white
 
-            fish_add_path ~/.cargo/bin
-          '';
+          fish_add_path ~/.cargo/bin
+        '';
 
-          interactiveShellInit = ''
-            bind \ce 'clear; commandline -f repaint'
-            function __auto_ls --on-variable PWD
-              lsd -F
-            end
-          '';
-        };
+        interactiveShellInit = ''
+          bind \ce 'clear; commandline -f repaint'
+          function __auto_ls --on-variable PWD
+            lsd -F
+          end
+        '';
       };
     };
+  };
 }

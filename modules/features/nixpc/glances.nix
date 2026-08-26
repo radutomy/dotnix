@@ -1,5 +1,4 @@
-{ ... }:
-{
+_: {
   flake.modules.homeManager.glances = { pkgs, ... }: {
     home.packages = [ pkgs.glances ];
 

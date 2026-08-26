@@ -1,6 +1,5 @@
 # nix-on-ubuntu machine (not NixOS): standalone home-manager only.
-{ self, inputs, ... }:
-{
+{ self, inputs, ... }: {
   flake.homeConfigurations.radu = inputs.home-manager.lib.homeManagerConfiguration {
     pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
     modules = [
