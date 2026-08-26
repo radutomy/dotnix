@@ -1,19 +1,53 @@
 {
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    flake-parts.url = "github:hercules-ci/flake-parts";
     import-tree.url = "github:vic/import-tree";
-
-    nixos-wsl.url = "github:nix-community/NixOS-WSL";
-    disko.url = "github:nix-community/disko";
     preservation.url = "github:nix-community/preservation";
-    home-manager.url = "github:nix-community/home-manager";
-    nix-darwin.url = "github:nix-darwin/nix-darwin/master";
-    agenix.url = "github:ryantm/agenix";
+
+    flake-parts = {
+      url = "github:hercules-ci/flake-parts";
+      inputs.nixpkgs-lib.follows = "nixpkgs";
+    };
+
+    nixos-wsl = {
+      url = "github:nix-community/NixOS-WSL";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    nix-darwin = {
+      url = "github:nix-darwin/nix-darwin/master";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        home-manager.follows = "home-manager";
+        darwin.follows = "nix-darwin";
+      };
+    };
 
     # Used by nixqs/autostart.nix; remove it if that module goes.
-    cos-cli.url = "github:estin/cos-cli";
-    cosmic-process-applet.url = "github:radutomy/cosmic-process-applet";
+    cos-cli = {
+      url = "github:estin/cos-cli";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    cosmic-process-applet = {
+      url = "github:radutomy/cosmic-process-applet";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
