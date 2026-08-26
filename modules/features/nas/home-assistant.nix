@@ -3,9 +3,10 @@ _: {
   flake.modules.nixos.home-assistant = { config, pkgs, ... }: {
     age.secrets.home-assistant.file = ../../../secrets/home-assistant.age;
 
+    networking.firewall.allowedTCPPorts = [ 8123 ];
+
     services.home-assistant = {
       enable = true;
-      openFirewall = true;
       extraComponents = [
         "default_config"
         "tplink"
