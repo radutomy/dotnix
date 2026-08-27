@@ -5,10 +5,13 @@ mosaic-core:
     cargo run -p mosaic --bin mosaic
 
 mosaic-driver:
-    cargo run -p mosaic-driver -- qsim 127.0.0.1:6500
+    cargo run -p mosaic-driver --bin mosaic-driver -- qsim 127.0.0.1:6500
 
 mosaic-ui:
     pnpm --dir {{ frontend }} dev
+
+radionor:
+    cargo run -p radionor-client
 
 mosaic-dev:
     pnpx concurrently -k \
@@ -22,4 +25,6 @@ mosaic:
     pnpx concurrently -k \
         "just mosaic-core" \
         "just mosaic-ui" \
+        "just silvus" \
+        "just radionor" \
         "pnpx wait-on tcp:127.0.0.1:3000 && just mosaic-driver" \
