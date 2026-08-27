@@ -42,6 +42,7 @@ in
       pkg-config
       nodejs-slim
       pnpm
+      nssTools
 
       gst_all_1.gstreamer
       gst_all_1.gst-plugins-base
@@ -78,16 +79,17 @@ in
     ];
 
     environment.sessionVariables.GST_PLUGIN_SYSTEM_PATH_1_0 =
-      pkgs.lib.makeSearchPath "lib/gstreamer-1.0" [
-        pkgs.gst_all_1.gstreamer.out
-        pkgs.gst_all_1.gst-plugins-base.out
-        pkgs.gst_all_1.gst-plugins-good.out
-        pkgs.gst_all_1.gst-plugins-bad.out
-        pkgs.gst_all_1.gst-plugins-ugly.out
-        pkgs.gst_all_1.gst-libav.out
-        pkgs.gst_all_1.gst-rtsp-server.out
-        pkgs.gst_all_1.gst-editing-services.out
-      ];
+      pkgs.lib.makeSearchPath "lib/gstreamer-1.0"
+        [
+          pkgs.gst_all_1.gstreamer.out
+          pkgs.gst_all_1.gst-plugins-base.out
+          pkgs.gst_all_1.gst-plugins-good.out
+          pkgs.gst_all_1.gst-plugins-bad.out
+          pkgs.gst_all_1.gst-plugins-ugly.out
+          pkgs.gst_all_1.gst-libav.out
+          pkgs.gst_all_1.gst-rtsp-server.out
+          pkgs.gst_all_1.gst-editing-services.out
+        ];
 
     # nix-ld: lets prebuilt binaries find a dynamic linker
     programs.nix-ld.enable = true;
