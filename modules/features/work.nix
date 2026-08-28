@@ -73,7 +73,6 @@ in
       pkgs.gst_all_1.gst-plugins-good.dev
       pkgs.gst_all_1.gst-plugins-bad.dev
       pkgs.gst_all_1.gst-plugins-ugly.dev
-      pkgs.gst_all_1.gst-libav.dev
       pkgs.gst_all_1.gst-rtsp-server.dev
       pkgs.gst_all_1.gst-editing-services.dev
     ];

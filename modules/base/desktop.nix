@@ -30,6 +30,7 @@
       chromium
       spotify
       bitwarden-desktop
+      signal-desktop
     ];
   };
 }
