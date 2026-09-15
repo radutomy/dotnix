@@ -31,7 +31,6 @@ in
       git
       git-lfs
       just
-      mise
       lazysql
       mold
       ethtool
@@ -55,6 +54,11 @@ in
     ];
 
     home-manager.users.radu = { config, ... }: {
+      programs.mise = {
+        enable = true;
+        enableFishIntegration = true;
+      };
+
       home.file."src/mosaic-uxs_mosaic-core-rs/justfile".source =
         config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotnix/wo/justfile";
     };
