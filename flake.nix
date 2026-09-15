@@ -38,15 +38,18 @@
       };
     };
 
-    # Used by nixqs/autostart.nix; remove it if that module goes.
-    cos-cli = {
-      url = "github:estin/cos-cli";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     cosmic-process-applet = {
       url = "github:radutomy/cosmic-process-applet";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # used by autostart.nix - remove this if that module goes
+    cos-cli = {
+      url = "github:estin/cos-cli";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        naersk.url = "github:nix-community/naersk";
+      };
     };
   };
 
