@@ -18,6 +18,7 @@
       imports = [ self.modules.nixos.nixqsMesaPin ];
 
       boot = {
+        kernelPackages = pkgs.linuxPackages_latest;
         initrd.availableKernelModules = [
           "nvme"
           "xhci_pci"
