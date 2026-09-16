@@ -39,7 +39,7 @@
             size = "100%";
             content = {
               type = "luks";
-              name = "cryptroot-nixqs";
+              name = "cryptroot";
               askPassword = true;
               settings.allowDiscards = true;
 

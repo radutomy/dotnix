@@ -31,6 +31,7 @@
       spotify
       bitwarden-desktop
       signal-desktop
+      cheese
     ];
   };
 }
