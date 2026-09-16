@@ -7,6 +7,7 @@
       self.modules.nixos.nixpcDisko
       self.modules.nixos.nixpcPreservation
       self.modules.nixos.nixpcHardware
+      self.modules.nixos.work
       {
         home-manager.users.radu = { pkgs, ... }: {
           imports = [
