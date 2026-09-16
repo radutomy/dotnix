@@ -13,6 +13,7 @@
           imports = [
             self.modules.homeManager.desktop
             self.modules.homeManager.glances
+            self.modules.homeManager.autostart
           ];
           home.packages = [ pkgs.discord ];
         };
