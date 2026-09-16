@@ -25,7 +25,7 @@ _: {
 
         sudo disko-install \
           --flake "path:$target/dotnix#nixpc" \
-          --disk main "$1" \
+          --disk nixpc "$1" \
           --extra-files "$target" /persistent/home/radu
       '';
     };

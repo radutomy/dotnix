@@ -39,6 +39,7 @@
         ".config/discord"
         ".config/Simplenote"
         ".config/spotify"
+        ".config/teams-for-linux"
         ".local/state/cosmic-comp"
         ".local/state/nvim"
         ".local/share/fish"

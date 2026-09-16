@@ -39,16 +39,9 @@
             size = "100%";
             content = {
               type = "luks";
-              name = "cryptroot";
-              # Prompted interactively by disko-install; never stored in this repo.
+              name = "cryptroot-nixqs";
               askPassword = true;
               settings.allowDiscards = true;
-
-              # Live-only, not declared here, wiped on reinstall: TPM + short PIN
-              # as a convenience unlock alongside the passphrase above. No PCR
-              # binding, so it's not tamper detection, just a shorter prompt.
-              # Re-enroll: sudo systemd-cryptenroll --tpm2-device=auto --tpm2-with-pin=yes <root partition> (root partition example: /dev/nvme1n1p2)
-              # Remove:    sudo systemd-cryptenroll --wipe-slot=tpm2 <root partition>
 
               content = {
                 type = "btrfs";

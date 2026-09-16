@@ -1,10 +1,12 @@
-{ inputs, ... }:
-{
+{ inputs, ... }: {
   flake.modules.nixos.nixpcDisko = {
     imports = [ inputs.disko.nixosModules.disko ];
 
     fileSystems."/nix".neededForBoot = true;
     fileSystems."/persistent".neededForBoot = true;
+
+    zramSwap.enable = true;
+    boot.kernelParams = [ "nohibernate" ];
 
     disko.devices.nodev."/" = {
       fsType = "tmpfs";
@@ -14,7 +16,7 @@
       ];
     };
 
-    disko.devices.disk.main = {
+    disko.devices.disk.nixpc = {
       type = "disk";
       content = {
         type = "gpt";
@@ -33,39 +35,35 @@
               mountOptions = [ "umask=0077" ];
             };
           };
-          swap = {
-            size = "64G";
-            content = {
-              type = "swap";
-              extraArgs = [
-                "-L"
-                "swap"
-              ];
-            };
-          };
           root = {
             size = "100%";
             content = {
-              type = "btrfs";
-              #extraArgs = [ "-f" ];
-              preCreateHook = ''
-                mkfs.btrfs -f "$device"
-                udevadm trigger --settle --name-match="$device"
-              '';
-              subvolumes = {
-                "/nix" = {
-                  mountpoint = "/nix";
-                  mountOptions = [
-                    "noatime"
-                    "compress=zstd"
-                  ];
-                };
-                "/persistent" = {
-                  mountpoint = "/persistent";
-                  mountOptions = [
-                    "noatime"
-                    "compress=zstd"
-                  ];
+              type = "luks";
+              name = "cryptroot-nixpc";
+              askPassword = true;
+              settings.allowDiscards = true;
+
+              content = {
+                type = "btrfs";
+                preCreateHook = ''
+                  mkfs.btrfs -f "$device"
+                  udevadm trigger --settle --name-match="$device"
+                '';
+                subvolumes = {
+                  "/nix" = {
+                    mountpoint = "/nix";
+                    mountOptions = [
+                      "noatime"
+                      "compress=zstd"
+                    ];
+                  };
+                  "/persistent" = {
+                    mountpoint = "/persistent";
+                    mountOptions = [
+                      "noatime"
+                      "compress=zstd"
+                    ];
+                  };
                 };
               };
             };
