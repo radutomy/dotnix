@@ -1,6 +1,7 @@
 _: {
-  flake.modules.nixos.nixpcHardware = { config, ... }: {
+  flake.modules.nixos.nixpcHardware = { config, pkgs, ... }: {
     boot = {
+      kernelPackages = pkgs.linuxPackages_latest;
       initrd.availableKernelModules = [
         "nvme"
         "xhci_pci"
@@ -72,7 +73,7 @@ _: {
       lact = {
         enable = true;
         settings = {
-          version = 6;
+          version = 7;
           daemon = {
             log_level = "info";
             admin_group = "wheel";
