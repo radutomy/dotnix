@@ -53,11 +53,13 @@ in
       gst_all_1.gst-editing-services
     ];
 
-    home-manager.users.radu = { config, ... }: {
+    home-manager.users.radu = { config, pkgs, ... }: {
       programs.mise = {
         enable = true;
         enableFishIntegration = true;
       };
+
+      home.packages = [ pkgs.teams-for-linux ];
 
       home.file."src/mosaic-uxs_mosaic-core-rs/justfile".source =
         config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotnix/wo/justfile";

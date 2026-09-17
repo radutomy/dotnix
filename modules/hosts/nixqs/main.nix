@@ -9,12 +9,11 @@
       self.modules.nixos.nixqsHardware
       self.modules.nixos.work
       {
-        home-manager.users.radu = { pkgs, ... }: {
+        home-manager.users.radu = {
           imports = [
             self.modules.homeManager.desktop
             self.modules.homeManager.autostart
           ];
-          home.packages = [ pkgs.teams-for-linux ];
         };
       }
     ];
