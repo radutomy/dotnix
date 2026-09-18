@@ -11,7 +11,7 @@
         if [ -d "$HOME/dotnix" ]; then
           git -C "$HOME/dotnix" pull --ff-only
         else
-          git clone https://github.com/radutomy/dotnix "$HOME/dotnix"
+          git clone -c remote.origin.pushurl=git@github.com:radutomy/dotnix.git https://github.com/radutomy/dotnix "$HOME/dotnix"
         fi
 
         if [ ! -s /var/lib/agenix/nas.agekey ]; then
