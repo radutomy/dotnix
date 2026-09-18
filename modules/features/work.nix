@@ -61,6 +61,10 @@ in
 
       home.packages = [ pkgs.teams-for-linux ];
 
+      xdg.configFile."teams-for-linux/config.json".text = builtins.toJSON {
+        frame = false;
+      };
+
       home.file."src/mosaic-uxs_mosaic-core-rs/justfile".source =
         config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotnix/wo/justfile";
     };
