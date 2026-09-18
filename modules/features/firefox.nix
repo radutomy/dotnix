@@ -1,22 +1,6 @@
 _: {
   flake.modules.homeManager.firefox =
-    { pkgs, ... }:
-    let
-      # Update after a destructive NAS reinstall recreates Caddy's local CA
-      nasRoot = pkgs.writeText "nas-root.crt" ''
-        -----BEGIN CERTIFICATE-----
-        MIIBpDCCAUqgAwIBAgIRAMaSUqQLiXfzsyN/MjlTGScwCgYIKoZIzj0EAwIwMDEu
-        MCwGA1UEAxMlQ2FkZHkgTG9jYWwgQXV0aG9yaXR5IC0gMjAyNiBFQ0MgUm9vdDAe
-        Fw0yNjA3MzAxOTMzMTNaFw0zNjA2MDcxOTMzMTNaMDAxLjAsBgNVBAMTJUNhZGR5
-        IExvY2FsIEF1dGhvcml0eSAtIDIwMjYgRUNDIFJvb3QwWTATBgcqhkjOPQIBBggq
-        hkjOPQMBBwNCAAR0QkT23APgzSiQcqgkgD3+oNmhbkNrC5Hn+uq1N5PCv7NmG7cD
-        p4tIYguv/G9OrpTpFqsd+jCM3oaHoypWlC5co0UwQzAOBgNVHQ8BAf8EBAMCAQYw
-        EgYDVR0TAQH/BAgwBgEB/wIBATAdBgNVHQ4EFgQUv2Tz0LZ0znTc1/AR5Q3phXqY
-        n+swCgYIKoZIzj0EAwIDSAAwRQIgMfGCC5KVMatlEVRzkWgItrjpQGnzeaylLoSp
-        4RNXygsCIQDneoXwW18AyTJnjUfjio87q4c0KbKZZmrqHIAxyISMtQ==
-        -----END CERTIFICATE-----
-      '';
-    in
+    _:
     {
       home.file.".config/mozilla/firefox/default/customKeys.json" = {
         force = true;
@@ -40,7 +24,6 @@ _: {
 
       programs.firefox = {
         enable = true;
-        policies.Certificates.Install = [ (toString nasRoot) ];
         profiles.default = {
           settings = {
             "browser.newtabpage.enabled" = false;

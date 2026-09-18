@@ -43,23 +43,6 @@ _: {
           }
         ];
 
-        filtering.rewrites =
-          map
-            (domain: {
-              enabled = true;
-              inherit domain;
-              answer = "192.168.0.2";
-            })
-            [
-              "nas.me"
-              "home.me"
-              "adguard.me"
-              "immich.me"
-              "invidious.me"
-              "owncloud.me"
-              "drive.me"
-            ];
-
         # AdGuard is the LAN's DHCP server. The Sky hub's built-in DHCP
         # ("Use Router as DHCP Server" at 192.168.0.1) must stay disabled,
         # or the two would hand out conflicting leases.

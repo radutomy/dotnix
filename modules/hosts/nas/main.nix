@@ -29,13 +29,11 @@ in
       modules = [
         hostModule
         self.modules.nixos.adguard
-        self.modules.nixos.caddy
         self.modules.nixos.filebrowser
         self.modules.nixos.glances
         self.modules.nixos.home-assistant
         self.modules.nixos.immich
         self.modules.nixos.invidious
-        self.modules.nixos.owncloud
         self.modules.nixos.nfs
         self.modules.nixos.rclone
         self.modules.nixos.tailscale
