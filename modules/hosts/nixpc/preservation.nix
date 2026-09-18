@@ -21,6 +21,7 @@
         }
         "/etc/NetworkManager/system-connections"
         "/var/lib/bluetooth"
+        "/var/lib/tailscale"
         "/var/log"
       ];
 
