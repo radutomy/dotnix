@@ -1,5 +1,11 @@
 frontend := "../mosaic-uxs_mosaic-frontend"
 
+codex-push:
+    {{ justfile_directory() }}/codex-context.sh push
+
+codex-pull:
+    {{ justfile_directory() }}/codex-context.sh pull
+
 mosaic-core:
     cargo build --bin video_grpc_server
     cargo run -p mosaic --bin mosaic
