@@ -1,7 +1,7 @@
 # Nas
 
 LAN: `192.168.0.2`
-Tailscale: `100.68.220.97` (`nas.feist-tint.ts.net`)
+Tailscale: `100.68.0.2` (`nas.feist-tint.ts.net`)
 
 ## Web services
 

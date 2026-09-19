@@ -6,6 +6,7 @@ _: {
     extraSetFlags = [
       "--advertise-exit-node"
       "--advertise-routes=192.168.0.0/24"
+      "--accept-dns=false"
     ];
   };
 }
