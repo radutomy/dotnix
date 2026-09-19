@@ -69,6 +69,13 @@ in
         config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotnix/wo/justfile";
     };
 
+    preservation.preserveAt."/persistent".users.radu.directories = [
+      ".config/teams-for-linux"
+      ".local/share/direnv"
+      ".local/share/mise"
+      ".local/state/mise"
+    ];
+
     programs.direnv = {
       enable = true;
       enableFishIntegration = true;

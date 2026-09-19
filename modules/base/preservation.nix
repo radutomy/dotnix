@@ -1,5 +1,5 @@
 { inputs, ... }: {
-  flake.modules.nixos.nixpcPreservation = {
+  flake.modules.nixos.preservation = {
     imports = [ inputs.preservation.nixosModules.default ];
 
     preservation.enable = true;
@@ -29,11 +29,12 @@
         ".ssh"
         ".cargo"
         ".cache/nix"
-        ".cache/spotify"
+        # ".cache/spotify"
         ".config/Bitwarden"
         ".config/claude"
         ".config/cosmic"
         ".config/codex"
+        ".config/copilot"
         ".config/mozilla"
         ".config/discord"
         ".config/Simplenote"

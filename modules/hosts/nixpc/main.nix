@@ -5,7 +5,7 @@
       self.modules.nixos.desktop
       self.modules.nixos.nixpc-config
       self.modules.nixos.nixpcDisko
-      self.modules.nixos.nixpcPreservation
+      self.modules.nixos.preservation
       self.modules.nixos.nixpcHardware
       self.modules.nixos.work
       {
