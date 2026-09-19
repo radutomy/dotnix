@@ -32,6 +32,7 @@
       bitwarden-desktop
       signal-desktop
       cheese
+      popsicle
     ];
   };
 }

@@ -29,7 +29,7 @@
         ".ssh"
         ".cargo"
         ".cache/nix"
-        # ".cache/spotify"
+        ".cache/spotify"
         ".config/Bitwarden"
         ".config/claude"
         ".config/cosmic"
