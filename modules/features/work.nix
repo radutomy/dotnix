@@ -39,7 +39,7 @@ in
       tcpdump
       protobuf
       pkg-config
-      nodejs-slim
+      nodejs
       pnpm
       nssTools
 
