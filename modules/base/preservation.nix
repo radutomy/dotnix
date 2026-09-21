@@ -37,6 +37,7 @@
         ".config/copilot"
         ".config/mozilla"
         ".config/discord"
+        ".config/gh"
         ".config/Simplenote"
         ".config/spotify"
         ".local/state/cosmic-comp"
