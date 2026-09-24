@@ -40,7 +40,6 @@
         settings = {
           approval_policy = "never";
           sandbox_mode = "danger-full-access";
-          bypass_hook_trust = true;
           notice.hide_rate_limit_model_nudge = true;
           tui.status_line = [
             "model-with-reasoning"
