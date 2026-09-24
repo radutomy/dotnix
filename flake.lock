@@ -49,26 +49,6 @@
         "type": "github"
       }
     },
-    "cosmic-process-applet": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1784246041,
-        "narHash": "sha256-KyOtkFio0s+jorRqSmCc87sGpcHEveJX1oI+Qpemeaw=",
-        "owner": "radutomy",
-        "repo": "cosmic-process-applet",
-        "rev": "d83b585c3673d93dedcc13cc25cd27e3eb8c1a63",
-        "type": "github"
-      },
-      "original": {
-        "owner": "radutomy",
-        "repo": "cosmic-process-applet",
-        "type": "github"
-      }
-    },
     "disko": {
       "inputs": {
         "nixpkgs": [
@@ -300,7 +280,6 @@
       "inputs": {
         "agenix": "agenix",
         "cos-cli": "cos-cli",
-        "cosmic-process-applet": "cosmic-process-applet",
         "disko": "disko",
         "flake-parts": "flake-parts",
         "home-manager": "home-manager",

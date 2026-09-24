@@ -1,5 +1,5 @@
 # Shared by every NixOS host with a graphical desktop (nixqs, nixpc).
-{ self, inputs, ... }: {
+{ self, ... }: {
   flake.modules.nixos.desktop = {
     imports = [
       self.modules.nixos.cosmic
@@ -22,8 +22,6 @@
     ];
 
     home.packages = with pkgs; [
-      # My taskbar applet for killing memory-heavy processes
-      inputs.cosmic-process-applet.packages.${pkgs.stdenv.hostPlatform.system}.default
       vscodium
       wezterm
       simplenote
