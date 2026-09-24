@@ -23,8 +23,10 @@ _: {
           tmux list-clients 2>/dev/null | string match -qr .; and return
 
           tmux attach 2>/dev/null; and exit
-          tmux new-session -d -s main -n core
-          tmux split-window -h -p 30
+          set -l core ~/src/mosaic-uxs_mosaic-core-rs
+          test -d $core; or set core ~
+          tmux new-session -d -s main -n core -c $core
+          tmux split-window -h -p 30 -c $core
           tmux select-pane -U
           tmux new-window -n stack
           tmux split-window -h -p 30
