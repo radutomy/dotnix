@@ -6,7 +6,7 @@ _: {
       clippy
       rust-analyzer
       rustc
-      rustfmt
+      (rustfmt.override { asNightly = true; })
 
       # Others
       rustlings
