@@ -7,6 +7,7 @@
       "nix-command"
       "flakes"
     ];
+    nix.channel.enable = false;
     programs.fish.enable = true;
     users.defaultUserShell = pkgs.fish;
   };

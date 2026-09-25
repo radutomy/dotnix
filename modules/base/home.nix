@@ -1,4 +1,5 @@
 # Shared Home Manager configuration.
+{ inputs, ... }:
 {
   flake.modules.homeManager.base =
     {
@@ -8,6 +9,8 @@
       ...
     }:
     {
+      imports = [ inputs.nix-index-database.homeModules.nix-index ];
+
       home = {
         stateVersion = "26.05";
 
@@ -59,6 +62,10 @@
           co = "copilot --allow-all";
         };
       };
+
+      # `, <command>` runs any nixpkgs command without installing it
+      programs.nix-index.enable = true;
+      programs.nix-index-database.comma.enable = true;
 
       programs.bat = {
         enable = true;
