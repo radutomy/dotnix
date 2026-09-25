@@ -16,9 +16,7 @@ _: {
       efi.canTouchEfiVariables = true;
     };
 
-    # Quiet boot: suppress the systemd unit spam and harmless kernel
-    # warnings (e.g. usbhid on control-only HID interfaces) before the
-    # LUKS PIN prompt.
+    # Quiet boot: hide systemd unit spam and harmless kernel warnings
     boot.consoleLogLevel = 3;
     boot.kernelParams = [ "quiet" ];
 

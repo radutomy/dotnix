@@ -17,6 +17,10 @@ _: {
       efi.canTouchEfiVariables = true;
     };
 
+    # Quiet boot: hide systemd unit spam and harmless kernel warnings
+    boot.consoleLogLevel = 3;
+    boot.kernelParams = [ "quiet" ];
+
     services.displayManager.autoLogin = {
       enable = true;
       user = "radu";

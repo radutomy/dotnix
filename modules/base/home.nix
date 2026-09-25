@@ -54,8 +54,10 @@
           cat = "bat --style=plain";
           p = "python";
           gg = "lazygit";
-          cx = "codex --profile nix";
-          cxr = "codex --profile nix resume";
+          # cx = "codex --profile nix";
+          # cxr = "codex --profile nix resume";
+          cx = "codex";
+          cxr = "codex resume";
           cc = "claude";
           ccr = "claude --resume";
           copilot = "copilot --allow-all";
@@ -63,28 +65,30 @@
         };
       };
 
-      # `, <command>` runs any nixpkgs command without installing it
-      programs.nix-index.enable = true;
-      programs.nix-index-database.comma.enable = true;
+      programs = {
+        # `, <command>` runs any nixpkgs command without installing it
+        nix-index.enable = true;
+        nix-index-database.comma.enable = true;
 
-      programs.bat = {
-        enable = true;
-        config.theme = "Visual Studio Dark+";
-      };
+        bat = {
+          enable = true;
+          config.theme = "Visual Studio Dark+";
+        };
 
-      programs.ssh = {
-        enable = true;
-        enableDefaultConfig = false;
-        settings = {
-          "*" = {
-            StrictHostKeyChecking = "no";
-            UserKnownHostsFile = "/dev/null";
-            ConnectTimeout = 10;
-          };
-          nas = {
-            HostName = "192.168.0.2";
-            User = "root";
-            ForwardAgent = true;
+        ssh = {
+          enable = true;
+          enableDefaultConfig = false;
+          settings = {
+            "*" = {
+              StrictHostKeyChecking = "no";
+              UserKnownHostsFile = "/dev/null";
+              ConnectTimeout = 10;
+            };
+            nas = {
+              HostName = "192.168.0.2";
+              User = "root";
+              ForwardAgent = true;
+            };
           };
         };
       };
