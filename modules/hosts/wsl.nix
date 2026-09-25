@@ -26,24 +26,26 @@
         wsl.interop.register = true;
         networking.hostName = "wsl";
         environment.sessionVariables.HOST_ICON = "󰖳";
-        system.stateVersion = "26.05";
-
         # make /root accessible from native Windows via File Explorer
         users.users.root = {
           group = lib.mkForce "users";
           homeMode = "775";
         };
 
-        system.activationScripts.rootHomePermissions = lib.stringAfter [ "users" ] ''
-          chown root:users /root
-          chmod 0775 /root
-        '';
+        system = {
+          stateVersion = "26.05";
 
-        # copies wezterm.lua from this repo to wezterm Windows config folder
-        system.activationScripts.weztermCopy = ''
-          WIN_USER=$(ls -d /mnt/c/Users/*/AppData | grep -v Default | head -n 1 | cut -d/ -f5)
-          install -D ${self.outPath}/wezterm/wezterm.lua "/mnt/c/Users/$WIN_USER/.config/wezterm/wezterm.lua"
-        '';
+          activationScripts.rootHomePermissions = lib.stringAfter [ "users" ] ''
+            chown root:users /root
+            chmod 0775 /root
+          '';
+
+          # copies wezterm.lua from this repo to wezterm Windows config folder
+          activationScripts.weztermCopy = ''
+            WIN_USER=$(ls -d /mnt/c/Users/*/AppData | grep -v Default | head -n 1 | cut -d/ -f5)
+            install -D ${self.outPath}/wezterm/wezterm.lua "/mnt/c/Users/$WIN_USER/.config/wezterm/wezterm.lua"
+          '';
+        };
       }
     ];
   };

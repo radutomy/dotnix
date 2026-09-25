@@ -26,12 +26,19 @@
         {
           imports = [ "${modulesPath}/virtualisation/lxc-container.nix" ];
 
-          environment.etc."resolv.conf".source = "/opt/orbstack-guest/etc/resolv.conf";
-          networking.resolvconf.enable = false;
-          environment.shellInit = ''
-            . /opt/orbstack-guest/etc/profile-early
-            . /opt/orbstack-guest/etc/profile-late
-          '';
+          environment = {
+            etc."resolv.conf".source = "/opt/orbstack-guest/etc/resolv.conf";
+            shellInit = ''
+              . /opt/orbstack-guest/etc/profile-early
+              . /opt/orbstack-guest/etc/profile-late
+            '';
+            sessionVariables.HOST_ICON = "󰏖";
+          };
+
+          networking = {
+            hostName = "orb";
+            resolvconf.enable = false;
+          };
 
           systemd.services = {
             "systemd-udevd".serviceConfig.WatchdogSec = 0;
@@ -40,8 +47,6 @@
             "systemd-hostnamed".serviceConfig.WatchdogSec = 0;
           };
 
-          networking.hostName = "orb";
-          environment.sessionVariables.HOST_ICON = "󰏖";
           services.openssh.enable = false; # the lxc-container profile enables it
 
           # make /root accessible from native macOS via Finder

@@ -1,5 +1,5 @@
 { self, ... }: {
-  flake.modules.homeManager.ai = { config, pkgs, ... }: {
+  flake.modules.homeManager.ai = { config, ... }: {
     xdg.configFile = {
       "codex/AGENTS.md".source = "${self}/agents/AGENTS.md";
       "codex/OPINIONS.md".source = "${self}/agents/OPINIONS.md";
