@@ -8,6 +8,10 @@
       "flakes"
     ];
     nix.channel.enable = false;
+    programs.nh.clean = {
+      enable = true;
+      extraArgs = "--keep 10 --no-gcroots";
+    };
     programs.fish.enable = true;
     users.defaultUserShell = pkgs.fish;
   };
