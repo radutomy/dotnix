@@ -29,6 +29,7 @@ in
       modules = [
         hostModule
         self.modules.nixos.adguard
+        self.modules.nixos.alerts
         self.modules.nixos.filebrowser
         self.modules.nixos.glances
         self.modules.nixos.home-assistant
