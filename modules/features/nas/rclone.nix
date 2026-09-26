@@ -2,21 +2,8 @@ _: {
   flake.modules.nixos.rclone = { config, pkgs, ... }: {
     age.secrets."rclone.conf".file = ../../../secrets/rclone.age;
 
-    programs.fuse.userAllowOther = true;
     systemd = {
-
-      tmpfiles.settings.gdrive = {
-        "/gdrive".d = {
-          user = "root";
-          group = "root";
-          mode = "0755";
-        };
-        "/var/cache/rclone-gdrive".d = {
-          user = "root";
-          group = "root";
-          mode = "0700";
-        };
-      };
+      tmpfiles.settings.gdrive."/gdrive".d = { };
 
       services.gdrive = {
         description = "Live Google Drive mount at /gdrive";
@@ -35,6 +22,11 @@ _: {
               --vfs-cache-mode writes \
               --vfs-cache-max-size 20G
           '';
+          # The NFS export cache pins the mount, so drop it or rclone can't unmount
+          ExecStop = "-${pkgs.nfs-utils}/bin/exportfs -f";
+          CacheDirectory = "rclone-gdrive";
+          CacheDirectoryMode = "0700";
+          SuccessExitStatus = 143;
           Restart = "on-failure";
           RestartSec = "10s";
         };
@@ -46,17 +38,12 @@ _: {
         wants = [ "network-online.target" ];
         after = [ "network-online.target" ];
 
-        environment = {
-          RCLONE_CONFIG = config.age.secrets."rclone.conf".path;
-          RCLONE_CREATE_EMPTY_SRC_DIRS = "true";
-          RCLONE_DRIVE_ACKNOWLEDGE_ABUSE = "true";
-        };
-
+        environment.RCLONE_CONFIG = config.age.secrets."rclone.conf".path;
         unitConfig.RequiresMountsFor = "/drive";
 
         serviceConfig = {
           Type = "oneshot";
-          ExecStart = "${pkgs.rclone}/bin/rclone sync gdrive: /drive";
+          ExecStart = "${pkgs.rclone}/bin/rclone sync gdrive: /drive --create-empty-src-dirs --drive-acknowledge-abuse";
 
           CapabilityBoundingSet = "";
           NoNewPrivileges = true;
