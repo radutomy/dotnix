@@ -49,8 +49,11 @@
 
         # User Data
         "dotnix"
-        "Downloads"
         "src"
+        {
+          directory = "Downloads";
+          mountOptions = [ "x-gvfs-hide" ]; # hide it from COSMIC Files
+        }
       ];
     };
 

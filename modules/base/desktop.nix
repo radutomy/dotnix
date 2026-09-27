@@ -83,7 +83,7 @@
       music = null;
       pictures = null;
       projects = null;
-      publicShare = null;
+      publicShare = "/run/user/1000/gvfs/sftp:host=nas,user=root/gdrive";
       templates = null;
       videos = null;
     };

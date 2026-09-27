@@ -34,7 +34,8 @@
     {
       "component": "com.system76.CosmicAudio",
       "entries": {
-        "amplification_sink": "false"
+        "amplification_sink": "false",
+        "amplification_source": "true"
       },
       "operation": "write",
       "version": 1,
@@ -76,6 +77,7 @@
       "entries": {
         "favorites": "[\n    Home,\n    Documents,\n    Downloads,\n    Music,\n    Pictures,\n    Videos,\n    Network(\n        uri: \"sftp://root@nas/gdrive\",\n        name: \"Google Drive\",\n        path: \"/run/user/1000/gvfs/sftp:host=nas,user=root/gdrive\",\n    ),\n]\n",
         "show_details": "false",
+        "show_recents": "false",
         "tab": "(\n    folders_first: true,\n    icon_sizes: (\n        list: 100,\n        grid: 100,\n    ),\n    show_hidden: true,\n    single_click: false,\n    view: List,\n)"
       },
       "operation": "write",
@@ -473,6 +475,7 @@
     {
       "component": "io.github.cosmic_utils.weather-applet",
       "entries": {
+        "use_fahrenheit": "false",
         "use_ip_location": "true"
       },
       "operation": "write",
