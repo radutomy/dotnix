@@ -35,19 +35,19 @@ _: {
       script = ''
         temp=(/sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon*/temp1_input)
         fan=(/sys/devices/platform/nct6687.*/hwmon/hwmon*)
+        t=$(( $(<"$temp") / 100 )) # tenths of °C
         while sleep 2; do
-          c=$(( $(<"$temp") / 1000 ))
+          # Follow a slow average (~15 s) so short Tctl bursts don't spike the fan
+          t=$(( t + ($(<"$temp") / 100 - t) / 8 ))
 
-          if ((c <= 60)); then
+          if ((t <= 600)); then
             value=107 # ≤60°C: 42%
-          elif ((c <= 70)); then
-            value=$((107 + (c - 60) * 15 / 10)) # 60–70°C: 42–48%
-          elif ((c <= 80)); then
-            value=$((122 + (c - 70) * 31 / 10)) # 70–80°C: 48–60%
-          elif ((c <= 85)); then
-            value=$((153 + (c - 80) * 26 / 5)) # 80–85°C: 60–70%
+          elif ((t < 850)); then
+            value=$((107 + (t - 600) * 29 / 250)) # 60–85°C: 42–53%
+          elif ((t < 950)); then
+            value=$((136 + (t - 850) * 17 / 100)) # 85–95°C: 53–60%
           else
-            value=179 # >85°C: 70%
+            value=166 # ≥95°C (TjMax): 65%
           fi
 
           echo 1 > "$fan/pwm1_enable"
