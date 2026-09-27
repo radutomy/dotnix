@@ -19,8 +19,9 @@ _: {
               --allow-other \
               --cache-dir /var/cache/rclone-gdrive \
               --poll-interval 15s \
-              --vfs-cache-mode writes \
-              --vfs-cache-max-size 20G
+              --vfs-cache-mode full \
+              --vfs-cache-max-size 50G \
+              --vfs-cache-max-age 4380h
           '';
           # The NFS export cache pins the mount, so drop it or rclone can't unmount
           ExecStop = "-${pkgs.nfs-utils}/bin/exportfs -f";
