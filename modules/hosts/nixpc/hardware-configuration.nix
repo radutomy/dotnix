@@ -26,6 +26,7 @@ _: {
       enableRedistributableFirmware = true;
       cpu.amd.updateMicrocode = true;
       amdgpu.overdrive.enable = true;
+      wooting.enable = true;
     };
 
     # Control the CPU, pump, and front SSD fans
