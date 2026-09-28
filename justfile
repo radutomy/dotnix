@@ -11,7 +11,7 @@ switch:
 
 cosmic:
     cosmic-ctl backup -x config /tmp/cosmic-backup.json
-    jq -S '.operations |= sort_by(.component, .version)' /tmp/cosmic-backup.json > cosmic/config.json
+    jq -S '.operations |= sort_by(.component, .version)' /tmp/cosmic-backup.json > cosmic/$(hostname).json
 
 update:
     nix flake update

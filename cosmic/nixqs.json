@@ -155,7 +155,7 @@
         "padding": "0",
         "padding_overlap": "0.5",
         "plugins_center": "Some([\n    \"com.system76.CosmicAppList\",\n])",
-        "plugins_wings": "Some(([\n    \"com.system76.CosmicAppletWorkspaces\",\n    \"com.system76.CosmicAppletAudio\",\n    \"io.github.cosmic_utils.weather-applet\",\n    \"io.github.cosmic_utils.minimon-applet\",\n], [\n    \"com.system76.CosmicAppletStatusArea\",\n    \"com.github.radutomy.cosmic-process-applet\",\n    \"com.system76.CosmicAppletNotifications\",\n    \"com.system76.CosmicAppletTiling\",\n    \"com.system76.CosmicAppletNetwork\",\n    \"com.system76.CosmicAppletBattery\",\n    \"com.system76.CosmicAppletPower\",\n    \"com.system76.CosmicAppletTime\",\n]))",
+        "plugins_wings": "Some(([\n    \"com.system76.CosmicAppletWorkspaces\",\n    \"com.system76.CosmicAppletAudio\",\n    \"io.github.cosmic_utils.weather-applet\",\n    \"io.github.cosmic_utils.minimon-applet\",\n], [\n    \"com.system76.CosmicAppletStatusArea\",\n    \"com.system76.CosmicAppletNotifications\",\n    \"com.system76.CosmicAppletTiling\",\n    \"com.system76.CosmicAppletNetwork\",\n    \"com.system76.CosmicAppletBattery\",\n    \"com.system76.CosmicAppletPower\",\n    \"com.system76.CosmicAppletTime\",\n]))",
         "size": "S",
         "size_center": "None",
         "size_wings": "None",
