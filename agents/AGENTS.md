@@ -4,6 +4,7 @@ These are common instructions for all of Radu's agents across all scenarios.
 
 ## General Guidelines
 
+- Never use `gh` to push, edit or modify things yourself on GitHub. You are strictly only allowed to use `gh` to view and read.
 - Never use the em dash "—". Use plain dash "-" instead
 - When writing commit messages, NEVER auto-add your agent name as co-author
 - Do not commit anything by yourself, and generally do not change anything in git without approval
