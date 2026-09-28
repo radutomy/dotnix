@@ -31,7 +31,7 @@
           effortLevel = "medium";
           skipDangerousModePermissionPrompt = true;
           theme = "dark";
-          #tui = "fullscreen";
+          tui = "default"; # fullscreen off
         };
       };
 
@@ -41,6 +41,7 @@
           approval_policy = "never";
           sandbox_mode = "danger-full-access";
           notice.hide_rate_limit_model_nudge = true;
+          tui.fullscreen_transcript = false;
           tui.status_line = [
             "model-with-reasoning"
             "current-dir"
