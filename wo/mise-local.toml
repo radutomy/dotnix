@@ -1,0 +1,23 @@
+[tasks."rust:fmt"]
+tools = { rust = "{{vars.nightly_fmt_toolchain}}" }
+run = "cargo fmt --all"
+
+[tasks."check:fmt"]
+tools = { rust = "{{vars.nightly_fmt_toolchain}}" }
+run = "cargo fmt --all -- --check"
+
+[tasks.meteomatics]
+depends = ["meteomatics:core", "meteomatics:ui", "meteomatics:driver"]
+
+[tasks."meteomatics:core"]
+env = { MOSAIC_SHUTDOWN_WITH_STDIN = "false" }
+run = ["cargo build --bin video_grpc_server", "cargo run -p mosaic --bin mosaic"]
+
+[tasks."meteomatics:ui"]
+run = [
+  "test -f ~/src/mosaic-uxs_mosaic-frontend/src/api/WeatherApi.ts || { echo 'Switch the frontend to origin/ndiet/feat/weather-11390 first' >&2; exit 1; }",
+  "pnpx wait-on tcp:127.0.0.1:8080 && pnpm --dir ~/src/mosaic-uxs_mosaic-frontend dev",
+]
+
+[tasks."meteomatics:driver"]
+run = "pnpx wait-on tcp:127.0.0.1:3000 && set -a && . ~/dotnix/wo/.env && set +a && cargo run -p mosaic-meteomatics-driver"

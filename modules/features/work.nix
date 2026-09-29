@@ -84,14 +84,21 @@ in
         enableFishIntegration = true;
       };
 
-      home.packages = [ pkgs.teams-for-linux ];
-
       xdg.configFile."teams-for-linux/config.json".text = builtins.toJSON {
         frame = false;
       };
 
-      home.file."src/mosaic-uxs_mosaic-core-rs/justfile".source =
+      xdg.configFile."just/justfile".source =
         config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotnix/wo/justfile";
+
+      home = {
+        packages = [ pkgs.teams-for-linux ];
+        shellAliases.j = "just -g";
+        file."src/mosaic-uxs_mosaic-core-rs/mise.local.toml".source =
+          config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotnix/wo/mise-local.toml";
+      };
+
+      programs.git.ignores = [ "mise.local.toml" ];
     };
 
     preservation.preserveAt."/persistent".users.radu.directories = [

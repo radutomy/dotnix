@@ -1,7 +1,4 @@
 dir := "/home/radu/dotnix/wo"
-frontend := "~/src/mosaic-uxs_mosaic-frontend"
-
-set dotenv-path := dir / ".env"
 
 codex-push:
     {{ dir  }}/codex-context.sh push
@@ -14,42 +11,3 @@ claude-push:
 
 claude-pull:
     {{ dir }}/claude-context.sh pull
-
-mosaic-core:
-    cargo build --bin video_grpc_server
-    cargo run -p mosaic --bin mosaic
-
-mosaic-driver:
-    cargo run -p mosaic-driver --bin mosaic-driver -- qsim 127.0.0.1:6500
-
-mosaic-ui:
-    pnpm --dir {{ frontend }} dev
-
-radionor:
-    cargo run -p radionor-client
-
-mosaic-dev:
-    pnpx concurrently -k \
-        "just mosaic-core" \
-        "just mosaic-ui"
-
-silvus:
-    cargo run -p silvus-client --bin silvus-client -vv
-
-mosaic:
-    pnpx concurrently -k \
-        "just mosaic-core" \
-        "just mosaic-ui" \
-        "just silvus" \
-        "just radionor" \
-        "pnpx wait-on tcp:127.0.0.1:3000 && just mosaic-driver"
-
-meteomatics-driver:
-    cargo run -p mosaic-meteomatics-driver
-
-meteomatics:
-    @test -f {{ frontend }}/src/api/WeatherApi.ts || { echo 'Switch the frontend to origin/ndiet/feat/weather-11390 first' >&2; exit 1; }
-    pnpx concurrently -k \
-        "just mosaic-core" \
-        "just mosaic-ui" \
-        "pnpx wait-on tcp:127.0.0.1:3000 && just meteomatics-driver"
