@@ -14,6 +14,7 @@
             self.modules.homeManager.desktop
             self.modules.homeManager.glances
             self.modules.homeManager.autostart
+            self.modules.homeManager.nixpc-autostart
           ];
           home.packages = [ pkgs.discord ];
         };

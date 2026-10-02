@@ -13,6 +13,7 @@
           imports = [
             self.modules.homeManager.desktop
             self.modules.homeManager.autostart
+            self.modules.homeManager.nixqs-autostart
           ];
         };
       }
