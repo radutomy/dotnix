@@ -37,6 +37,7 @@ in
         self.modules.nixos.nfs
         self.modules.nixos.rclone
         self.modules.nixos.tailscale
+        self.modules.nixos.vpn
       ];
     };
 

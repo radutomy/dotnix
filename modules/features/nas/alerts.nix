@@ -30,8 +30,8 @@ in
       };
 
       # ---- Service failures: ping with the last log lines when a watched service gives up ----
-      systemd.services =
-        lib.genAttrs
+      systemd.services = lib.mkMerge [
+        (lib.genAttrs
           [
             "adguardhome"
             "tailscaled"
@@ -44,11 +44,14 @@ in
             "postgresql"
             "redis-immich"
             "home-assistant"
+            "wireguard-proton0"
+            "gdrive-mirror"
           ]
           (_: {
             onFailure = [ "discord-failure@%n.service" ];
           })
-        // {
+        )
+        {
           "discord-failure@" = {
             scriptArgs = "%i";
             script = ''${discord} "@everyone **$1 failed**" "$(journalctl -u "$1" -n 10 -o cat)"'';
@@ -107,9 +110,7 @@ in
           gdrive-mirror = {
             environment.RCLONE_COMBINED = "/tmp/changes";
             serviceConfig.ExecStopPost = pkgs.writeShellScript "drive-discord" ''
-              if [ "$SERVICE_RESULT" != success ]; then
-                ${discord} "**Drive backup failed** ($SERVICE_RESULT), see: journalctl -u gdrive-mirror"
-              elif changes=$(grep -v '^=' /tmp/changes); then
+              if changes=$(grep -v '^=' /tmp/changes); then
                 ${discord} "**Drive backup**" "$changes"
               fi
             '';
@@ -151,6 +152,7 @@ in
               done
             '';
           };
-        };
+        }
+      ];
     };
 }
