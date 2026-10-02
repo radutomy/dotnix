@@ -12,6 +12,7 @@ Tailscale: `100.68.0.2` (`nas.feist-tint.ts.net`)
 | AdGuard Home | 3000 |
 | Filebrowser (read-only `/drive` mirror) | 8080 |
 | Glances | 61208 |
+| qBittorrent | 9090 |
 
 ## Network services
 

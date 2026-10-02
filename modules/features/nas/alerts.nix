@@ -46,6 +46,7 @@ in
             "home-assistant"
             "wireguard-proton0"
             "gdrive-mirror"
+            "qbittorrent"
           ]
           (_: {
             onFailure = [ "discord-failure@%n.service" ];
