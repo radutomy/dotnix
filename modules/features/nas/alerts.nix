@@ -63,7 +63,11 @@ in
             wantedBy = [ "multi-user.target" ];
             wants = [ "network-online.target" ];
             after = [ "network-online.target" ];
-            serviceConfig.Type = "oneshot";
+            restartIfChanged = false;
+            serviceConfig = {
+              Type = "oneshot";
+              RemainAfterExit = true;
+            };
             # A clean shutdown always ends its log with "Journal stopped"
             script = ''
               last=$(journalctl -b -1 -n 1 -o short-iso)
