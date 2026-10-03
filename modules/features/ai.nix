@@ -14,8 +14,6 @@
       };
       # Makes Codex use $XDG_CONFIG_HOME/codex via CODEX_HOME
       preferXdgDirectories = true;
-
-      file."/.config/codex/config.toml".target = ".config/codex/nix.config.toml";
     };
 
     programs = {
@@ -23,6 +21,7 @@
         enable = true;
         configDir = "${config.xdg.configHome}/claude";
         settings = {
+          attribution.commit = "";
           permissions.defaultMode = "bypassPermissions";
           enabledPlugins = {
             "lua-lsp@claude-plugins-official" = true;
@@ -37,11 +36,12 @@
 
       codex = {
         enable = true;
+        mutableSettings = true;
         settings = {
           approval_policy = "never";
           sandbox_mode = "danger-full-access";
           notice.hide_rate_limit_model_nudge = true;
-          tui.fullscreen_transcript = false;
+          tui.alternate_screen = "never";
           tui.status_line = [
             "model-with-reasoning"
             "current-dir"

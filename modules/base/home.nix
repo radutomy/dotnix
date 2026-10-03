@@ -53,8 +53,6 @@
           cat = "bat --style=plain";
           p = "python";
           gg = "lazygit";
-          # cx = "codex --profile nix";
-          # cxr = "codex --profile nix resume";
           cx = "codex";
           cxr = "codex resume";
           cc = "claude";
