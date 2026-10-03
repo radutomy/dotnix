@@ -4,6 +4,11 @@
     import-tree.url = "github:denful/import-tree";
     preservation.url = "github:nix-community/preservation";
 
+    nixflix = {
+      url = "github:kiriwalawren/nixflix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     flake-parts = {
       url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs-lib.follows = "nixpkgs";

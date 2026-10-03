@@ -44,7 +44,7 @@ in
             "postgresql"
             "redis-immich"
             "home-assistant"
-            "wireguard-proton0"
+            "wg"
             "gdrive-mirror"
             "qbittorrent"
           ]

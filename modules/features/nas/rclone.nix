@@ -35,7 +35,10 @@ _: {
 
       services.gdrive-mirror = {
         description = "Mirror Google Drive to /drive";
-        vpn = true;
+        vpnConfinement = {
+          enable = true;
+          vpnNamespace = config.nixflix.vpn.namespace;
+        };
         startAt = "03:00";
         wants = [ "network-online.target" ];
         after = [ "network-online.target" ];
