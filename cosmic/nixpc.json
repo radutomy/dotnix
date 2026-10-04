@@ -64,7 +64,7 @@
         "input_default": "(\n    state: Enabled,\n    acceleration: Some((\n        profile: Some(Adaptive),\n        speed: -0.31502050629331074,\n    )),\n)",
         "input_touchpad": "(\n    state: Enabled,\n    click_method: Some(Clickfinger),\n    scroll_config: Some((\n        method: Some(TwoFinger),\n        natural_scroll: Some(true),\n        scroll_button: None,\n        scroll_factor: Some(0.4),\n    )),\n    tap_config: Some((\n        enabled: true,\n        button_map: Some(LeftRightMiddle),\n        drag: true,\n        drag_lock: false,\n    )),\n)",
         "input_touchpad_override": "r#None",
-        "pinned_workspaces": "[\n    (\n        output: (\n            name: \"HDMI-A-2\",\n            edid: Some((\n                manufacturer: ('W', 'A', 'N'),\n                product: 9984,\n                serial: None,\n                manufacture_week: 9,\n                manufacture_year: 2019,\n                model_year: None,\n            )),\n        ),\n        tiling_enabled: false,\n        id: Some(\"9479a5\"),\n        name: None,\n    ),\n]",
+        "pinned_workspaces": "[\n    (\n        output: (\n            name: \"HDMI-A-2\",\n            edid: Some((\n                manufacturer: ('W', 'A', 'N'),\n                product: 9984,\n                serial: None,\n                manufacture_week: 9,\n                manufacture_year: 2019,\n                model_year: None,\n            )),\n        ),\n        tiling_enabled: true,\n        id: Some(\"9479a5\"),\n        name: None,\n    ),\n]",
         "workspaces": "(\n    workspace_mode: OutputBound,\n    workspace_layout: Vertical,\n    action_on_typing: r#None,\n    workspace_wraparound: false,\n)",
         "xkb_config": "(\n    rules: \"\",\n    model: \"\",\n    layout: \"gb\",\n    variant: \"\",\n    options: None,\n    repeat_delay: 600,\n    repeat_rate: 25,\n)"
       },
@@ -177,7 +177,7 @@
     {
       "component": "com.system76.CosmicSettings.Shortcuts",
       "entries": {
-        "custom": "{\n    (\n        modifiers: [\n            Super,\n        ],\n    ): System(Launcher),\n    (\n        modifiers: [],\n        key: \"F24\",\n        description: Some(\"Cycle audio output\"),\n    ): Spawn(\"pactl set-default-sink $(pactl list short sinks | cut -f2 | grep -vxm1 $(pactl get-default-sink))\"),\n}\n",
+        "custom": "{\n    (\n        modifiers: [\n            Super,\n        ],\n    ): System(Launcher),\n    (\n        modifiers: [],\n        key: \"F24\",\n        description: Some(\"Cycle audio output\"),\n    ): Spawn(\"pactl set-default-sink $(pactl list short sinks | cut -f2 | grep -vxm1 $(pactl get-default-sink))\"),\n    (\n        modifiers: [Super],\n        key: \"d\",\n    ): Minimize,\n}\n",
         "system_actions": "{\n    Terminal: \"wezterm start --cwd .\",\n}"
       },
       "operation": "write",

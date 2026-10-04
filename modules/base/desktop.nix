@@ -69,6 +69,14 @@
       chromium
       spotify
       bitwarden-desktop
+      (cryptomator.overrideAttrs (old: {
+        postPatch = (old.postPatch or "") + ''
+          # COSMIC drops the popup's focus grab, closing it before a vault can be selected.
+          substituteInPlace src/main/resources/fxml/vault_list.fxml \
+            --replace-fail '<ContextMenu fx:id="addVaultContextMenu">' \
+              '<ContextMenu fx:id="addVaultContextMenu" autoHide="false">'
+        '';
+      }))
       signal-desktop
       cheese
       popsicle
