@@ -9,6 +9,7 @@ Tailscale: `100.68.0.2` (`nas.feist-tint.ts.net`)
 | --- | --- |
 | Home Assistant | 8123 |
 | Immich | 2283 |
+| OpenCloud (HTTPS) | 9200 |
 | AdGuard Home | 3000 |
 | Filebrowser (read-only `/drive` mirror) | 8080 |
 | Glances | 61208 |

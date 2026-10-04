@@ -34,6 +34,7 @@ in
         self.modules.nixos.glances
         self.modules.nixos.home-assistant
         self.modules.nixos.immich
+        self.modules.nixos.opencloud
         self.modules.nixos.rclone
         self.modules.nixos.tailscale
         self.modules.nixos.nixflix
