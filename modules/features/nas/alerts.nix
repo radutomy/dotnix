@@ -36,7 +36,6 @@ in
             "adguardhome"
             "tailscaled"
             "sshd"
-            "nfs-server"
             "gdrive"
             "zfs-import-tank"
             "immich-server"

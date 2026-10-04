@@ -2,7 +2,7 @@
   flake.modules.nixos.nixflix = { config, ... }: {
     imports = [ inputs.nixflix.nixosModules.default ];
 
-    age.secrets.proton-vpn.file = ./secrets/proton-vpn.age;
+    age.secrets.proton-vpn.file = ../../../secrets/proton-vpn.age;
 
     nixflix = {
       enable = true;
@@ -11,6 +11,7 @@
         accessibleFrom = [ "192.168.0.0/24" ];
         wgConfFile = config.age.secrets.proton-vpn.path;
       };
+
       torrentClients.qbittorrent = {
         enable = true;
         webuiPort = 9090;
