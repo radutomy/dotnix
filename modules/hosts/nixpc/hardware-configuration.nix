@@ -69,24 +69,32 @@ _: {
       };
     };
 
+    # Sapphire Pulse RX 7900 XT
+    environment.etc."lact/config.yaml".text = ''
+      version: 7
+      daemon:
+        log_level: info
+        admin_group: wheel
+      gpus:
+        1002:744C-1DA2:471E-0000:03:00.0:
+          performance_level: manual
+          voltage_offset: -65
+          fan_control_enabled: true
+          fan_control_settings:
+            mode: curve
+            temperature_key: junction
+            interval_ms: 500
+            curve:
+              50: 0.15
+              70: 0.30
+              80: 0.40
+              90: 0.48
+              95: 0.55
+    '';
+    systemd.services.lactd.restartTriggers = [ config.environment.etc."lact/config.yaml".source ];
+
     services = {
-      # Undervolt the GPU and keep the fan capped at 2000 RPM
-      lact = {
-        enable = true;
-        settings = {
-          version = 7;
-          daemon = {
-            log_level = "info";
-            admin_group = "wheel";
-          };
-          gpus."1002:744C-1DA2:471E-0000:03:00.0" = {
-            performance_level = "manual";
-            voltage_offset = -65;
-            fan_control_enabled = false;
-            pmfw_options.acoustic_limit = 2000;
-          };
-        };
-      };
+      lact.enable = true;
 
       # Power off the unused Windows drive (WD_BLACK SN770) to keep it cool
       udev.extraRules = ''
