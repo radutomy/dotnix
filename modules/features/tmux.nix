@@ -16,6 +16,12 @@ _: {
         config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotnix/tmux";
 
       programs.fish.interactiveShellInit = lib.mkAfter ''
+        # Point existing tmux apps to the new SSH connection's agent so Git still works after reconnecting
+        if set -q SSH_CONNECTION SSH_AUTH_SOCK; and not set -q TMUX; and test "$SSH_AUTH_SOCK" != ~/.ssh/forwarded-agent
+          ln -sfn "$SSH_AUTH_SOCK" ~/.ssh/forwarded-agent
+          set -gx SSH_AUTH_SOCK ~/.ssh/forwarded-agent
+        end
+
         # Skip inside tmux to avoid nested sessions.
         if not set -q TMUX
           cd ~
