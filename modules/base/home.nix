@@ -30,7 +30,6 @@
           btop
           fastfetch
           yazi
-          geekbench
           witr
 
           # Mostly used by the AI tool
@@ -63,7 +62,7 @@
       };
 
       programs = {
-        # `, <command>` runs any nixpkgs command without installing it
+        # , <command> runs any nixpkgs command without installing it
         nix-index.enable = true;
         nix-index-database.comma.enable = true;
 

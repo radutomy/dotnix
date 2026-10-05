@@ -64,7 +64,6 @@
     ];
 
     home.packages = with pkgs; [
-      vscodium
       wezterm
       simplenote
       chromium

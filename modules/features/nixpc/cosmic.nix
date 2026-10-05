@@ -8,12 +8,15 @@ _: {
 
     environment.cosmic.excludePackages = with pkgs; [
       cosmic-initial-setup
+      cosmic-reader
+      orca
     ];
 
     # use wayland where possible
     environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
     services = {
+      speechd.enable = false;
       desktopManager.cosmic = {
         enable = true;
         showExcludedPkgsWarning = false;
