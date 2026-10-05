@@ -1,10 +1,11 @@
-# Shared by every NixOS host with a graphical desktop (nixqs, nixpc).
+# Shared by every NixOS host with a graphical desktop (nixqs, nixpc, nixmi).
 { self, ... }: {
   flake.modules.nixos.desktop = { config, ... }: {
     imports = [
       self.modules.nixos.cosmic
       self.modules.nixos.steam
       self.modules.nixos.hwshared
+      self.modules.nixos.distrobox
     ];
 
     networking.networkmanager.enable = true;
