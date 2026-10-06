@@ -38,7 +38,6 @@
         ".config/mozilla"
         ".config/discord"
         ".config/gh"
-        ".config/Simplenote"
         ".config/spotify"
         ".local/state/cosmic-comp"
         ".local/state/nvim"

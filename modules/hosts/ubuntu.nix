@@ -20,7 +20,6 @@
 
             packages = with pkgs; [
               wezterm
-              simplenote
               spotify
             ];
           };

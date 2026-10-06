@@ -65,7 +65,6 @@
 
     home.packages = with pkgs; [
       wezterm
-      simplenote
       chromium
       spotify
       bitwarden-desktop

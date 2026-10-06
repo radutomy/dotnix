@@ -5,7 +5,7 @@
       "component": "com.system76.CosmicAppList",
       "entries": {
         "enable_drag_source": "true",
-        "favorites": "[\n    \"firefox\",\n    \"com.system76.CosmicFiles\",\n    \"org.wezfurlong.wezterm\",\n    \"Simplenote\",\n]",
+        "favorites": "[\n    \"firefox\",\n    \"com.system76.CosmicFiles\",\n    \"org.wezfurlong.wezterm\",\n]",
         "filter_top_levels": "None"
       },
       "operation": "write",
