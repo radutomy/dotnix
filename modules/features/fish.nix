@@ -10,6 +10,11 @@ _: {
 
       fish = {
         enable = true;
+        # Overwrite comma so it also runs unfree packages
+        functions."," = ''
+          if command , -p $argv[1] &>/dev/null; command , $argv; return; end
+          NIXPKGS_ALLOW_UNFREE=1 nix run --impure "nixpkgs#$argv[1]" -- $argv[2..-1]
+        '';
         plugins = [
           {
             name = "autopair";
