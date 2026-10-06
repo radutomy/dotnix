@@ -39,20 +39,20 @@ config.default_cursor_style = "SteadyBlock"
 config.max_fps = 240
 
 -- Frosted glass on Cosmic DE
-config.window_background_opacity = 1
-if is_linux then
-	local glass = (os.getenv("HOME") or "") .. "/.config/cosmic/com.system76.CosmicTheme.Dark/v2/transparent_background"
-	local f = io.open(glass)
-	local alpha = f and f:read("a"):match('base:%s*"#%x+(%x%x)"')
-	if f then
-		f:close()
-	end
-	wezterm.add_to_config_reload_watch_list(glass)
-	if alpha then
-		config.window_background_opacity = tonumber(alpha, 16) / 255
-	end
-	config.wayland_window_background_blur = true
-end
+-- config.window_background_opacity = 1
+-- if is_linux then
+-- 	local glass = (os.getenv("HOME") or "") .. "/.config/cosmic/com.system76.CosmicTheme.Dark/v2/transparent_background"
+-- 	local f = io.open(glass)
+-- 	local alpha = f and f:read("a"):match('base:%s*"#%x+(%x%x)"')
+-- 	if f then
+-- 		f:close()
+-- 	end
+-- 	wezterm.add_to_config_reload_watch_list(glass)
+-- 	if alpha then
+-- 		config.window_background_opacity = tonumber(alpha, 16) / 255
+-- 	end
+-- 	config.wayland_window_background_blur = true
+-- end
 
 -- Start maximized
 wezterm.on("gui-startup", function(cmd)
