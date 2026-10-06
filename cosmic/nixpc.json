@@ -177,7 +177,7 @@
     {
       "component": "com.system76.CosmicSettings.Shortcuts",
       "entries": {
-        "custom": "{\n    (\n        modifiers: [\n            Super,\n        ],\n    ): System(Launcher),\n    (\n        modifiers: [],\n        key: \"F24\",\n        description: Some(\"Cycle audio output\"),\n    ): Spawn(\"pactl set-default-sink $(pactl list short sinks | cut -f2 | grep -vxm1 $(pactl get-default-sink))\"),\n    (\n        modifiers: [Super],\n        key: \"d\",\n    ): Minimize,\n}\n",
+        "custom": "{\n    (\n        modifiers: [\n            Super,\n        ],\n    ): System(Launcher),\n    (\n        modifiers: [],\n        key: \"F24\",\n        description: Some(\"Cycle audio output\"),\n    ): Spawn(\"pactl set-default-sink $(pactl list short sinks | cut -f2 | grep -vxm1 $(pactl get-default-sink))\"),\n    (\n        modifiers: [Super],\n        key: \"d\",\n    ): Minimize,\n    (\n        modifiers: [Super],\n        key: \"e\",\n    ): Spawn(\"cosmic-files\"),\n}\n",
         "system_actions": "{\n    Terminal: \"wezterm start --cwd .\",\n}"
       },
       "operation": "write",
