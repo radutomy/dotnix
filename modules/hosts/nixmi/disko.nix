@@ -16,7 +16,7 @@
       ];
     };
 
-    disko.devices.disk.main = {
+    disko.devices.disk.nixmi = {
       type = "disk";
       content = {
         type = "gpt";
