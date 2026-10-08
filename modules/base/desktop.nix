@@ -10,6 +10,8 @@
 
     networking.networkmanager.enable = true;
     services.tailscale.enable = true;
+    # Backs COSMIC's power menu instead of system76-power, which the COSMIC module enables otherwise
+    services.power-profiles-daemon.enable = true;
 
     environment.sessionVariables.SSH_AUTH_SOCK = "${config.users.users.radu.home}/.bitwarden-ssh-agent.sock";
 

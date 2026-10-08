@@ -1,0 +1,162 @@
+From patchwork Mon Sep 28 15:43:37 2026
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-Patchwork-Submitter: Chris Taraszka <chris@miget.com>
+X-Patchwork-Id: 14852617
+Received: from mail-ej2-f42.google.com (mail-ej2-f42.google.com
+ [74.125.228.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 325014E2F2B
+	for <platform-driver-x86@vger.kernel.org>;
+ Mon, 28 Sep 2026 15:43:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+ arc=none smtp.client-ip=74.125.228.170
+ARC-Seal: i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790610224; cv=none;
+ b=pbeEwqs7UUdKcCSC6DuDQ7BfySQa/MMZL2UqCk3hranZDM2YXofMtDgvO0qLqZFPHbjNAohgooJvZemZQRG1irl91e/rauBvS/8mu/TkXMHNaOVMLW5/tBxNFxvrF80BeFZVPn+uP3fCk2gVkFN+2fpKYHl1IRkYw5hQ3PoY41M=
+ARC-Message-Signature: i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790610224; c=relaxed/simple;
+	bh=fdvGTm0XJB7apiFO4dy/nRHYvecWmvWH+2/zLv7ZxOA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version;
+ b=dhRNPbW99XcxXGvWgWv7xvQ4S0SkT6C0gi9SKXyetYroC/rRvG4r91lwXCjEJmit31DHlVZUMsQ3WspsXrvYmJg0M0JK5tPKtJAx9qApF7KYeIYv2QNcfn/T341oKAgUIOEpbKP6exSxi9I1+lsA6vV+BhR8Um6BM2MSKy9Z+40=
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org;
+ dmarc=pass (p=none dis=none) header.from=miget.com;
+ spf=pass smtp.mailfrom=miget.com;
+ dkim=pass (1024-bit key) header.d=miget.com header.i=@miget.com
+ header.b=AhFV3pww; arc=none smtp.client-ip=74.125.228.170
+Authentication-Results: smtp.subspace.kernel.org;
+ dmarc=pass (p=none dis=none) header.from=miget.com
+Authentication-Results: smtp.subspace.kernel.org;
+ spf=pass smtp.mailfrom=miget.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=miget.com header.i=@miget.com
+ header.b="AhFV3pww"
+Received: by mail-ej2-f42.google.com with SMTP id
+ a640c23a62f3a-c2afe9fa8e0so304977166b.2
+        for <platform-driver-x86@vger.kernel.org>;
+ Mon, 28 Sep 2026 08:43:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=miget.com; s=google; t=1790610221; x=1791215021;
+ darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=MwfP8o6zwIYW3W/+Z/SliTtN4CfWDbHolfBtqGrp/gU=;
+        b=AhFV3pwwDg+GGPtVHiRfGae2tNoGPrEg+TfzBRVpAflE8Jsf+ulhdnZsP/jNI/B1uR
+         6/8z4TfSbWK5UKgS/av4jBqo9AWNyBh3UzULugPD4PMXNZ55qAuumVgvQS55rfwLLZal
+         E3bTSRMUv/6mfAEs9PzanxkBu3HFck+T9c9LQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790610221; x=1791215021;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=MwfP8o6zwIYW3W/+Z/SliTtN4CfWDbHolfBtqGrp/gU=;
+        b=kNTzyNnsPJbFoykabylp03nkzaP5dI8YGpQtI+kUkjizxsACnhI6cDteLjM6oidS5j
+         KzbRRuGIQiS7Rqw9qaHdvyVz0etYqxWNL9h3LKRNgvxiHNKFVy9eDGNW40uoh7X2Twf8
+         5bnxhPTLxrbyI2S/SOFvlqyKIMCQLluU1ll+6lwvw0AnahfR3PeItEil2v/kMcNxTnoF
+         BRQzBxF0KiJw8uyyoMrOJlTkAfClsRJI7QwVOIrzpTOZyS43ceVajUkTKVTO2ud3Uya/
+         J7UOXRIzGuRDLqlqjegLy8W0xOdMWR/UZRkKefDlExcPwMw5F1UquWVwBxlU4Cg8EiZl
+         hT/g==
+X-Gm-Message-State: AFuF++lJUgEDsghR1JsHLkx2MYO2T57taKfxdp2+mvT0IW407F4PK/UV
+	ae4Au7UCJZUQIbbx4nyPF47MvyiJYtva+SWYrKv/MF4u1+I6NIVylWO1p8zDe6Kgb/Q=
+X-Gm-Gg: AYBFou00QzbcbsaYWNxBIZSPNxwhS9ns0525zx0y03XRxqIssT8NnIRdrb5+EPsjcpb
+	6jJ+Z4prn5vCap7YxdIc759uYHt5H/DAaPLuy52Up42HV47cGNXk29uxL12MKnadjDaqRezPPIT
+	aiKhGG9ndOQqHt+4GAO7RSYOsXQSbtX4VGfQJGoZF+ezeCCPeGZaUYNCp393bBtpaUqbV1pvvgi
+	OxrvGAki/lZxpMOLadNhZ2JQAfHnC8wCRPSyHtzKHHCVTk5n0OKmLTmZzPNt1wksbXJ2RkUiaJy
+	RNkJvETwJkiUzXrtvfWhUf0HqKCRnBYhzcYCmIeb73/CQ5Ei4E+oxXWNBrNsQTd8+x+1G/xY6Pm
+	MQN2xLZx+oltROd9t3llbLdnyJ0ny97kY0/rLZAiCjfaPTJKNBSt3y4spWQvMgMdOp348Mcryzx
+	0xZbLK8OJMdtI/sWACKr4YvH065PJslUAa/9CLi//K3RZ/VpP75uIb7yU00Jn4iAZPQYyMlaoAW
+	SWJ1Skuj0SsDhFdrecx
+X-Received: by 2002:a17:907:f497:b0:c25:8fdf:5d with SMTP id
+ a640c23a62f3a-c2ac2395ae9mr1101349166b.13.1790610221319;
+        Mon, 28 Sep 2026 08:43:41 -0700 (PDT)
+Received: from xia (user-31-175-132-26.play-internet.pl. [31.175.132.26])
+        by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-c2ae757857bsm490538766b.24.2026.09.28.08.43.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Sep 2026 08:43:40 -0700 (PDT)
+From: Chris Taraszka <chris@miget.com>
+To: Hans de Goede <hansg@kernel.org>,
+ =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: platform-driver-x86@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Chris Taraszka <chris@miget.com>,
+	Armin Wolf <W_Armin@gmx.de>
+Subject: [PATCH] platform/x86: bitland-mifs-wmi: Only check the function id of
+ GET responses
+Date: Mon, 28 Sep 2026 17:43:37 +0200
+Message-ID: <20260928154337.154969-1-chris@miget.com>
+X-Mailer: git-send-email 2.55.0
+Precedence: bulk
+X-Mailing-List: platform-driver-x86@vger.kernel.org
+List-Id: <platform-driver-x86.vger.kernel.org>
+List-Subscribe: <mailto:platform-driver-x86+subscribe@vger.kernel.org>
+List-Unsubscribe: <mailto:platform-driver-x86+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+
+Commit 23cc56f6dea6 ("platform/x86: bitland-mifs-wmi: Detect failed
+function calls") rejects every response whose function id does not
+match the request.
+
+The Xiaomi Book Pro 14 firmware (BIOS XMAPT4B0P0909) only fills in the
+function id for GET operations. Its SET handlers clear the output buffer
+and set only the return code, so a successful SystemPerMode SET returns
+
+  00 80 00 00 ...
+
+instead of 00 80 00 08. The new mode is applied, but the driver returns
+-ENOMSG, so every platform profile change is reported as failed:
+
+  Failed to write to acpi_platform_profile: Error writing
+  '/sys/firmware/acpi/platform_profile': No message of desired type
+
+SET callers pass no output buffer and do not use the response, so only
+validate the echoed function id when the caller asks for the output.
+
+Fixes: 23cc56f6dea6 ("platform/x86: bitland-mifs-wmi: Detect failed function calls")
+Cc: Armin Wolf <W_Armin@gmx.de>
+Signed-off-by: Chris Taraszka <chris@miget.com>
+Tested-by: Anton Karasev <uselessfire@gmail.com>
+---
+
+Notes:
+    This is the separate fix mentioned in "[PATCH] platform/x86:
+    bitland-mifs-wmi: Add Xiaomi Book Pro 14 platform profile values".
+    
+    All SET handlers in this firmware's WMAA method behave the same way:
+    only the GET handlers set the function id field. 23cc56f6dea6 is only in
+    pdx86 for-next so far, so no stable Cc.
+    
+    Tested on the Xiaomi Book Pro 14 on AC with bitland-mifs-wmi from pdx86
+    for-next plus this patch and the Xiaomi profile values patch, loaded on
+    v7.3-rc5: every profile change through power-profiles-daemon succeeds,
+    where before each one failed with -ENOMSG despite being applied.
+
+ drivers/platform/x86/bitland-mifs-wmi.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+
+base-commit: fe5030c8cc7156223f48530e9b49aa87c0305bcd
+
+diff --git a/drivers/platform/x86/bitland-mifs-wmi.c b/drivers/platform/x86/bitland-mifs-wmi.c
+index dd1648b7de77..f4817b59dcac 100644
+--- a/drivers/platform/x86/bitland-mifs-wmi.c
++++ b/drivers/platform/x86/bitland-mifs-wmi.c
+@@ -189,11 +189,14 @@ static int bitland_mifs_wmi_call(struct bitland_mifs_wmi_data *data,
+ 		return -EIO;
+ 	}
+ 
++	if (!output)
++		return 0;
++
++	/* Some firmware only echoes the function id for GET operations */
+ 	if (result->function != input->function)
+ 		return -ENOMSG;
+ 
+-	if (output)
+-		memcpy(output, result, sizeof(*output));
++	memcpy(output, result, sizeof(*output));
+ 
+ 	return 0;
+ }

@@ -1,0 +1,126 @@
+Read the Xiaomi Book Pro 14 fan speeds from the EC memory window, as the firmware has no WMI fan function
+Based on "[PATCH 3/5] platform/x86: bitland-mifs-wmi: read fan tach from EC window on MIFS v2" by Yuming Sun
+
+diff --git a/drivers/platform/x86/bitland-mifs-wmi.c b/drivers/platform/x86/bitland-mifs-wmi.c
+index 78f533e..b162e31 100644
+--- a/drivers/platform/x86/bitland-mifs-wmi.c
++++ b/drivers/platform/x86/bitland-mifs-wmi.c
+@@ -19,6 +19,7 @@
+ #include <linux/hwmon.h>
+ #include <linux/init.h>
+ #include <linux/input-event-codes.h>
++#include <linux/io.h>
+ #include <linux/input.h>
+ #include <linux/input/sparse-keymap.h>
+ #include <linux/kernel.h>
+@@ -93,6 +94,16 @@ enum bitland_mifs_xiaomi_power_profile {
+ 	WMI_PP_XIAOMI_QUIET_ALT		= 0x0a,	/* 18 W */
+ };
+ 
++/*
++ * The Xiaomi Book Pro 14 firmware has no WMI fan function. Its fan
++ * tachometers live in the EC shared-memory window (DSDT region ERAM)
++ * as little-endian u16 RPM values, 0 when the fan is stopped.
++ */
++#define XIAOMI_EC_MEM_BASE	0xFE0B0300
++#define XIAOMI_EC_MEM_SIZE	0x100
++#define XIAOMI_EC_LEFT_FAN	0x69
++#define XIAOMI_EC_RIGHT_FAN	0x6B
++
+ static const struct dmi_system_id bitland_mifs_xiaomi_pp_dmi_table[] = {
+ 	{
+ 		.matches = {
+@@ -186,6 +197,7 @@ struct bitland_mifs_wmi_data {
+ 	struct device *pp_dev;
+ 	enum platform_profile_option saved_profile;
+ 	bool xiaomi_pp;
++	u8 __iomem *ec_mem;
+ };
+ 
+ static int bitland_mifs_wmi_call(struct bitland_mifs_wmi_data *data,
+@@ -407,6 +419,37 @@ static const char *const fan_labels[] = {
+ 	"SYS", /* 2 */
+ };
+ 
++static const char *const xiaomi_fan_labels[] = {
++	"Left Fan", /* 0 */
++	"Right Fan", /* 1 */
++};
++
++static u16 xiaomi_ec_read_fan(struct bitland_mifs_wmi_data *data, unsigned int reg)
++{
++	u8 lo, hi;
++
++	/* The EC updates the value at any time: re-read until both bytes belong together */
++	do {
++		hi = readb(data->ec_mem + reg + 1);
++		lo = readb(data->ec_mem + reg);
++	} while (hi != readb(data->ec_mem + reg + 1));
++
++	return lo | hi << 8;
++}
++
++static umode_t laptop_hwmon_is_visible(const void *drvdata,
++				       enum hwmon_sensor_types type,
++				       u32 attr, int channel)
++{
++	const struct bitland_mifs_wmi_data *data = drvdata;
++
++	/* Two fans read from the EC, no temperature channel */
++	if (data->ec_mem)
++		return type == hwmon_fan && channel < ARRAY_SIZE(xiaomi_fan_labels) ? 0444 : 0;
++
++	return 0444;
++}
++
+ static int laptop_hwmon_read(struct device *dev, enum hwmon_sensor_types type,
+ 			     u32 attr, int channel, long *val)
+ {
+@@ -417,6 +460,11 @@ static int laptop_hwmon_read(struct device *dev, enum hwmon_sensor_types type,
+ 	struct bitland_mifs_output res;
+ 	int ret;
+ 
++	if (data->ec_mem) {
++		*val = xiaomi_ec_read_fan(data, channel ? XIAOMI_EC_RIGHT_FAN : XIAOMI_EC_LEFT_FAN);
++		return 0;
++	}
++
+ 	switch (type) {
+ 	case hwmon_temp:
+ 		input.function = cpu_to_le16(WMI_FN_CPU_THERMOMETER);
+@@ -452,6 +500,13 @@ static int laptop_hwmon_read_string(struct device *dev,
+ 				    enum hwmon_sensor_types type, u32 attr,
+ 				    int channel, const char **str)
+ {
++	struct bitland_mifs_wmi_data *data = dev_get_drvdata(dev);
++
++	if (data->ec_mem) {
++		*str = xiaomi_fan_labels[channel];
++		return 0;
++	}
++
+ 	if (type == hwmon_fan && attr == hwmon_fan_label) {
+ 		if (channel >= 0 && channel < ARRAY_SIZE(fan_labels)) {
+ 			*str = fan_labels[channel];
+@@ -470,7 +525,7 @@ static const struct hwmon_channel_info *laptop_hwmon_info[] = {
+ };
+ 
+ static const struct hwmon_ops laptop_hwmon_ops = {
+-	.visible = 0444,
++	.is_visible = laptop_hwmon_is_visible,
+ 	.read = laptop_hwmon_read,
+ 	.read_string = laptop_hwmon_read_string,
+ };
+@@ -754,6 +809,12 @@ static int bitland_mifs_wmi_probe(struct wmi_device *wdev, const void *context)
+ 	}
+ 
+ 	drv_data->xiaomi_pp = dmi_check_system(bitland_mifs_xiaomi_pp_dmi_table);
++	if (drv_data->xiaomi_pp) {
++		drv_data->ec_mem = devm_ioremap(&wdev->dev, XIAOMI_EC_MEM_BASE,
++						XIAOMI_EC_MEM_SIZE);
++		if (!drv_data->ec_mem)
++			return -ENOMEM;
++	}
+ 
+ 	/* Register platform profile */
+ 	drv_data->pp_dev = devm_platform_profile_register(&wdev->dev, DRV_NAME, drv_data,

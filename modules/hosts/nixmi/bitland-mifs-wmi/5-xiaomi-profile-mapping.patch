@@ -1,0 +1,53 @@
+Map the balanced profile to Xiaomi's Smart mode (the firmware default, and the efficient middle ground), and balanced-performance to Xiaomi's Balanced mode, which draws ~40% more power for ~15% more work.
+Allow Performance on battery: the firmware's own mode handler has no charger check.
+
+diff --git a/drivers/platform/x86/bitland-mifs-wmi.c b/drivers/platform/x86/bitland-mifs-wmi.c
+index 3634b57..3499b10 100644
+--- a/drivers/platform/x86/bitland-mifs-wmi.c
++++ b/drivers/platform/x86/bitland-mifs-wmi.c
+@@ -247,10 +247,10 @@ static int laptop_profile_get(struct device *dev,
+ 		case WMI_PP_XIAOMI_QUIET_ALT:
+ 			*profile = PLATFORM_PROFILE_LOW_POWER;
+ 			break;
+-		case WMI_PP_XIAOMI_BALANCED:
++		case WMI_PP_XIAOMI_SMART:
+ 			*profile = PLATFORM_PROFILE_BALANCED;
+ 			break;
+-		case WMI_PP_XIAOMI_SMART:
++		case WMI_PP_XIAOMI_BALANCED:
+ 			*profile = PLATFORM_PROFILE_BALANCED_PERFORMANCE;
+ 			break;
+ 		case WMI_PP_XIAOMI_PERFORMANCE:
+@@ -324,19 +324,29 @@ static int laptop_profile_set(struct device *dev,
+ 		val = data->xiaomi_pp ? WMI_PP_XIAOMI_QUIET : WMI_PP_QUIET;
+ 		break;
+ 	case PLATFORM_PROFILE_BALANCED:
+-		val = data->xiaomi_pp ? WMI_PP_XIAOMI_BALANCED : WMI_PP_BALANCED;
++		/* Smart is Xiaomi's default and the efficient middle ground, also on battery */
++		val = data->xiaomi_pp ? WMI_PP_XIAOMI_SMART : WMI_PP_BALANCED;
+ 		break;
+ 	case PLATFORM_PROFILE_BALANCED_PERFORMANCE:
++		if (data->xiaomi_pp) {
++			val = WMI_PP_XIAOMI_BALANCED;
++			break;
++		}
+ 		ret = bitland_check_performance_capability(data);
+ 		if (ret)
+ 			return ret;
+-		val = data->xiaomi_pp ? WMI_PP_XIAOMI_SMART : WMI_PP_PERFORMANCE;
++		val = WMI_PP_PERFORMANCE;
+ 		break;
+ 	case PLATFORM_PROFILE_PERFORMANCE:
++		/* The Xiaomi firmware applies Performance on battery too */
++		if (data->xiaomi_pp) {
++			val = WMI_PP_XIAOMI_PERFORMANCE;
++			break;
++		}
+ 		ret = bitland_check_performance_capability(data);
+ 		if (ret)
+ 			return ret;
+-		val = data->xiaomi_pp ? WMI_PP_XIAOMI_PERFORMANCE : WMI_PP_FULL_SPEED;
++		val = WMI_PP_FULL_SPEED;
+ 		break;
+ 	default:
+ 		return -EOPNOTSUPP;
