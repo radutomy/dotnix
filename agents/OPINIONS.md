@@ -17,8 +17,6 @@
 - Keep one source of truth rather than duplicating configuration.
 - Use comments to explain intent or surprising constraints, not to restate obvious code.
 
-## Product
-
 ## Communication
 
 - Lead with the outcome and keep explanations clear and concise.
