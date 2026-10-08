@@ -36,6 +36,7 @@
           ripgrep
           fd
           jq
+          bc
           shellcheck
           gh
           poppler-utils
