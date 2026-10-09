@@ -38,6 +38,7 @@
         ".config/mozilla"
         ".config/discord"
         ".config/gh"
+        ".config/Signal"
         ".config/spotify"
         ".local/state/cosmic-comp"
         ".local/state/nvim"
