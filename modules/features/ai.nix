@@ -2,9 +2,8 @@
   flake.modules.homeManager.ai = { config, ... }: {
     xdg.configFile = {
       "codex/AGENTS.md".source = "${self}/agents/AGENTS.md";
-      "codex/OPINIONS.md".source = "${self}/agents/OPINIONS.md";
       "claude/CLAUDE.md".source = "${self}/agents/AGENTS.md";
-      "claude/OPINIONS.md".source = "${self}/agents/OPINIONS.md";
+      "copilot/copilot-instructions.md".source = "${self}/agents/AGENTS.md";
     };
 
     home = {
@@ -12,7 +11,6 @@
         IS_SANDBOX = "1";
         COPILOT_ALLOW_ALL = "true";
       };
-      # Makes Codex use $XDG_CONFIG_HOME/codex via CODEX_HOME
       preferXdgDirectories = true;
     };
 
@@ -27,7 +25,6 @@
             "lua-lsp@claude-plugins-official" = true;
             "rust-analyzer-lsp@claude-plugins-official" = true;
           };
-          effortLevel = "medium";
           skipDangerousModePermissionPrompt = true;
           theme = "dark";
           tui = "default"; # fullscreen off
@@ -51,13 +48,25 @@
         };
       };
 
-      # No settings: config.json also holds the login token now that
-      # .config/copilot is persisted, so HM must not manage that file.
-      # Set footer display (showModelEffort/showDirectory/showBranch/showQuota)
-      # via Copilot's own /settings menu instead.
       github-copilot-cli = {
         enable = true;
-        context = "${self}/agents/AGENTS.md";
+        mutableSettings = true;
+        settings = {
+          includeCoAuthoredBy = false;
+          theme = "default";
+          banner = "never";
+          showTipsOnStartup = false;
+          footer = {
+            showModelEffort = true;
+            showQuota = true;
+            showPullRequest = false;
+            showAiUsed = false;
+            showAgent = false;
+            showSandbox = false;
+            showSchedules = false;
+            showCustom = false;
+          };
+        };
       };
     };
 

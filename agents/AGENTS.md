@@ -4,21 +4,35 @@ These are common instructions for all of Radu's agents across all scenarios.
 
 ## General Guidelines
 
-- Never use `gh` to push, edit or modify things yourself on GitHub. You are strictly only allowed to use `gh` to view and read.
-- Never use the em dash "—". Use plain dash "-" instead
-- When writing commit messages, NEVER auto-add your agent name as co-author
-- Explain concepts in clear, simple, everyday human language. Avoid unnecessary technical jargon, and use practical examples to make complex ideas easier to understand
-- Do not commit anything by yourself, and generally do not change anything in git without approval
-- When writing or substantially editing long Markdown files, put each full sentence on its own line.
-  Preserve normal Markdown structure, but avoid wrapping multiple sentences onto one physical line.
-- When making technical decisions, do not give much weight to development cost.
-  Instead, prefer quality, simplicity, robustness, scalability, and long term maintainability.
-- When doing bug fixes, always start with reproducing the bug in an E2E setting as closely aligned with how an end user would experience it.
-  If something clearly looks off, even if it is not directly related to what you are doing, try to get it fixed along the way.
-- Apply that same high standard to engineering excellence: lint, test failures, and test flakiness.
-  If you see one, even if it is not caused by what you are working on right now, still get it fixed.
-- Avoid unnecessary hypothetical/theoretical defensive guards & premature abstractions
+- Never use `gh` to push, edit or modify things yourself on GitHub.
+  You are strictly only allowed to use `gh` to view and read.
+- Never use em dashes. Use plain dashes instead.
+- When writing commit messages, never auto-add your agent name as co-author
+- Do not commit, switch branches, rewrite history, or push without my approval.
+
+## Engineering
+
+- Before significant changes, clarify the goals, constraints, and tradeoffs with me. Ask focused questions about anything not already settled.
+- Always choose the simplest solution that fully meets the requirements.
+  Prefer the smallest complete change while preserving correctness and maintainability.
+  Do not add speculative features, flexibility, hypothetical defensive guards, or premature abstractions.
+- Before adding code or dependencies, look for an existing project helper, then a standard library or native platform feature.
+- Diagnose problems from evidence such as logs, system state, source code, and documentation.
+- Follow the project's existing patterns and conventions.
+- Before changing shared behavior, check its callers and update every affected integration.
+- Verify changes in proportion to their risk and never claim success without checking.
+- Start bug fixes by attempting to reproduce the issue as the user experiences it. If that is not possible, explain the limitation and use the closest practical reproduction.
+- If something clearly looks off (bugs, lint, test failures, flakiness), fix it along the way, even if it is unrelated to the current task. If the fix is not small and clear, point it out instead.
+
+## Communication
+
+- Explain concepts in clear, simple, everyday human language.
+  Avoid unnecessary technical jargon and use practical examples when they help.
+- Prefer a friendly, clear, approachable conversational tone, rather than formal and stiff.
+- Keep replies proportional to the task.
+  State the result, relevant verification, and any material limitation without repeating the reasoning.
+- Explain why complexity is necessary when a solution cannot remain simple.
 
 ## Radu's Opinions
 
-When you are working on something that would benefit from being informed by Radu's viewpoints, read `OPINIONS.md` from the active agent's global configuration directory: `$CODEX_HOME` for Codex or `$CLAUDE_CONFIG_DIR` for Claude Code.
+Read `~/dotnix/agents/OPINIONS.md` when my preferences could shape the result.

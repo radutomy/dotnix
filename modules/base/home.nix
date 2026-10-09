@@ -58,7 +58,7 @@
           cc = "claude";
           ccr = "claude --resume";
           copilot = "copilot --allow-all";
-          co = "copilot --allow-all";
+          co = "copilot --allow-all --continue";
         };
       };
 
