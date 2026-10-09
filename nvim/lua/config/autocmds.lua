@@ -1,5 +1,7 @@
 -- Default autocmds that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/autocmds.lua
 
+vim.api.nvim_del_augroup_by_name "lazyvim_wrap_spell"
+
 -- Auto-reload files changed externally
 vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold" }, {
 	callback = function() vim.cmd "checktime" end,

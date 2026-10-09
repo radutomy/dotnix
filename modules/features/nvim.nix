@@ -19,7 +19,7 @@ _: {
         fd
         fzf
         gcc
-        nodejs-slim
+        nodejs
         ripgrep
         tree-sitter
 

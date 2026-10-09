@@ -16,6 +16,7 @@ o.smarttab = true
 o.smartindent = true
 o.signcolumn = "yes:1" -- make the gutter smaller
 o.wrap = true
+o.spell = false
 
 o.timeoutlen = 300
 o.ttimeoutlen = 50
