@@ -115,7 +115,7 @@ in
           gdrive-mirror = {
             environment.RCLONE_COMBINED = "/tmp/changes";
             serviceConfig.ExecStopPost = pkgs.writeShellScript "drive-discord" ''
-              if changes=$(grep -v '^=' /tmp/changes); then
+              if changes=$(grep -sv '^=' /tmp/changes); then
                 ${discord} "**Drive backup**" "$changes"
               fi
             '';
