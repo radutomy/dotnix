@@ -21,7 +21,7 @@ trap '[[ -z "$staging_directory" ]] || rm -rf -- "$staging_directory"' EXIT
 
 require_closed_claude() {
   # The Nix package runs Claude Code as .claude-wrapped.
-  if pgrep -x '\.?claude(-wrapped)?' >/dev/null; then
+  if ps -C claude,.claude-wrapped -o pid= >/dev/null; then
     echo "Claude Code is running. Close every Claude Code session before synchronizing." >&2
     exit 1
   fi
