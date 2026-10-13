@@ -73,6 +73,7 @@
       signal-desktop
       cheese
       popsicle
+      rpi-imager
     ];
 
     xdg.userDirs = {
