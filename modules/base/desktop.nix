@@ -9,9 +9,15 @@
     ];
 
     networking.networkmanager.enable = true;
-    services.tailscale.enable = true;
-    # Backs COSMIC's power menu instead of system76-power, which the COSMIC module enables otherwise
-    services.power-profiles-daemon.enable = true;
+    services = {
+      tailscale.enable = true;
+      # Backs COSMIC's power menu instead of system76-power, which the COSMIC module enables otherwise
+      power-profiles-daemon.enable = true;
+      displayManager.autoLogin = {
+        enable = true;
+        user = "radu";
+      };
+    };
 
     environment.sessionVariables.SSH_AUTH_SOCK = "${config.users.users.radu.home}/.bitwarden-ssh-agent.sock";
 
@@ -27,11 +33,6 @@
       # Quiet boot: hide systemd unit spam and harmless kernel warnings
       consoleLogLevel = 3;
       kernelParams = [ "quiet" ];
-    };
-
-    services.displayManager.autoLogin = {
-      enable = true;
-      user = "radu";
     };
 
     users.mutableUsers = false;

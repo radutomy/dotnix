@@ -3,6 +3,10 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     import-tree.url = "github:denful/import-tree";
     preservation.url = "github:nix-community/preservation";
+    nixos-raspberrypi = {
+      url = "github:nvmd/nixos-raspberrypi";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     nixflix = {
       url = "github:kiriwalawren/nixflix";
