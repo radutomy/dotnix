@@ -7,6 +7,7 @@
       self.modules.nixos.nixqsDisko
       self.modules.nixos.preservation
       self.modules.nixos.nixqsHardware
+      self.modules.nixos.sunshine
       self.modules.nixos.work
       {
         home-manager.users.radu = {

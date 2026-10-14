@@ -9,6 +9,7 @@
       self.modules.nixos.preservation
       self.modules.nixos.nixmiHardware
       self.modules.nixos.nixmi-bitland-mifs-wmi
+      self.modules.nixos.moonlight
       self.modules.nixos.work
       {
         home-manager.users.radu = {

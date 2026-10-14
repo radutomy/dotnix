@@ -13,6 +13,8 @@
       tailscale.enable = true;
       # Backs COSMIC's power menu instead of system76-power, which the COSMIC module enables otherwise
       power-profiles-daemon.enable = true;
+      # Never sleep on the charger, even with the lid closed
+      logind.settings.Login.HandleLidSwitchExternalPower = "ignore";
       displayManager.autoLogin = {
         enable = true;
         user = "radu";
