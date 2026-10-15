@@ -140,4 +140,24 @@ in
       text = lib.concatMapStringsSep "\n" clone repos;
     };
   };
+
+  flake.modules.nixos.work-radios.networking.networkmanager = {
+    settings.main.no-auto-default = "enp131s0";
+
+    ensureProfiles.profiles.radios = {
+      connection = {
+        id = "Radios";
+        type = "ethernet";
+        interface-name = "enp131s0";
+        autoconnect = true;
+      };
+
+      ipv4 = {
+        method = "manual";
+        address1 = "10.19.127.10/16";
+        address2 = "172.18.110.10/16";
+        never-default = true;
+      };
+    };
+  };
 }

@@ -9,6 +9,7 @@
       self.modules.nixos.nixqsHardware
       self.modules.nixos.sunshine
       self.modules.nixos.work
+      self.modules.nixos.work-radios
       {
         home-manager.users.radu = {
           imports = [
