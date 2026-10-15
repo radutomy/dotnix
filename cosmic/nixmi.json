@@ -74,7 +74,7 @@
     {
       "component": "com.system76.CosmicFiles",
       "entries": {
-        "favorites": "[\n    Home,\n    Documents,\n    Downloads,\n    Music,\n    Pictures,\n    Videos,\n    Network(\n        uri: \"sftp://root@nas/gdrive\",\n        name: \"Google Drive\",\n        path: \"/run/user/1000/gvfs/sftp:host=nas,user=root/gdrive\",\n    ),\n]\n",
+        "favorites": "[\n    Home,\n    Documents,\n    Downloads,\n    Music,\n    Pictures,\n    Videos,\n    Network(\n        uri: \"sftp://root@nas/gdrive\",\n        name: \"Google Drive\",\n        path: \"/run/user/1000/gvfs/sftp:host=nas,user=root/gdrive\",\n    ),\n    Network(\n        uri: \"sftp://root@nas/tank\",\n        name: \"NAS\",\n        path: \"/run/user/1000/gvfs/sftp:host=nas,user=root/tank\",\n    ),\n]\n",
         "show_details": "false",
         "show_recents": "false",
         "tab": "(\n    folders_first: true,\n    icon_sizes: (\n        list: 100,\n        grid: 100,\n    ),\n    show_hidden: true,\n    single_click: false,\n    view: List,\n)"
