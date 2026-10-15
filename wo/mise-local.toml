@@ -1,12 +1,16 @@
 # --- Formatting ---
 
 [tasks."rust:fmt"]
-tools = { rust = "{{vars.nightly_fmt_toolchain}}" }
 run = "cargo fmt --all"
 
 [tasks."check:fmt"]
-tools = { rust = "{{vars.nightly_fmt_toolchain}}" }
 run = "cargo fmt --all -- --check"
+
+# --- Builds ---
+
+[tasks."build:battlefield-ui"]
+dir = "{{cwd}}/battlefield/ui"
+run = "trunk build --release"
 
 # --- Core pieces ---
 
