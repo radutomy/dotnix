@@ -23,6 +23,7 @@ in
       ''} files/etc/NetworkManager/system-connections/wifi.nmconnection
     '';
     networking.networkmanager.enable = true;
+    services.tailscale.enable = true;
 
     systemd.services.dotnix-clone = {
       wantedBy = [ "multi-user.target" ];

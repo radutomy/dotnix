@@ -32,7 +32,6 @@ _: {
             ForwardAgent = true;
           };
           "nixpi*" = {
-            HostName = "%h.lan";
             User = "root";
             ForwardAgent = true;
           };
