@@ -1,5 +1,6 @@
-{ inputs, ... }: {
-  flake.modules.nixos.nixpcDisko = {
+{ inputs, ... }:
+let
+  disko = disk: luks: {
     imports = [ inputs.disko.nixosModules.disko ];
 
     fileSystems."/nix".neededForBoot = true;
@@ -16,7 +17,7 @@
       ];
     };
 
-    disko.devices.disk.nixpc = {
+    disko.devices.disk.${disk} = {
       type = "disk";
       content = {
         type = "gpt";
@@ -39,7 +40,7 @@
             size = "100%";
             content = {
               type = "luks";
-              name = "cryptroot-nixpc";
+              name = luks;
               askPassword = true;
               settings.allowDiscards = true;
 
@@ -72,4 +73,9 @@
       };
     };
   };
+in
+{
+  flake.modules.nixos.nixpcDisko = disko "nixpc" "cryptroot-nixpc";
+  flake.modules.nixos.nixqsDisko = disko "main" "cryptroot";
+  flake.modules.nixos.nixmiDisko = disko "nixmi" "cryptroot";
 }

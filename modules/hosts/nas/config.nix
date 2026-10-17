@@ -64,8 +64,6 @@
     };
 
     environment.sessionVariables.HOST_ICON = "󰒍";
-    system.stateVersion = "26.05";
-    time.timeZone = "Europe/London";
 
     environment.systemPackages = with pkgs; [
       nvme-cli

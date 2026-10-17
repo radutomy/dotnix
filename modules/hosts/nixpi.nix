@@ -12,7 +12,6 @@ in
     imports = [ "${inputs.nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64.nix" ];
     nixpkgs.hostPlatform = "aarch64-linux";
     boot.supportedFilesystems.zfs = lib.mkForce false;
-    system.stateVersion = "26.05";
     sdImage.compressImage = false;
     sdImage.populateRootCommands = ''
       install -D -m 600 ${pkgs.writeText "wifi" ''

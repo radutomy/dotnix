@@ -1,15 +1,39 @@
 # Shared by every NixOS host with a graphical desktop (nixqs, nixpc, nixmi).
-{ self, ... }: {
-  flake.modules.nixos.desktop = { config, ... }: {
-    imports = [
-      self.modules.nixos.base
-      self.modules.nixos.preservation
-      self.modules.nixos.work
-      self.modules.nixos.cosmic
-      self.modules.nixos.steam
-      self.modules.nixos.hardware
-      self.modules.nixos.distrobox
+{ self, ... }:
+let
+  nixosImports = with self.modules.nixos; [
+    base
+    preservation
+    work
+    cosmic
+    steam
+    hardware
+    distrobox
+  ];
+
+  homeImports = with self.modules.homeManager; [
+    base
+    rust
+    cosmic
+    firefox
+    autostart
+  ];
+
+  homePackages =
+    pkgs: with pkgs; [
+      wezterm
+      chromium
+      spotify
+      bitwarden-desktop
+      signal-desktop
+      cheese
+      popsicle
     ];
+in
+{
+  flake.modules.nixos.desktop = { config, ... }: {
+    imports = nixosImports;
+    home-manager.users.radu.imports = [ self.modules.homeManager.desktop ];
 
     networking.networkmanager.enable = true;
     services = {
@@ -24,7 +48,6 @@
       };
     };
 
-    home-manager.users.radu.imports = [ self.modules.homeManager.desktop ];
     environment.sessionVariables.SSH_AUTH_SOCK = "${config.users.users.radu.home}/.bitwarden-ssh-agent.sock";
 
     boot = {
@@ -55,29 +78,12 @@
     # Never ask for a sudo password, and suppress sudo's introductory lecture.
     security.sudo.wheelNeedsPassword = false;
     security.sudo.extraConfig = "Defaults lecture=never";
-    time.timeZone = "Europe/London";
     i18n.defaultLocale = "en_GB.UTF-8";
-    system.stateVersion = "26.05";
   };
 
   flake.modules.homeManager.desktop = { config, pkgs, ... }: {
-    imports = with self.modules.homeManager; [
-      base
-      rust
-      cosmic
-      firefox
-      autostart
-    ];
-
-    home.packages = with pkgs; [
-      wezterm
-      chromium
-      spotify
-      bitwarden-desktop
-      signal-desktop
-      cheese
-      popsicle
-    ];
+    imports = homeImports;
+    home.packages = homePackages pkgs;
 
     xdg.userDirs = {
       enable = true;

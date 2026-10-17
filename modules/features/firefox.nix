@@ -1,100 +1,98 @@
 _: {
-  flake.modules.homeManager.firefox =
-    _:
-    {
-      home.file.".config/mozilla/firefox/default/customKeys.json" = {
-        force = true;
-        text = builtins.toJSON {
-          focusURLBar = {
-            modifiers = "alt";
-            key = "L";
-          };
-          key_openDownloads = {
-            modifiers = "accel,shift";
-            key = "J";
-          };
-          showAllHistoryKb = { };
-          key_gotoHistory = {
-            modifiers = "accel,shift";
-            key = "H";
-          };
-          key_browserConsole = { };
+  flake.modules.homeManager.firefox = _: {
+    home.file.".config/mozilla/firefox/default/customKeys.json" = {
+      force = true;
+      text = builtins.toJSON {
+        focusURLBar = {
+          modifiers = "alt";
+          key = "L";
         };
+        key_openDownloads = {
+          modifiers = "accel,shift";
+          key = "J";
+        };
+        showAllHistoryKb = { };
+        key_gotoHistory = {
+          modifiers = "accel,shift";
+          key = "H";
+        };
+        key_browserConsole = { };
       };
+    };
 
-      programs.firefox = {
-        enable = true;
-        profiles.default = {
-          settings = {
-            "browser.newtabpage.enabled" = false;
-            "browser.startup.homepage" = "about:blank";
-            "browser.uidensity" = 0;
-            #"layout.css.devPixelsPerPx" = "1.4";
-            "privacy.globalprivacycontrol.enabled" = true;
-            "signon.firefoxRelay.feature" = "disabled";
-            "signon.rememberSignons" = false;
-            "signon.management.page.breach-alerts.enabled" = false;
-            "extensions.formautofill.creditCards.enabled" = false;
-            "extensions.formautofill.addresses.enabled" = false;
-            "browser.startup.page" = 3;
-            "browser.sessionstore.restore_on_demand" = false;
-            "browser.sessionstore.restore_hidden_tabs" = true;
-            "browser.sessionstore.max_concurrent_tabs" = 20;
-            "dom.security.https_first" = false;
-            "ui.key.menuAccessKeyFocuses" = false;
-            "ui.key.menuAccessKey" = 0;
-            "media.hardwaremediakeys.enabled" = false;
-            "browser.ml.chat.enabled" = false;
-            "browser.ml.enabled" = false;
-            "sidebar.revamp" = true;
-            "sidebar.verticalTabs" = true;
-            "browser.urlbar.quicksuggest.enabled" = false;
-            "browser.newtabpage.activity-stream.asrouter.userprefs.cfr.addons" = false;
-            "browser.newtabpage.activity-stream.asrouter.userprefs.cfr.features" = false;
-            "media.eme.enabled" = true;
-            "accessibility.typeaheadfind" = true;
-            "network.trr.mode" = 5;
-            "media.autoplay.default" = 1;
-            "app.shield.optoutstudies.enabled" = false;
-            "app.normandy.enabled" = false;
-            "browser.aboutConfig.showWarning" = false;
-            "browser.tabs.closeWindowWithLastTab" = false;
-            "extensions.pocket.enabled" = false;
-            "toolkit.telemetry.enabled" = false;
-            "datareporting.healthreport.uploadEnabled" = false;
+    programs.firefox = {
+      enable = true;
+      profiles.default = {
+        settings = {
+          "browser.newtabpage.enabled" = false;
+          "browser.startup.homepage" = "about:blank";
+          "browser.uidensity" = 0;
+          #"layout.css.devPixelsPerPx" = "1.4";
+          "privacy.globalprivacycontrol.enabled" = true;
+          "signon.firefoxRelay.feature" = "disabled";
+          "signon.rememberSignons" = false;
+          "signon.management.page.breach-alerts.enabled" = false;
+          "extensions.formautofill.creditCards.enabled" = false;
+          "extensions.formautofill.addresses.enabled" = false;
+          "browser.startup.page" = 3;
+          "browser.sessionstore.restore_on_demand" = false;
+          "browser.sessionstore.restore_hidden_tabs" = true;
+          "browser.sessionstore.max_concurrent_tabs" = 20;
+          "dom.security.https_first" = false;
+          "ui.key.menuAccessKeyFocuses" = false;
+          "ui.key.menuAccessKey" = 0;
+          "media.hardwaremediakeys.enabled" = false;
+          "browser.ml.chat.enabled" = false;
+          "browser.ml.enabled" = false;
+          "sidebar.revamp" = true;
+          "sidebar.verticalTabs" = true;
+          "browser.urlbar.quicksuggest.enabled" = false;
+          "browser.newtabpage.activity-stream.asrouter.userprefs.cfr.addons" = false;
+          "browser.newtabpage.activity-stream.asrouter.userprefs.cfr.features" = false;
+          "media.eme.enabled" = true;
+          "accessibility.typeaheadfind" = true;
+          "network.trr.mode" = 5;
+          "media.autoplay.default" = 1;
+          "app.shield.optoutstudies.enabled" = false;
+          "app.normandy.enabled" = false;
+          "browser.aboutConfig.showWarning" = false;
+          "browser.tabs.closeWindowWithLastTab" = false;
+          "extensions.pocket.enabled" = false;
+          "toolkit.telemetry.enabled" = false;
+          "datareporting.healthreport.uploadEnabled" = false;
 
-            # Search suggestions
-            "browser.search.suggest.enabled" = true;
-            "browser.search.suggest.enabled.private" = false;
-            "browser.urlbar.showSearchSuggestionsFirst" = false;
-            "browser.urlbar.suggest.trending" = false;
-            "browser.urlbar.suggest.history" = true;
-            "browser.urlbar.suggest.bookmark" = true;
-            "browser.urlbar.suggest.openpage" = true;
-            "browser.urlbar.suggest.topsites" = true;
-            "browser.urlbar.suggest.recentsearches" = true;
-            "browser.urlbar.suggest.engines" = false;
-            "browser.urlbar.suggest.quickactions" = false;
+          # Search suggestions
+          "browser.search.suggest.enabled" = true;
+          "browser.search.suggest.enabled.private" = false;
+          "browser.urlbar.showSearchSuggestionsFirst" = false;
+          "browser.urlbar.suggest.trending" = false;
+          "browser.urlbar.suggest.history" = true;
+          "browser.urlbar.suggest.bookmark" = true;
+          "browser.urlbar.suggest.openpage" = true;
+          "browser.urlbar.suggest.topsites" = true;
+          "browser.urlbar.suggest.recentsearches" = true;
+          "browser.urlbar.suggest.engines" = false;
+          "browser.urlbar.suggest.quickactions" = false;
 
-            # What to sync
-            "services.sync.engine.bookmarks" = true;
-            "services.sync.engine.history" = true;
-            "services.sync.engine.tabs" = true;
-            "services.sync.engine.addons" = true;
-            "services.sync.engine.prefs" = true;
-            "services.sync.engine.passwords" = false;
-            "services.sync.engine.addresses" = false;
-            "services.sync.engine.creditcards" = false;
+          # What to sync
+          "services.sync.engine.bookmarks" = true;
+          "services.sync.engine.history" = true;
+          "services.sync.engine.tabs" = true;
+          "services.sync.engine.addons" = true;
+          "services.sync.engine.prefs" = true;
+          "services.sync.engine.passwords" = false;
+          "services.sync.engine.addresses" = false;
+          "services.sync.engine.creditcards" = false;
 
-            "services.sync.prefs.sync.browser.uiCustomization.state" = true;
-            "services.sync.prefs.sync.browser.uiCustomization.navBarWhenVerticalTabs" = true;
-            "services.sync.prefs.sync.sidebar.main.tools" = true;
-            "services.sync.prefs.sync.sidebar.position_start" = true;
-            "services.sync.prefs.sync.sidebar.visibility" = true;
-            "services.sync.prefs.sync.browser.toolbars.bookmarks.visibility" = true;
-            "services.sync.prefs.sync.browser.download.autohideButton" = true;
-          };
+          "services.sync.prefs.sync.browser.uiCustomization.state" = true;
+          "services.sync.prefs.sync.browser.uiCustomization.navBarWhenVerticalTabs" = true;
+          "services.sync.prefs.sync.sidebar.main.tools" = true;
+          "services.sync.prefs.sync.sidebar.position_start" = true;
+          "services.sync.prefs.sync.sidebar.visibility" = true;
+          "services.sync.prefs.sync.browser.toolbars.bookmarks.visibility" = true;
+          "services.sync.prefs.sync.browser.download.autohideButton" = true;
         };
       };
     };
+  };
 }

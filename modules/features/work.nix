@@ -1,62 +1,49 @@
-# nix run .#cloneRepos
 let
-  clone = name: ''
-    [ -d "$HOME/${name}/.git" ] || git clone git@github.com:radutomy/${name}.git "$HOME/${name}"
-  '';
+  gst =
+    pkgs: with pkgs.gst_all_1; [
+      gstreamer
+      gst-plugins-base
+      gst-plugins-good
+      gst-plugins-bad
+      gst-plugins-ugly
+      gst-libav
+      gst-rtsp-server
+      gst-editing-services
+    ];
 in
 {
   flake.modules.nixos.work = { pkgs, ... }: {
     environment = {
-      systemPackages = with pkgs; [
-        devenv
-        direnv
-        git
-        git-lfs
-        just
-        lazysql
-        mold
-        ethtool
-        usbutils
-        arp-scan
-        tcpdump
-        protobuf
-        pkg-config
-        nodejs
-        pnpm
-        nssTools
+      systemPackages =
+        with pkgs;
+        [
+          devenv
+          git
+          git-lfs
+          lazysql
+          mold
+          ethtool
+          usbutils
+          arp-scan
+          tcpdump
+          protobuf
+          pkg-config
+          nodejs
+          pnpm
+          nssTools
+        ]
+        ++ gst pkgs;
 
-        gst_all_1.gstreamer
-        gst_all_1.gst-plugins-base
-        gst_all_1.gst-plugins-good
-        gst_all_1.gst-plugins-bad
-        gst_all_1.gst-plugins-ugly
-        gst_all_1.gst-libav
-        gst_all_1.gst-rtsp-server
-        gst_all_1.gst-editing-services
-      ];
-
-      sessionVariables.PKG_CONFIG_PATH = pkgs.lib.makeSearchPath "lib/pkgconfig" [
-        pkgs.openssl.dev
-        pkgs.glib.dev
-        pkgs.gst_all_1.gstreamer.dev
-        pkgs.gst_all_1.gst-plugins-base.dev
-        pkgs.gst_all_1.gst-plugins-good.dev
-        pkgs.gst_all_1.gst-plugins-bad.dev
-        pkgs.gst_all_1.gst-plugins-ugly.dev
-        pkgs.gst_all_1.gst-rtsp-server.dev
-        pkgs.gst_all_1.gst-editing-services.dev
-      ];
-
-      sessionVariables.GST_PLUGIN_SYSTEM_PATH_1_0 = pkgs.lib.makeSearchPath "lib/gstreamer-1.0" [
-        pkgs.gst_all_1.gstreamer.out
-        pkgs.gst_all_1.gst-plugins-base.out
-        pkgs.gst_all_1.gst-plugins-good.out
-        pkgs.gst_all_1.gst-plugins-bad.out
-        pkgs.gst_all_1.gst-plugins-ugly.out
-        pkgs.gst_all_1.gst-libav.out
-        pkgs.gst_all_1.gst-rtsp-server.out
-        pkgs.gst_all_1.gst-editing-services.out
-      ];
+      sessionVariables.PKG_CONFIG_PATH = pkgs.lib.makeSearchPathOutput "dev" "lib/pkgconfig" (
+        [
+          pkgs.openssl
+          pkgs.glib
+        ]
+        ++ gst pkgs
+      );
+      sessionVariables.GST_PLUGIN_SYSTEM_PATH_1_0 =
+        pkgs.lib.makeSearchPathOutput "out" "lib/gstreamer-1.0"
+          (gst pkgs);
     };
 
     home-manager.users.radu = { config, pkgs, ... }: {
@@ -108,21 +95,6 @@ in
 
     # Needed by programs.tcpdump above
     users.users.radu.extraGroups = [ "pcap" ];
-  };
-
-  perSystem = { pkgs, lib, ... }: {
-    packages.cloneRepos = pkgs.writeShellApplication {
-      name = "clone-repos";
-      runtimeInputs = with pkgs; [
-        git
-        git-lfs
-        openssh
-      ];
-      text = lib.concatMapStringsSep "\n" clone [
-        "dotnix"
-        "rustlings"
-      ];
-    };
   };
 
   flake.modules.nixos.work-radios.networking = {

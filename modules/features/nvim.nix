@@ -11,11 +11,8 @@ _: {
 
       home.packages = with pkgs; [
         # Lazyvim
-        fd
-        fzf
         gcc
         nodejs
-        ripgrep
         tree-sitter
 
         # Lua support

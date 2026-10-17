@@ -1,5 +1,50 @@
 # Shared by every machine
-{ self, inputs, ... }: {
+{ self, inputs, ... }:
+let
+  homeImports = with self.modules.homeManager; [
+    inputs.nix-index-database.homeModules.nix-index
+    ai
+    fish
+    git
+    nvim
+    tmux
+  ];
+
+  homePackages =
+    pkgs: with pkgs; [
+      nh
+      lsd
+      age
+      just
+      zip
+      unzip
+      python3
+      wget
+      lsof
+      sqlite
+      yq-go
+      xxd
+      dnsutils
+      btop
+      fastfetch
+      yazi
+      witr
+
+      # Mostly used by the AI tool
+      ripgrep
+      fd
+      jq
+      bc
+      shellcheck
+      gh
+      poppler-utils
+      ast-grep
+      tokei
+      hyperfine
+      nix-tree
+    ];
+in
+{
   flake.modules.nixos.base = { pkgs, ... }: {
     imports = [ inputs.home-manager.nixosModules.home-manager ];
     home-manager.useGlobalPkgs = true;
@@ -18,53 +63,16 @@
     };
     programs.fish.enable = true;
     users.defaultUserShell = pkgs.fish;
+    time.timeZone = "Europe/London";
+    system.stateVersion = "26.05";
   };
 
   flake.modules.homeManager.base = { pkgs, ... }: {
-    imports = with self.modules.homeManager; [
-      inputs.nix-index-database.homeModules.nix-index
-      ai
-      fish
-      git
-      nvim
-      tmux
-    ];
+    imports = homeImports;
 
     home = {
+      packages = homePackages pkgs;
       stateVersion = "26.05";
-
-      packages = with pkgs; [
-        nh
-        lsd
-        age
-        just
-        zip
-        unzip
-        python3
-        wget
-        lsof
-        sqlite
-        yq-go
-        xxd
-        dnsutils
-        btop
-        fastfetch
-        yazi
-        witr
-
-        # Mostly used by the AI tool
-        ripgrep
-        fd
-        jq
-        bc
-        shellcheck
-        gh
-        poppler-utils
-        ast-grep
-        tokei
-        hyperfine
-        nix-tree
-      ];
 
       shellAliases = {
         ls = "lsd --group-dirs=first";
