@@ -17,6 +17,13 @@ _: {
         environment.sessionVariables.SSH_AUTH_SOCK = "${config.users.users.radu.home}/.bitwarden-ssh-agent.sock";
       };
 
+      homeManager.ssh.programs.fish.interactiveShellInit = ''
+        if set -q SSH_CONNECTION SSH_AUTH_SOCK; and not set -q TMUX; and test "$SSH_AUTH_SOCK" != ~/.ssh/forwarded-agent
+          ln -sfn "$SSH_AUTH_SOCK" ~/.ssh/forwarded-agent
+          set -gx SSH_AUTH_SOCK ~/.ssh/forwarded-agent
+        end
+      '';
+
       homeManager.ssh.programs.ssh = {
         enable = true;
         enableDefaultConfig = false;

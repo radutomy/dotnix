@@ -8,6 +8,7 @@
       self.modules.nixos.work-radios
       {
         networking.hostName = "nixqs";
+        home-manager.users.radu.tmux.layout = "laptop";
         services.tailscale.extraSetFlags = [ "--accept-routes" ];
       }
     ];
