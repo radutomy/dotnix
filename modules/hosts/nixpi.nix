@@ -23,10 +23,6 @@ in
       ''} files/etc/NetworkManager/system-connections/wifi.nmconnection
     '';
     networking.networkmanager.enable = true;
-    services.openssh.enable = true;
-    users.users.root.openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOcSG9I0xIYG43LhgnsfR7Y1hOkoVpE5RGSfgr3usDt9 radu@rtom.dev"
-    ];
 
     systemd.services.dotnix-clone = {
       wantedBy = [ "multi-user.target" ];
@@ -43,6 +39,7 @@ in
     inputs.nixpkgs.lib.nixosSystem {
       modules = with self.modules.nixos; [
         base
+        sshd
         nixpi
         { networking.hostName = name; }
       ];

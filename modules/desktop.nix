@@ -3,6 +3,7 @@
 let
   nixosImports = with self.modules.nixos; [
     base
+    sshc
     preservation
     work
     cosmic
@@ -31,8 +32,10 @@ let
     ];
 in
 {
-  flake.modules.nixos.desktop = { config, ... }: {
+  flake.modules.nixos.desktop = { pkgs, ... }: {
     imports = nixosImports;
+    nixpkgs.hostPlatform = "x86_64-linux";
+    hardware.enableRedistributableFirmware = true;
     home-manager.users.radu.imports = [ self.modules.homeManager.desktop ];
 
     networking.networkmanager.enable = true;
@@ -48,9 +51,8 @@ in
       };
     };
 
-    environment.sessionVariables.SSH_AUTH_SOCK = "${config.users.users.radu.home}/.bitwarden-ssh-agent.sock";
-
     boot = {
+      kernelPackages = pkgs.linuxPackages_latest;
       loader = {
         systemd-boot = {
           enable = true;

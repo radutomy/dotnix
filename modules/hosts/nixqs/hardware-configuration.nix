@@ -9,7 +9,6 @@ _: {
     }:
     {
       boot = {
-        kernelPackages = pkgs.linuxPackages_latest;
         initrd.availableKernelModules = [
           "nvme"
           "xhci_pci"
@@ -18,15 +17,10 @@ _: {
           "usb_storage"
           "sd_mod"
         ];
-        initrd.kernelModules = [ ];
         kernelModules = [ "kvm-intel" ];
-        extraModulePackages = [ ];
       };
 
-      nixpkgs.hostPlatform = "x86_64-linux";
-
       hardware = {
-        enableRedistributableFirmware = true;
         cpu.intel.updateMicrocode = true;
 
         tuxedo-drivers.enable = true;

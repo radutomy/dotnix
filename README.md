@@ -34,7 +34,10 @@ For a Raspberry Pi 4, flash an SD card from a desktop. The hostname is one of
 the names listed in `modules/hosts/nixpi.nix`:
 
 ```sh
-nix run .#nixpi-image -- <hostname> <wifi-ssid> <wifi-password> <device>
+nix run --refresh github:radutomy/dotnix#nixpi-image -- <hostname> <wifi-ssid> <wifi-password> <device>
+
+# Example
+nix run --refresh github:radutomy/dotnix#nixpi-image -- nixpi IoT 'ihavenoidea' /dev/sda
 ```
 
 ## Rebuild

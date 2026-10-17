@@ -15,21 +15,17 @@ _: {
       ];
 
       boot = {
-        initrd = {
-          availableKernelModules = [
-            "xhci_pci"
-            "ahci"
-            "nvme"
-            "usb_storage"
-            "usbhid"
-            "sd_mod"
-            "sdhci_pci"
-          ];
-          kernelModules = [ ];
-        };
+        initrd.availableKernelModules = [
+          "xhci_pci"
+          "ahci"
+          "nvme"
+          "usb_storage"
+          "usbhid"
+          "sd_mod"
+          "sdhci_pci"
+        ];
 
         kernelModules = [ "kvm-intel" ];
-        extraModulePackages = [ ];
       };
 
       nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";

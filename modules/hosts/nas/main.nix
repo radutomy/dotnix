@@ -3,6 +3,7 @@ let
   hostModule = {
     imports = [
       self.modules.nixos.base
+      self.modules.nixos.sshd
       self.modules.nixos.nas-config
       self.modules.nixos.nasOSDisko
       self.modules.nixos.nasHardware

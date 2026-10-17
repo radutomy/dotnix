@@ -3,6 +3,7 @@
     modules = [
       "${inputs.nixpkgs}/nixos/modules/installer/cd-dvd/iso-image.nix"
       "${inputs.nixpkgs}/nixos/modules/profiles/minimal.nix"
+      self.modules.nixos.sshd
       { nixpkgs.hostPlatform = "x86_64-linux"; }
       ({ config, lib, ... }: {
         isoImage = {
@@ -18,18 +19,6 @@
 
         boot.loader.timeout = lib.mkForce 1;
         boot.zfs.forceImportRoot = false;
-
-        services.openssh = {
-          enable = true;
-          settings = {
-            PasswordAuthentication = false;
-            KbdInteractiveAuthentication = false;
-          };
-        };
-
-        users.users.root.openssh.authorizedKeys.keys = [
-          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOcSG9I0xIYG43LhgnsfR7Y1hOkoVpE5RGSfgr3usDt9 radu@rtom.dev"
-        ];
 
         system.stateVersion = "26.05";
       })

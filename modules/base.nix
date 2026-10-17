@@ -7,6 +7,7 @@ let
     fish
     git
     nvim
+    ssh
     tmux
   ];
 
@@ -98,23 +99,6 @@ in
       bat = {
         enable = true;
         config.theme = "Visual Studio Dark+";
-      };
-
-      ssh = {
-        enable = true;
-        enableDefaultConfig = false;
-        settings = {
-          "*" = {
-            StrictHostKeyChecking = "no";
-            UserKnownHostsFile = "/dev/null";
-            ConnectTimeout = 10;
-          };
-          nas = {
-            HostName = "192.168.0.2";
-            User = "root";
-            ForwardAgent = true;
-          };
-        };
       };
     };
   };

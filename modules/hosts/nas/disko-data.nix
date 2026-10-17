@@ -1,69 +1,30 @@
-{ inputs, ... }: {
+{ inputs, ... }:
+let
+  disks = {
+    data1 = "/dev/disk/by-path/pci-0000:01:00.0-nvme-1";
+    data2 = "/dev/disk/by-path/pci-0000:02:00.0-nvme-1";
+    data3 = "/dev/disk/by-path/pci-0000:03:00.0-nvme-1";
+    data4 = "/dev/disk/by-path/pci-0000:04:00.0-nvme-1";
+  };
+in
+{
   flake.modules.nixos.nasDataDisko = { lib, ... }: {
     imports = [ inputs.disko.nixosModules.disko ];
 
-    disko.devices.disk = {
-
-      data1 = {
-        device = lib.mkDefault "/dev/disk/by-path/pci-0000:01:00.0-nvme-1";
-        type = "disk";
-        content = {
-          type = "gpt";
-          partitions.zfs = {
-            size = "100%";
-            content = {
-              type = "zfs";
-              pool = "tank";
-            };
+    disko.devices.disk = lib.mapAttrs (_: device: {
+      device = lib.mkDefault device;
+      type = "disk";
+      content = {
+        type = "gpt";
+        partitions.zfs = {
+          size = "100%";
+          content = {
+            type = "zfs";
+            pool = "tank";
           };
         };
       };
-
-      data2 = {
-        device = lib.mkDefault "/dev/disk/by-path/pci-0000:02:00.0-nvme-1";
-        type = "disk";
-        content = {
-          type = "gpt";
-          partitions.zfs = {
-            size = "100%";
-            content = {
-              type = "zfs";
-              pool = "tank";
-            };
-          };
-        };
-      };
-
-      data3 = {
-        device = lib.mkDefault "/dev/disk/by-path/pci-0000:03:00.0-nvme-1";
-        type = "disk";
-        content = {
-          type = "gpt";
-          partitions.zfs = {
-            size = "100%";
-            content = {
-              type = "zfs";
-              pool = "tank";
-            };
-          };
-        };
-      };
-
-      data4 = {
-        device = lib.mkDefault "/dev/disk/by-path/pci-0000:04:00.0-nvme-1";
-        type = "disk";
-        content = {
-          type = "gpt";
-          partitions.zfs = {
-            size = "100%";
-            content = {
-              type = "zfs";
-              pool = "tank";
-            };
-          };
-        };
-      };
-    };
+    }) disks;
 
     disko.devices.zpool.tank = {
       type = "zpool";

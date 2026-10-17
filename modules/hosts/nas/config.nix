@@ -16,22 +16,10 @@
       };
     };
 
-    users = {
-      mutableUsers = false;
-      users.root = {
-        hashedPassword = "$y$j9T$oUA03zdU/rjx/AJ.Zluez.$nR2BCbxAW/q6GegPqbrsb4jZNFBnIdbDHqTm0hOA7y/";
-        openssh.authorizedKeys.keys = [
-          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOcSG9I0xIYG43LhgnsfR7Y1hOkoVpE5RGSfgr3usDt9 radu@rtom.dev"
-        ];
-      };
-    };
+    users.mutableUsers = false;
+    users.users.root.hashedPassword = "$y$j9T$oUA03zdU/rjx/AJ.Zluez.$nR2BCbxAW/q6GegPqbrsb4jZNFBnIdbDHqTm0hOA7y/";
 
     services = {
-      openssh = {
-        enable = true;
-        settings.PasswordAuthentication = false;
-      };
-
       zfs.autoScrub = {
         enable = true;
         pools = [ "tank" ];

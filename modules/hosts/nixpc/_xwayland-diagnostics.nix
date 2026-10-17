@@ -1,5 +1,6 @@
 { pkgs, ... }: {
   # Temporary Dota crash capture
+  systemd.tmpfiles.rules = [ "e /var/log/dota-diagnostics - - - 14d" ];
   systemd.services.xwayland-diagnostics = {
     description = "Capture Dota and Xwayland diagnostics";
     wantedBy = [ "multi-user.target" ];
@@ -25,7 +26,6 @@
         {
           uname -a
           readlink -f /run/current-system
-          cat /proc/driver/rtc
           ps -u radu -o pid,ppid,comm,args
         } > "$capture/system.txt"
         cat "/proc/$dota/maps" > "$capture/dota-libraries.txt" || true
@@ -40,6 +40,7 @@
         console=$!
         declare -A traced=()
         tracers=()
+        tick=0
         while pgrep -u radu -x dota2 > /dev/null; do
           for pid in $(pgrep -u radu -x Xwayland || true); do
             if [[ ! -v traced[$pid] ]]; then
@@ -50,21 +51,23 @@
               traced[$pid]=1
             fi
           done
-          {
-            date --iso-8601=seconds
-            free -m
-            cat /proc/pressure/{cpu,memory,io}
-            ps -u radu -o pid,ppid,comm,pcpu,pmem,rss \
-              | grep -E 'PID|dota|gamescope|Xwayland|cosmic|steam' || true
-            for metric in /sys/class/drm/card*/device/{gpu_busy_percent,mem_info_vram_used,mem_info_vram_total} \
-              /sys/class/drm/card*/device/hwmon/hwmon*/{temp*_input,fan*_input}; do
-              if [ -r "$metric" ]; then
-                printf '%s: ' "$metric"
-                cat "$metric"
-              fi
-            done
-          } >> "$capture/resources.log"
-          sleep 5
+          if ((tick++ % 5 == 0)); then
+            {
+              date --iso-8601=seconds
+              free -m
+              cat /proc/pressure/{cpu,memory,io}
+              ps -u radu -o pid,ppid,comm,pcpu,pmem,rss \
+                | grep -E 'PID|dota|gamescope|Xwayland|cosmic|steam' || true
+              for metric in /sys/class/drm/card*/device/{gpu_busy_percent,mem_info_vram_used,mem_info_vram_total} \
+                /sys/class/drm/card*/device/hwmon/hwmon*/{temp*_input,fan*_input}; do
+                if [ -r "$metric" ]; then
+                  printf '%s: ' "$metric"
+                  cat "$metric"
+                fi
+              done
+            } >> "$capture/resources.log"
+          fi
+          sleep 1
         done
         sleep 10
         kill "$journal" "$console" "''${tracers[@]}" 2>/dev/null || true

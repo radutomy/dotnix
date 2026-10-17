@@ -1,7 +1,6 @@
 _: {
   flake.modules.nixos.nixpcHardware = { config, pkgs, ... }: {
     boot = {
-      kernelPackages = pkgs.linuxPackages_latest;
       initrd.availableKernelModules = [
         "nvme"
         "xhci_pci"
@@ -11,7 +10,6 @@ _: {
         "uas"
         "sd_mod"
       ];
-      initrd.kernelModules = [ ];
       kernelModules = [
         "kvm-amd"
         "nct6687"
@@ -21,9 +19,7 @@ _: {
       extraModprobeConfig = "options nct6687 force=1";
     };
 
-    nixpkgs.hostPlatform = "x86_64-linux";
     hardware = {
-      enableRedistributableFirmware = true;
       cpu.amd.updateMicrocode = true;
       amdgpu.overdrive.enable = true;
       wooting.enable = true;
