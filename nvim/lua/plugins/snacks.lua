@@ -43,9 +43,6 @@ return {
 			},
 			sources = {
 				explorer = {
-					auto_close = false, -- Prevent auto-closing when focusing other windows
-					jump = { close = false }, -- Don't close when jumping to files
-					follow_file = true, -- Automatically reveal current file in explorer
 					hidden = true, -- Show hidden files by default
 					actions = {
 						explorer_clear_selection = function(picker) picker.list:set_selected() end,
@@ -55,11 +52,7 @@ return {
 					},
 					layout = {
 						hidden = { "input" }, -- Hide the search bar
-						layout = {
-							width = 0.20, -- 25% of screen width (dynamic)
-							-- min_width = 32,
-							position = "left",
-						},
+						layout = { width = 0.20 },
 					},
 					win = {
 						input = {
@@ -93,20 +86,8 @@ return {
 			function() Snacks.picker.explorer() end,
 			desc = "File Explorer",
 		},
-		{
-			"<leader>fF",
-			function() Snacks.picker.files({ cwd = LazyVim.root() }) end,
-			desc = "Find Files (Root Dir)",
-		},
-		{
-			"<leader>ff",
-			function() Snacks.picker.files({ cwd = vim.fn.getcwd() }) end,
-			desc = "Find Files (cwd)",
-		},
-		{
-			"<leader><space>",
-			function() Snacks.picker.files({ cwd = vim.fn.getcwd() }) end,
-			desc = "Find Files (cwd)",
-		},
+		{ "<leader>fF", LazyVim.pick "files", desc = "Find Files (Root Dir)" },
+		{ "<leader>ff", LazyVim.pick("files", { root = false }), desc = "Find Files (cwd)" },
+		{ "<leader><space>", LazyVim.pick("files", { root = false }), desc = "Find Files (cwd)" },
 	},
 }

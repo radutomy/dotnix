@@ -7,19 +7,8 @@ return {
 				virtual_text = false,
 				signs = { text = { "●", "●", "●", "●" } }, -- error, warn, info, hint
 				float = { border = "rounded", source = true, focusable = true },
-				severity_sort = true,
 			},
-			-- Recognize `vim` as a global to suppress undefined-global warnings
 			servers = {
-				lua_ls = {
-					settings = {
-						Lua = {
-							diagnostics = {
-								globals = { "vim" },
-							},
-						},
-					},
-				},
 				nil_ls = {
 					settings = {
 						["nil"] = {

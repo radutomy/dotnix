@@ -1,9 +1,4 @@
--- Keymaps are automatically loaded on the VeryLazy event
--- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
-
--- ============================================================================
 -- LSP
--- ============================================================================
 
 -- F1 - Show signature help if inside function call, otherwise show hover docs
 vim.keymap.set("n", "<F1>", function()
@@ -22,49 +17,28 @@ vim.keymap.set("n", "<F1>", function()
 		end
 	end
 	vim.lsp.buf.hover()
-end, { noremap = true, silent = true, desc = "LSP documentation" })
+end, { desc = "LSP documentation" })
 
 -- F2 - next ERROR
 vim.keymap.set(
 	"n",
 	"<F2>",
 	function() vim.diagnostic.jump({ count = 1, severity = vim.diagnostic.severity.ERROR }) end,
-	{ noremap = true, silent = true, desc = "Go to next error" }
+	{ desc = "Go to next error" }
 )
 
--- F3 - Show and copy full file path
-vim.keymap.set("n", "<F3>", function()
-	local path = vim.fn.expand "%:p"
-	vim.fn.setreg("+", path)
-	vim.notify(path, vim.log.levels.INFO, { title = "File path" })
-end, { noremap = true, silent = false, desc = "Copy file path" })
+-- F3/F4 - Show and copy the full file path / folder location
+for key, expr in pairs({ ["<F3>"] = "%:p", ["<F4>"] = "%:p:h" }) do
+	vim.keymap.set("n", key, function()
+		local path = vim.fn.expand(expr)
+		vim.fn.setreg("+", path)
+		vim.notify(path)
+	end, { desc = "Copy path" })
+end
 
--- F4 - Show and copy folder location
-vim.keymap.set("n", "<F4>", function()
-	local folder = vim.fn.expand "%:p:h"
-	vim.fn.setreg("+", folder)
-	vim.notify(folder, vim.log.levels.INFO, { title = "Directory location" })
-end, { noremap = true, silent = false, desc = "Copy folder location" })
+vim.keymap.set("n", "<leader>r", vim.lsp.buf.rename, { desc = "Rename" })
 
--- F5 - Restart Neovim
-vim.keymap.set(
-	"n",
-	"<F5>",
-	function() vim.cmd [[restart +qall! lua require("config.restart").restore_last_session()]] end,
-	{ noremap = true, silent = true, desc = "Restart Neovim and restore session" }
-)
-
--- Rename
-vim.keymap.set(
-	"n",
-	"<leader>r",
-	"<cmd>lua vim.lsp.buf.rename()<CR>",
-	{ noremap = true, silent = true, desc = "Rename" }
-)
-
--- ============================================================================
 -- Editing
--- ============================================================================
 
 -- Fix indentation for i, a, A and I
 for _, key in ipairs({ "i", "a", "A", "I" }) do
@@ -77,67 +51,41 @@ for _, key in ipairs({ "i", "a", "A", "I" }) do
 end
 
 -- Exits insert mode and returns the cursor to the same position it was before insert mode.
-vim.keymap.set("i", "<Esc>", "<Esc>`[", { noremap = true, silent = true })
+vim.keymap.set("i", "<Esc>", "<Esc>`[")
 
--- Enter in normal mode inserts a new line below with proper indentation
-vim.keymap.set("n", "<CR>", "ox<BS><ESC>", {
-	noremap = true,
-	desc = "󰌑 Insert line below",
-})
-
--- Shift+Enter inserts a new line above with proper indentation
-vim.keymap.set("n", "<S-CR>", "Ox<BS><ESC>", {
-	noremap = true,
-	desc = "󰌑 Insert line above",
-})
+-- Enter / Shift+Enter insert a new line below / above with proper indentation
+vim.keymap.set("n", "<CR>", "ox<BS><ESC>", { desc = "󰌑 Insert line below" })
+vim.keymap.set("n", "<S-CR>", "Ox<BS><ESC>", { desc = "󰌑 Insert line above" })
 
 -- Toggle comment
-vim.keymap.set("n", "f", "gcc", { remap = true, silent = true, desc = "Comment line" })
-vim.keymap.set("x", "f", "gc", { remap = true, silent = true, desc = "Comment selection" })
+vim.keymap.set("n", "f", "gcc", { remap = true, desc = "Comment line" })
+vim.keymap.set("x", "f", "gc", { remap = true, desc = "Comment selection" })
 
 -- In normal and visual modes, Ctrl+C yanks either the current line (in normal mode)
 -- or the selection (in visual mode) to the system clipboard, trimming leading and trailing whitespace
 vim.keymap.set({ "n", "x" }, "<C-c>", function()
 	vim.cmd('normal! "+' .. (vim.fn.mode() == "n" and "yy" or "y"))
 	vim.fn.setreg("+", vim.fn.getreg("+"):match "^%s*(.-)%s*$")
-end, { noremap = true, silent = true })
+end)
 
 -- In normal mode, Ctrl+V creates a new line, and pastes from the system clipboard
-vim.keymap.set("n", "<C-v>", function()
-	vim.cmd "normal! $o"
-	vim.cmd [[normal! "+p]]
-end, { noremap = true, silent = true })
+vim.keymap.set("n", "<C-v>", 'o<Esc>"+p')
 
--- <C-A> select all text
-vim.keymap.set(
-	"n",
-	"<C-a>",
-	function() vim.cmd "normal! ggVG" end,
-	{ noremap = true, silent = true, desc = "Select all text" }
-)
+vim.keymap.set("n", "<C-a>", "ggVG", { desc = "Select all text" })
 
--- ============================================================================
 -- Navigation
--- ============================================================================
 
-vim.keymap.set("n", "<Tab>", "<cmd>wincmd w<CR>", { silent = true, desc = "Switch windows" })
+vim.keymap.set("n", "<Tab>", "<cmd>wincmd w<CR>", { desc = "Switch windows" })
 vim.keymap.set(
 	"n",
 	"<C-i>",
 	function() vim.api.nvim_feedkeys(vim.keycode "<C-i>", "n", false) end,
-	{ silent = true, desc = "Forward in jumplist" }
+	{ desc = "Forward in jumplist" }
 )
 
-vim.keymap.set(
-	{ "n", "t" },
-	"<C-space>",
-	"<cmd>ToggleTerm<cr>",
-	{ noremap = true, silent = true, desc = "Toggle Terminal" }
-)
+vim.keymap.set({ "n", "t" }, "<C-space>", "<cmd>ToggleTerm<cr>", { desc = "Toggle Terminal" })
 
--- ============================================================================
 -- Misc
--- ============================================================================
 
 -- CTRL D/U 10-line jumps
 local function scroll_and_center(dir)
@@ -146,24 +94,10 @@ local function scroll_and_center(dir)
 	if (dir == "k" and l > hw and l < ll - hw) or (dir == "j" and l + hw <= ll) then vim.cmd "normal! zz" end
 end
 
-vim.keymap.set("n", "<C-u>", function() scroll_and_center "k" end, { silent = true })
-vim.keymap.set("n", "<C-d>", function() scroll_and_center "j" end, { silent = true })
+vim.keymap.set("n", "<C-u>", function() scroll_and_center "k" end)
+vim.keymap.set("n", "<C-d>", function() scroll_and_center "j" end)
 
--- Ctrl+q quit without saving
-vim.keymap.set(
-	{ "n", "v", "i", "t" },
-	"<C-q>",
-	"<cmd>qa!<cr>",
-	{ noremap = true, silent = true, desc = "Quit without saving" }
-)
+vim.keymap.set({ "n", "v", "i", "t" }, "<C-q>", "<cmd>qa!<cr>", { desc = "Quit without saving" })
+vim.keymap.set({ "n", "v", "i", "t" }, "<C-s>", "<cmd>wqa!<cr>", { desc = "Save and close all" })
 
--- Ctrl+s save and close all
-vim.keymap.set(
-	{ "n", "v", "i", "t" },
-	"<C-s>",
-	"<cmd>wqa!<cr>",
-	{ noremap = true, silent = true, desc = "Save and close all" }
-)
-
--- Remap : to ;
-vim.keymap.set("n", ";", ":", { noremap = true, silent = false })
+vim.keymap.set("n", ";", ":")

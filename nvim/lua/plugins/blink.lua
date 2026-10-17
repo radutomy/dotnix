@@ -1,6 +1,5 @@
 return {
 	"saghen/blink.cmp",
-	version = "1.*",
 	opts = function(_, opts)
 		opts.cmdline = { enabled = false }
 
@@ -11,10 +10,6 @@ return {
 		}
 		opts.sources = {
 			default = { "lsp", "path" },
-			providers = {
-				buffer = { enabled = false },
-				snippets = { enabled = false },
-			},
 		}
 		opts.completion = {
 			menu = {

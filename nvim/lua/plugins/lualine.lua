@@ -14,12 +14,6 @@ return {
 					shorting_target = 0,
 					icon = "󰈙 ",
 					color = { fg = vim.g.terminal_color_2 },
-					symbols = {
-						modified = "[+]",
-						readonly = "[-]",
-						unnamed = "[No Name]",
-						newfile = "[New]",
-					},
 				},
 			}
 		end,

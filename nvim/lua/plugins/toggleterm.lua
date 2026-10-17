@@ -3,7 +3,6 @@ return {
 	"akinsho/toggleterm.nvim",
 	opts = {
 		direction = "float",
-		dir = vim.fn.getcwd(),
 		float_opts = {
 			border = "rounded",
 		},
