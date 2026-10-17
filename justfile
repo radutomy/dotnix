@@ -1,13 +1,5 @@
-switch_command := if os() == "macos" {
-    "sudo darwin-rebuild switch --flake .#darwin"
-} else if path_exists("/etc/NIXOS") == "true" {
-    "nh os switch . --bypass-root-check"
-} else {
-    "nh home switch ."
-}
-
 switch:
-    {{ switch_command }}
+    nh os switch . --bypass-root-check
 
 cosmic:
     cosmic-ctl backup -x config /tmp/cosmic-backup.json
@@ -15,5 +7,5 @@ cosmic:
 
 update:
     nix flake update
-    {{ switch_command }}
+    nh os switch . --bypass-root-check
     -git commit -m 'flake.lock' -- flake.lock && git push

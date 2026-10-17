@@ -1,19 +1,6 @@
 local wezterm = require("wezterm")
 local config = wezterm.config_builder()
 
-------------- Platform Detection -------------
-local is_macos = wezterm.target_triple:find("darwin") ~= nil
-local is_linux = wezterm.target_triple:find("linux") ~= nil
-local is_windows = wezterm.target_triple:find("windows") ~= nil
-
--- Connect to VM based on OS
-if is_macos then
-	config.default_prog = { "/usr/local/bin/orb", "-m", "nixi", "-u", "root" }
-elseif is_windows then
-	config.default_prog = { "wsl.exe", "~", "-d", "nixi", "-u", "root" }
-	config.allow_win32_input_mode = false
-end
-
 ------------- Configuration -------------
 
 config.color_scheme = "Vs Code Dark+ (Gogh)"
@@ -28,7 +15,7 @@ config.disable_default_key_bindings = true
 config.audible_bell = "Disabled"
 config.notification_handling = "NeverShow"
 config.window_decorations = "RESIZE"
-config.font_size = is_macos and 14 or 11
+config.font_size = 11
 config.warn_about_missing_glyphs = false
 config.window_close_confirmation = "NeverPrompt"
 config.adjust_window_size_when_changing_font_size = false
@@ -40,19 +27,17 @@ config.max_fps = 240
 
 -- Frosted glass on Cosmic DE
 -- config.window_background_opacity = 1
--- if is_linux then
--- 	local glass = (os.getenv("HOME") or "") .. "/.config/cosmic/com.system76.CosmicTheme.Dark/v2/transparent_background"
--- 	local f = io.open(glass)
--- 	local alpha = f and f:read("a"):match('base:%s*"#%x+(%x%x)"')
--- 	if f then
--- 		f:close()
--- 	end
--- 	wezterm.add_to_config_reload_watch_list(glass)
--- 	if alpha then
--- 		config.window_background_opacity = tonumber(alpha, 16) / 255
--- 	end
--- 	config.wayland_window_background_blur = true
+-- local glass = (os.getenv("HOME") or "") .. "/.config/cosmic/com.system76.CosmicTheme.Dark/v2/transparent_background"
+-- local f = io.open(glass)
+-- local alpha = f and f:read("a"):match('base:%s*"#%x+(%x%x)"')
+-- if f then
+-- 	f:close()
 -- end
+-- wezterm.add_to_config_reload_watch_list(glass)
+-- if alpha then
+-- 	config.window_background_opacity = tonumber(alpha, 16) / 255
+-- end
+-- config.wayland_window_background_blur = true
 
 -- Start maximized
 wezterm.on("gui-startup", function(cmd)
@@ -61,9 +46,6 @@ wezterm.on("gui-startup", function(cmd)
 end)
 
 ------------- Keybindings -------------
-
--- Use CMD on macOS, CTRL on Windows/Linux
-local mod = is_macos and "CMD" or "CTRL"
 
 local function copy_or_send_ctrl_c(window, pane)
 	local sel = window:get_selection_text_for_pane(pane)
@@ -75,11 +57,11 @@ local function copy_or_send_ctrl_c(window, pane)
 end
 
 config.keys = {
-	{ key = "c", mods = mod, action = wezterm.action_callback(copy_or_send_ctrl_c) },
-	{ key = "v", mods = mod, action = wezterm.action.PasteFrom("Clipboard") },
-	{ key = "a", mods = mod, action = wezterm.action.SendKey({ key = "a", mods = "CTRL" }) },
-	{ key = "=", mods = mod, action = wezterm.action.IncreaseFontSize },
-	{ key = "-", mods = mod, action = wezterm.action.DecreaseFontSize },
+	{ key = "c", mods = "CTRL", action = wezterm.action_callback(copy_or_send_ctrl_c) },
+	{ key = "v", mods = "CTRL", action = wezterm.action.PasteFrom("Clipboard") },
+	{ key = "a", mods = "CTRL", action = wezterm.action.SendKey({ key = "a", mods = "CTRL" }) },
+	{ key = "=", mods = "CTRL", action = wezterm.action.IncreaseFontSize },
+	{ key = "-", mods = "CTRL", action = wezterm.action.DecreaseFontSize },
 }
 
 return config

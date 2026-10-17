@@ -85,22 +85,6 @@
         "type": "github"
       }
     },
-    "flake-compat": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1767039857,
-        "narHash": "sha256-vNpUSpF5Nuw8xvDLj2KCwwksIbjua2LZCqhV1LNRDns=",
-        "owner": "edolstra",
-        "repo": "flake-compat",
-        "rev": "5edf11c44bc78a0d334f6334cdaf7d60d732daab",
-        "type": "github"
-      },
-      "original": {
-        "owner": "edolstra",
-        "repo": "flake-compat",
-        "type": "github"
-      }
-    },
     "flake-parts": {
       "inputs": {
         "nixpkgs-lib": [
@@ -212,27 +196,6 @@
         "type": "github"
       }
     },
-    "nix-darwin": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1786845137,
-        "narHash": "sha256-oQFip+v0luP8NIxJzmiW4Wu8bILsbFWom5l0zonl8hQ=",
-        "owner": "nix-darwin",
-        "repo": "nix-darwin",
-        "rev": "4cff07de74b50e64bdd68cd4e722ab5b6b35ee48",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-darwin",
-        "ref": "master",
-        "repo": "nix-darwin",
-        "type": "github"
-      }
-    },
     "nix-index-database": {
       "inputs": {
         "nixpkgs": [
@@ -276,27 +239,6 @@
         "type": "github"
       }
     },
-    "nixos-wsl": {
-      "inputs": {
-        "flake-compat": "flake-compat",
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1789164534,
-        "narHash": "sha256-DoYGPM6QpnYBLWj9gGw6ZwAzIX+HrAVov1BoT+8Jixo=",
-        "owner": "nix-community",
-        "repo": "NixOS-WSL",
-        "rev": "72c92b11bb8289e6651c7fef29cc0a885fd6a255",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-community",
-        "repo": "NixOS-WSL",
-        "type": "github"
-      }
-    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1791956154,
@@ -336,10 +278,8 @@
         "flake-parts": "flake-parts",
         "home-manager": "home-manager",
         "import-tree": "import-tree",
-        "nix-darwin": "nix-darwin",
         "nix-index-database": "nix-index-database",
         "nixflix": "nixflix",
-        "nixos-wsl": "nixos-wsl",
         "nixpkgs": "nixpkgs",
         "preservation": "preservation"
       }

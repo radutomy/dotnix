@@ -34,8 +34,6 @@ _: {
           set hydro_color_pwd green
           set hydro_color_git brblack
           set hydro_color_prompt white
-
-          fish_add_path ~/.cargo/bin
         '';
 
         interactiveShellInit = ''

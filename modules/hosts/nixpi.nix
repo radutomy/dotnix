@@ -36,14 +36,7 @@ in
       script = "[ -d /root/dotnix ] || ${lib.getExe pkgs.git} clone -c remote.origin.pushurl=git@github.com:radutomy/dotnix.git https://github.com/radutomy/dotnix /root/dotnix";
     };
 
-    home-manager.users.root.imports = with self.modules.homeManager; [
-      base
-      ai
-      fish
-      git
-      tmux
-      nvim
-    ];
+    home-manager.users.root.imports = [ self.modules.homeManager.base ];
   };
 
   flake.nixosConfigurations = inputs.nixpkgs.lib.genAttrs hostnames (

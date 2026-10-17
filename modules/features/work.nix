@@ -1,26 +1,7 @@
 # nix run .#cloneRepos
 let
-  email = "radu@rtom.dev";
-  name = "Radu T";
-  repo = "git@github.com";
-  repos = [
-    {
-      name = "dotnix";
-      url = "radutomy/dotnix";
-      branch = "main";
-    }
-    {
-      name = "rustlings";
-      url = "radutomy/rustlings";
-      branch = "main";
-    }
-  ];
-  clone = r: ''
-    if [ ! -d "$HOME/${r.name}/.git" ]; then
-      git clone -b ${r.branch} ${repo}:${r.url}.git "$HOME/${r.name}"
-      git -C "$HOME/${r.name}" config --local user.email "${email}"
-      git -C "$HOME/${r.name}" config --local user.name "${name}"
-    fi
+  clone = name: ''
+    [ -d "$HOME/${name}/.git" ] || git clone git@github.com:radutomy/${name}.git "$HOME/${name}"
   '';
 in
 {
@@ -137,14 +118,17 @@ in
         git-lfs
         openssh
       ];
-      text = lib.concatMapStringsSep "\n" clone repos;
+      text = lib.concatMapStringsSep "\n" clone [
+        "dotnix"
+        "rustlings"
+      ];
     };
   };
 
-  flake.modules.nixos.work-radios.networking.networkmanager = {
-    settings.main.no-auto-default = "enp131s0";
-
-    ensureProfiles.profiles.radios = {
+  flake.modules.nixos.work-radios.networking = {
+    firewall.trustedInterfaces = [ "enp131s0" ];
+    networkmanager.settings.main.no-auto-default = "enp131s0";
+    networkmanager.ensureProfiles.profiles.radios = {
       connection = {
         id = "Radios";
         type = "ethernet";

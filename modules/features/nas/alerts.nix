@@ -40,7 +40,6 @@ in
             "zfs-import-tank"
             "immich-server"
             "immich-machine-learning"
-            "opencloud"
             "postgresql"
             "redis-immich"
             "home-assistant"

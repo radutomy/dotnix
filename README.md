@@ -1,26 +1,19 @@
 # dotnix
 
-Shared Nix configuration for NixOS, macOS, Ubuntu, WSL, OrbStack, and NAS. It
+Shared Nix configuration for my NixOS machines. It
 uses the [dendritic pattern](https://www.vimjoyer.com/vid79-parts-wrapped) and
 [impermanence](https://www.vimjoyer.com/vid89-impermanent) to keep the setup
 easy to reuse and each machine clean.
 
 ## Install
 
-Replace `<host>` with `wsl`, `orb`, `nas`, `ubuntu`, or `macos`:
-
-```sh
-nix --extra-experimental-features "nix-command flakes" run --refresh \
-  github:radutomy/dotnix#<host>
-```
-
-For a fresh NixOS installation on NixPC or NixQS, find the target disk:
+For a fresh NixOS installation on NixPC, NixQS or NixMi, find the target disk:
 
 ```sh
 lsblk -pdo NAME,SIZE,MODEL
 ```
 
-Install NixOS, replacing `<host>` with `nixpc` or `nixqs` and `<disk>` with a
+Install NixOS, replacing `<host>` with `nixpc`, `nixqs` or `nixmi` and `<disk>` with a
 device such as `/dev/nvme0n1`:
 
 ```sh
@@ -29,6 +22,20 @@ nix --extra-experimental-features "nix-command flakes" run --refresh \
 ```
 
 This formats then installs NixOS on the selected disk.
+
+On the NAS, run:
+
+```sh
+nix --extra-experimental-features "nix-command flakes" run --refresh \
+  github:radutomy/dotnix#nas
+```
+
+For a Raspberry Pi 4, flash an SD card from a desktop. The hostname is one of
+the names listed in `modules/hosts/nixpi.nix`:
+
+```sh
+nix run .#nixpi-image -- <hostname> <wifi-ssid> <wifi-password> <device>
+```
 
 ## Rebuild
 

@@ -4,10 +4,10 @@ _: {
     services.adguardhome = {
       enable = true;
       openFirewall = true;
-      host = "0.0.0.0";
       mutableSettings = false;
       allowDHCP = true;
       settings = {
+        http.address = "0.0.0.0:3000";
         users = [
           {
             name = "adguard.a1@rtom.dev";

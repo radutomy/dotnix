@@ -1,16 +1,5 @@
 { self, inputs, ... }:
 let
-  homeModule = {
-    imports = [
-      self.modules.homeManager.base
-      self.modules.homeManager.ai
-      self.modules.homeManager.fish
-      self.modules.homeManager.git
-      self.modules.homeManager.tmux
-      self.modules.homeManager.nvim
-    ];
-  };
-
   hostModule = {
     imports = [
       self.modules.nixos.base
@@ -19,9 +8,8 @@ let
       self.modules.nixos.nasHardware
     ];
 
-    home-manager.users.root = homeModule;
+    home-manager.users.root.imports = [ self.modules.homeManager.base ];
   };
-
 in
 {
   flake.nixosConfigurations = {
@@ -34,7 +22,6 @@ in
         self.modules.nixos.glances
         self.modules.nixos.home-assistant
         self.modules.nixos.immich
-        self.modules.nixos.opencloud
         self.modules.nixos.rclone
         self.modules.nixos.tailscale
         self.modules.nixos.nixflix

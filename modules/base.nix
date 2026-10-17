@@ -1,0 +1,113 @@
+# Shared by every machine
+{ self, inputs, ... }: {
+  flake.modules.nixos.base = { pkgs, ... }: {
+    imports = [ inputs.home-manager.nixosModules.home-manager ];
+    home-manager.useGlobalPkgs = true;
+    nixpkgs.config.allowUnfree = true;
+    nix.settings = {
+      warn-dirty = false;
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
+    };
+    nix.channel.enable = false;
+    programs.nh.clean = {
+      enable = true;
+      extraArgs = "--keep 10 --no-gcroots";
+    };
+    programs.fish.enable = true;
+    users.defaultUserShell = pkgs.fish;
+  };
+
+  flake.modules.homeManager.base = { pkgs, ... }: {
+    imports = with self.modules.homeManager; [
+      inputs.nix-index-database.homeModules.nix-index
+      ai
+      fish
+      git
+      nvim
+      tmux
+    ];
+
+    home = {
+      stateVersion = "26.05";
+
+      packages = with pkgs; [
+        nh
+        lsd
+        age
+        just
+        zip
+        unzip
+        python3
+        wget
+        lsof
+        sqlite
+        yq-go
+        xxd
+        dnsutils
+        btop
+        fastfetch
+        yazi
+        witr
+
+        # Mostly used by the AI tool
+        ripgrep
+        fd
+        jq
+        bc
+        shellcheck
+        gh
+        poppler-utils
+        ast-grep
+        tokei
+        hyperfine
+        nix-tree
+      ];
+
+      shellAliases = {
+        ls = "lsd --group-dirs=first";
+        ll = "lsd -lah --group-dirs=first";
+        l = "lsd -A --group-dirs=first";
+        cat = "bat --style=plain";
+        p = "python";
+        gg = "lazygit";
+        cx = "codex";
+        cxr = "codex resume";
+        cc = "claude";
+        ccr = "claude --resume";
+        copilot = "copilot --allow-all";
+        co = "copilot --allow-all --continue";
+      };
+    };
+
+    programs = {
+      # , <command> runs any nixpkgs command without installing it
+      nix-index.enable = true;
+      nix-index-database.comma.enable = true;
+
+      bat = {
+        enable = true;
+        config.theme = "Visual Studio Dark+";
+      };
+
+      ssh = {
+        enable = true;
+        enableDefaultConfig = false;
+        settings = {
+          "*" = {
+            StrictHostKeyChecking = "no";
+            UserKnownHostsFile = "/dev/null";
+            ConnectTimeout = 10;
+          };
+          nas = {
+            HostName = "192.168.0.2";
+            User = "root";
+            ForwardAgent = true;
+          };
+        };
+      };
+    };
+  };
+}

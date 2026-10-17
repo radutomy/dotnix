@@ -14,11 +14,6 @@
       inputs.nixpkgs-lib.follows = "nixpkgs";
     };
 
-    nixos-wsl = {
-      url = "github:nix-community/NixOS-WSL";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     disko = {
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -31,11 +26,6 @@
 
     nix-index-database = {
       url = "github:nix-community/nix-index-database";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    nix-darwin = {
-      url = "github:nix-darwin/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -61,9 +51,6 @@
         inputs.flake-parts.flakeModules.modules
         (inputs.import-tree ./modules)
       ];
-      systems = [
-        "x86_64-linux"
-        "aarch64-linux"
-      ];
+      systems = [ "x86_64-linux" ];
     };
 }

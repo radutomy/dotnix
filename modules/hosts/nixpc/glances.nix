@@ -1,8 +1,8 @@
 _: {
-  flake.modules.homeManager.glances = { pkgs, ... }: {
-    home.packages = [ pkgs.glances ];
+  flake.modules.nixos.nixpc-glances = { pkgs, ... }: {
+    environment.systemPackages = [ pkgs.glances ];
 
-    xdg.configFile."glances/glances.conf".text = ''
+    home-manager.users.radu.xdg.configFile."glances/glances.conf".text = ''
       [global]
       refresh=1
 

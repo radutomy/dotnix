@@ -43,7 +43,7 @@ _: {
     ];
 
     home.activation.cosmicSettings = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-      run ${lib.getExe pkgs.cosmic-ext-ctl} apply ${../../../cosmic}/$HOSTNAME.json
+      run ${lib.getExe pkgs.cosmic-ext-ctl} apply ${../../cosmic}/$HOSTNAME.json
     '';
   };
 }

@@ -2,9 +2,12 @@
 { self, ... }: {
   flake.modules.nixos.desktop = { config, ... }: {
     imports = [
+      self.modules.nixos.base
+      self.modules.nixos.preservation
+      self.modules.nixos.work
       self.modules.nixos.cosmic
       self.modules.nixos.steam
-      self.modules.nixos.hwshared
+      self.modules.nixos.hardware
       self.modules.nixos.distrobox
     ];
 
@@ -21,6 +24,7 @@
       };
     };
 
+    home-manager.users.radu.imports = [ self.modules.homeManager.desktop ];
     environment.sessionVariables.SSH_AUTH_SOCK = "${config.users.users.radu.home}/.bitwarden-ssh-agent.sock";
 
     boot = {
@@ -57,16 +61,12 @@
   };
 
   flake.modules.homeManager.desktop = { config, pkgs, ... }: {
-    imports = [
-      self.modules.homeManager.base
-      self.modules.homeManager.ai
-      self.modules.homeManager.fish
-      self.modules.homeManager.git
-      self.modules.homeManager.nvim
-      self.modules.homeManager.rust
-      self.modules.homeManager.tmux
-      self.modules.homeManager.cosmic
-      self.modules.homeManager.firefox
+    imports = with self.modules.homeManager; [
+      base
+      rust
+      cosmic
+      firefox
+      autostart
     ];
 
     home.packages = with pkgs; [

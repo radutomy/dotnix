@@ -1,23 +1,14 @@
 { self, inputs, ... }: {
   flake.nixosConfigurations.nixqs = inputs.nixpkgs.lib.nixosSystem {
     modules = [
-      self.modules.nixos.base
       self.modules.nixos.desktop
-      self.modules.nixos.nixqs-config
       self.modules.nixos.nixqsDisko
-      self.modules.nixos.preservation
       self.modules.nixos.nixqsHardware
       self.modules.nixos.sunshine
-      self.modules.nixos.work
       self.modules.nixos.work-radios
       {
-        home-manager.users.radu = {
-          imports = [
-            self.modules.homeManager.desktop
-            self.modules.homeManager.autostart
-            self.modules.homeManager.nixqs-autostart
-          ];
-        };
+        networking.hostName = "nixqs";
+        services.tailscale.extraSetFlags = [ "--accept-routes" ];
       }
     ];
   };
