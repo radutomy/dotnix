@@ -7,44 +7,20 @@ _: {
       ...
     }:
     {
-      # plain package instead of programs.tmux so HM doesn't generate its own
-      # tmux.conf over the repo's config symlinked below
-      home.packages = [ pkgs.tmux ];
+      options.tmux.layout = lib.mkOption { default = "default"; };
+      config = {
+        home.packages = [ pkgs.tmux ];
 
-      # Symlink the repo's tmux config into ~/.config
-      xdg.configFile."tmux".source =
-        config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotnix/tmux";
+        # Symlink the repo's tmux config into ~/.config
+        xdg.configFile."tmux".source =
+          config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotnix/tmux";
 
-      programs.fish.interactiveShellInit = lib.mkAfter ''
-        # Point existing tmux apps to the new SSH connection's agent so Git still works after reconnecting
-        if set -q SSH_CONNECTION SSH_AUTH_SOCK; and not set -q TMUX; and test "$SSH_AUTH_SOCK" != ~/.ssh/forwarded-agent
-          ln -sfn "$SSH_AUTH_SOCK" ~/.ssh/forwarded-agent
-          set -gx SSH_AUTH_SOCK ~/.ssh/forwarded-agent
-        end
-
-        # Skip inside tmux to avoid nested sessions.
-        if not set -q TMUX
-          cd ~
-          # Start tmux only in the first open terminal.
-          tmux list-clients 2>/dev/null | string match -qr .; and return
-
-          tmux attach 2>/dev/null; and exit
-          set -l core ~/src/mosaic-uxs_mosaic-core-rs
-          test -d $core; or set core ~
-          tmux new-session -d -s main -n core -c $core
-          tmux split-window -h -p 30 -c $core
-          tmux select-pane -U
-          tmux new-window -n stack
-          tmux split-window -h -p 30
-          tmux select-pane -U
-          tmux new-window -n heap
-          tmux new-window -n cache -c ~/dotnix
-          tmux split-window -h -p 30 -c ~/dotnix
-          tmux split-window -v -p 25 -c ~/dotnix
-          tmux select-pane -L
-          tmux select-window -t 0
-          exec tmux attach
-        end
-      '';
+        programs.fish.interactiveShellInit = lib.mkAfter ''
+          if not set -q TMUX; and not tmux list-clients 2>/dev/null | string match -qr .
+            tmux has-session 2>/dev/null; or tmux start-server \; source-file ~/dotnix/tmux/layouts/${config.tmux.layout}.conf
+            exec tmux new-session -A -s main
+          end
+        '';
+      };
     };
 }
