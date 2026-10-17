@@ -1,6 +1,7 @@
 { self, inputs, ... }: {
   flake.nixosConfigurations.nixpc = inputs.nixpkgs.lib.nixosSystem {
     modules = [
+      ./_xwayland-diagnostics.nix
       self.modules.nixos.base
       self.modules.nixos.desktop
       self.modules.nixos.nixpc-config
