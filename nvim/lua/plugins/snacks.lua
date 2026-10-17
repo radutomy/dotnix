@@ -11,9 +11,7 @@ return {
 	end,
 	opts = {
 		words = { enabled = false },
-		explorer = {
-			trash = false,
-		},
+		explorer = { trash = false },
 		scroll = {
 			animate = {
 				duration = { step = 20, total = 120 },
@@ -28,24 +26,10 @@ return {
 			},
 		},
 		picker = {
-			win = {
-				input = {
-					keys = {
-						["<Esc>"] = { "close", mode = { "i", "n" } },
-					},
-				},
-			},
-			formatters = {
-				file = {
-					filename_first = true,
-					truncate = 80, -- path is set to this many characters max
-				},
-			},
+			win = { input = { keys = { ["<Esc>"] = { "close", mode = { "i", "n" } } } } },
+			formatters = { file = { filename_first = true, truncate = 80 } },
 			sources = {
 				explorer = {
-					auto_close = false, -- Prevent auto-closing when focusing other windows
-					jump = { close = false }, -- Don't close when jumping to files
-					follow_file = true, -- Automatically reveal current file in explorer
 					hidden = true, -- Show hidden files by default
 					actions = {
 						explorer_clear_selection = function(picker) picker.list:set_selected() end,
@@ -55,11 +39,7 @@ return {
 					},
 					layout = {
 						hidden = { "input" }, -- Hide the search bar
-						layout = {
-							width = 0.20, -- 25% of screen width (dynamic)
-							-- min_width = 32,
-							position = "left",
-						},
+						layout = { width = 0.20 },
 					},
 					win = {
 						input = {
@@ -87,26 +67,9 @@ return {
 		},
 	},
 	keys = {
-		-- Explorer
-		{
-			"<leader>e",
-			function() Snacks.picker.explorer() end,
-			desc = "File Explorer",
-		},
-		{
-			"<leader>fF",
-			function() Snacks.picker.files({ cwd = LazyVim.root() }) end,
-			desc = "Find Files (Root Dir)",
-		},
-		{
-			"<leader>ff",
-			function() Snacks.picker.files({ cwd = vim.fn.getcwd() }) end,
-			desc = "Find Files (cwd)",
-		},
-		{
-			"<leader><space>",
-			function() Snacks.picker.files({ cwd = vim.fn.getcwd() }) end,
-			desc = "Find Files (cwd)",
-		},
+		{ "<leader>e", function() Snacks.picker.explorer() end, desc = "File Explorer" },
+		{ "<leader>fF", LazyVim.pick "files", desc = "Find Files (Root Dir)" },
+		{ "<leader>ff", LazyVim.pick("files", { root = false }), desc = "Find Files (cwd)" },
+		{ "<leader><space>", LazyVim.pick("files", { root = false }), desc = "Find Files (cwd)" },
 	},
 }

@@ -3,10 +3,7 @@ return {
 	"akinsho/toggleterm.nvim",
 	opts = {
 		direction = "float",
-		dir = vim.fn.getcwd(),
-		float_opts = {
-			border = "rounded",
-		},
+		float_opts = { border = "rounded" },
 		on_open = function(term)
 			local k, b = vim.keymap.set, term.bufnr
 			k("t", "<C-u>", "<C-\\><C-n><C-u>zz", { buffer = b })

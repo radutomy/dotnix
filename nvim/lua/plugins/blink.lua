@@ -1,32 +1,16 @@
 return {
 	"saghen/blink.cmp",
-	version = "1.*",
 	opts = function(_, opts)
 		opts.cmdline = { enabled = false }
-
 		opts.keymap = {
 			preset = "super-tab",
 			["<C-j>"] = { "select_next", "fallback" },
 			["<C-k>"] = { "select_prev", "fallback" },
 		}
-		opts.sources = {
-			default = { "lsp", "path" },
-			providers = {
-				buffer = { enabled = false },
-				snippets = { enabled = false },
-			},
-		}
+		opts.sources = { default = { "lsp", "path" } }
 		opts.completion = {
-			menu = {
-				border = "single",
-			},
-			documentation = {
-				auto_show = true,
-				auto_show_delay_ms = 500,
-				window = {
-					border = "single",
-				},
-			},
+			menu = { border = "single" },
+			documentation = { auto_show = true, auto_show_delay_ms = 500, window = { border = "single" } },
 		}
 		return opts
 	end,

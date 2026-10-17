@@ -2,18 +2,8 @@
 local theme = "vscode"
 
 return {
-	{
-		"LazyVim/LazyVim",
-		opts = { colorscheme = theme },
-	},
-	{
-		"Mofiqul/vscode.nvim",
-		opts = {
-			transparent = true,
-			italic_comments = true,
-			italic_inlayhints = true,
-		},
-	},
+	{ "LazyVim/LazyVim", opts = { colorscheme = theme } },
+	{ "Mofiqul/vscode.nvim", opts = { transparent = true, italic_comments = true, italic_inlayhints = true } },
 	{
 		"catppuccin/nvim",
 		opts = {
