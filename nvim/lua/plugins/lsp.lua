@@ -27,10 +27,6 @@ return {
 						},
 					},
 				},
-				-- Disable OmniSharp which comes by default with lang.dotnet
-				omnisharp = {
-					enabled = false,
-				},
 				buf_ls = {},
 			},
 		},
@@ -40,19 +36,5 @@ return {
 				callback = function() vim.diagnostic.open_float(nil, { focus = false, scope = "cursor" }) end,
 			})
 		end,
-	},
-
-	-- Add C# Roslyn support
-	{
-		"seblj/roslyn.nvim",
-		ft = "cs",
-		lazy = true,
-		opts = {
-			extensions = {
-				razor = {
-					enabled = false,
-				},
-			},
-		},
 	},
 }

@@ -10,7 +10,6 @@
       {
         networking.hostName = "nixpc";
         home-manager.users.radu = { pkgs, ... }: {
-          imports = [ self.modules.homeManager.csharp ];
           home.packages = [ pkgs.discord ];
           # Both on workspace "1"; WezTerm first, so it takes the left side when tiled
           autostart.workspaceLayout = ''
