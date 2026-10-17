@@ -35,6 +35,7 @@
       # Quiet boot: hide systemd unit spam and harmless kernel warnings
       consoleLogLevel = 3;
       kernelParams = [ "quiet" ];
+      binfmt.emulatedSystems = [ "aarch64-linux" ];
     };
 
     users.mutableUsers = false;
@@ -76,7 +77,6 @@
       signal-desktop
       cheese
       popsicle
-      rpi-imager
     ];
 
     xdg.userDirs = {

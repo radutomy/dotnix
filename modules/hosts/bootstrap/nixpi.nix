@@ -1,28 +1,17 @@
-_: {
+# nix run .#nixpi-image -- <hostname> <wifi-ssid> <wifi-password> <device>
+# nix run .#nixpi-image -- nixpi IoT 'ihavenoidea' /dev/sda
+{ self, ... }: {
   perSystem = { pkgs, ... }: {
-    apps.nixpi.program = pkgs.writeShellApplication {
-      name = "nixpi";
-      runtimeInputs = with pkgs; [
-        git
-        nixos-anywhere
-      ];
+    apps.nixpi-image.program = pkgs.writeShellApplication {
+      name = "nixpi-image";
       text = ''
-        if [ "$#" -ne 1 ]; then
-          echo "Usage: nixpi root@<installer-ip>" >&2
-          exit 2
+        if [ "$(lsblk -dno RM "$4")" != 1 ]; then
+          echo "$4 is not a removable disk" >&2
+          exit 1
         fi
-
-        files=$(mktemp -d)
-        trap 'rm -rf "$files"' EXIT
-        mkdir -p "$files/root"
-        git clone -c remote.origin.pushurl=git@github.com:radutomy/dotnix.git \
-          https://github.com/radutomy/dotnix "$files/root/dotnix"
-
-        nixos-anywhere \
-          --flake "path:$files/root/dotnix#nixpi" \
-          --phases disko,install,reboot \
-          --extra-files "$files" \
-          --target-host "$1"
+        image=$(PI_HOSTNAME=$1 WIFI_SSID=$2 WIFI_PSK=$3 nix build --impure --no-link --print-out-paths ${self}#nixosConfigurations.nixpi.config.system.build.sdImage)
+        sudo umount "$4"?* 2>/dev/null || true
+        sudo dd if="$image/sd-image/${self.nixosConfigurations.nixpi.config.image.fileName}" of="$4" bs=4M oflag=direct conv=fsync status=progress
       '';
     };
   };
