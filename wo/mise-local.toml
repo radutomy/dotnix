@@ -17,8 +17,8 @@ run = "trunk build --release"
 [tasks.core]
 env = { MOSAIC_SHUTDOWN_WITH_STDIN = "false" }
 run = [
-  "cargo build --bin video_grpc_server",
-  "cargo run -p mosaic --bin mosaic",
+  "cargo build --locked -p video-streaming --bin video_grpc_server",
+  "cargo run --locked -p mosaic --bin mosaic",
 ]
 
 [tasks.sim]
@@ -37,3 +37,25 @@ depends = ["meteomatics", "frontend"]
 
 [tasks."meteomatics:driver"]
 run = "pnpx wait-on tcp:127.0.0.1:3000 && set -a && . ~/dotnix/wo/.env && set +a && cargo run -p mosaic-meteomatics-driver"
+
+# --- RadioNOR ---
+
+[tasks.radionor]
+description = "Run Core and the RadioNOR driver against connected radios"
+depends = ["core", "radionor:driver"]
+
+[tasks."radionor:ui"]
+description = "Run the RadioNOR stack with the frontend"
+depends = ["radionor", "frontend"]
+
+[tasks."radionor:driver"]
+description = "Wait for Core, then run the RadioNOR driver"
+env = { RUST_LOG = "info" }
+run = "pnpx wait-on tcp:127.0.0.1:3000 && cargo run --locked -p radionor-client"
+
+[tasks."radionor:test"]
+description = "Run RadioNOR unit tests and query connected radios"
+run = [
+  "cargo test --locked -p radionor-api-client -p radionor-client",
+  "cargo test --locked -p radionor-api-client --test hardware -- --ignored --nocapture",
+]
