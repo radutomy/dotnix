@@ -51,8 +51,6 @@
       ];
     };
 
-    environment.sessionVariables.HOST_ICON = "󰒍";
-
     environment.systemPackages = with pkgs; [
       nvme-cli
       smartmontools
