@@ -1,7 +1,7 @@
 dir := "/home/radu/dotnix/wo"
 
 codex-push:
-    {{ dir  }}/codex-context.sh push
+    {{ dir }}/codex-context.sh push
 
 codex-pull:
     {{ dir }}/codex-context.sh pull

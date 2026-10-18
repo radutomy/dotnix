@@ -1,18 +1,4 @@
 #!/usr/bin/env bash
-# Changelog (2026-09-19)
-# - pull: stopped swapping the whole Codex directory with `mv --exchange`.
-#   ~/.config/codex is a bind mount (preservation), and a mount point can't be
-#   renamed, so every pull failed with "Device or resource busy".
-# - pull: downloads into a staging folder inside the Codex directory instead,
-#   then swaps each synced item and database in with a single rename. That
-#   keeps the swap near-atomic without renaming the mount point, and stops
-#   copying the whole directory into /tmp (RAM) on every pull.
-# - pull: dropped the second `.backup` of the downloaded databases. They are
-#   already validated `.backup` output from the push, so it added nothing.
-# - The synced items are one list (CONTEXT_ITEMS); push builds its rsync
-#   filters from it, so push and pull can't disagree on what gets synced.
-# - The exit trap uses `rm -rf`: `rm -r` stopped on a prompt for every
-#   read-only git pack file under .tmp when a pull failed.
 set -euo pipefail
 
 readonly NAS_HOST=nas

@@ -7,5 +7,5 @@ cosmic:
 
 update:
     nix flake update
-    nh os switch . --bypass-root-check
+    just switch
     -git commit -m 'flake.lock' -- flake.lock && git push
