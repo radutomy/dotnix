@@ -1,4 +1,4 @@
-{
+_: {
   flake.modules.nixos.work-config = { pkgs, ... }: {
     home-manager.users.radu = { config, ... }: {
       programs.mise = {
