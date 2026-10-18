@@ -10,7 +10,6 @@ _: {
       mediaLocation = "/tank/photos";
     };
     systemd = {
-
       tmpfiles.settings.immich-photos."/tank/photos".d = {
         user = "immich";
         group = "immich";

@@ -1,5 +1,3 @@
--- disable auto comment
-vim.cmd [[autocmd FileType * set formatoptions-=ro]]
 vim.g.clipboard = "osc52"
 
 local o = vim.opt

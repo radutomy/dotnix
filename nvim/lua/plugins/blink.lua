@@ -2,11 +2,7 @@ return {
 	"saghen/blink.cmp",
 	opts = function(_, opts)
 		opts.cmdline = { enabled = false }
-		opts.keymap = {
-			preset = "super-tab",
-			["<C-j>"] = { "select_next", "fallback" },
-			["<C-k>"] = { "select_prev", "fallback" },
-		}
+		opts.keymap = { preset = "super-tab" }
 		opts.sources = { default = { "lsp", "path" } }
 		opts.completion = {
 			menu = { border = "single" },

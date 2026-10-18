@@ -9,3 +9,8 @@ vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold" }, {
 vim.api.nvim_create_autocmd("FileChangedShell", {
 	callback = function() vim.v.fcs_choice = "reload" end,
 })
+
+-- Don't continue comments on a new line
+vim.api.nvim_create_autocmd("FileType", {
+	callback = function() vim.opt.formatoptions:remove({ "r", "o" }) end,
+})
