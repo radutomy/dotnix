@@ -1,5 +1,5 @@
 _: {
-  flake.modules.nixos.nixpc-hardware = { config, pkgs, ... }: {
+  flake.modules.nixos.nixpc-hardware = { config, ... }: {
     boot = {
       initrd.availableKernelModules = [
         "nvme"

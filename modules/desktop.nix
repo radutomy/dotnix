@@ -1,23 +1,23 @@
 # Shared by every NixOS host with a graphical desktop (nixqs, nixpc, nixmi).
 { self, ... }:
 let
-  nixosImports = with self.modules.nixos; [
-    base
-    sshc
-    preservation
-    work
-    cosmic
-    steam
-    hardware
-    distrobox
+  nixosImports = [
+    self.modules.nixos.base
+    self.modules.nixos.sshc
+    self.modules.nixos.preservation
+    self.modules.nixos.work
+    self.modules.nixos.cosmic
+    self.modules.nixos.steam
+    self.modules.nixos.hardware
+    self.modules.nixos.distrobox
   ];
 
-  homeImports = with self.modules.homeManager; [
-    base
-    rust
-    cosmic
-    firefox
-    autostart
+  homeImports = [
+    self.modules.homeManager.base
+    self.modules.homeManager.rust
+    self.modules.homeManager.cosmic
+    self.modules.homeManager.firefox
+    self.modules.homeManager.autostart
   ];
 
   homePackages =

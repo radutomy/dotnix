@@ -1,14 +1,14 @@
 # Shared by every machine
 { self, inputs, ... }:
 let
-  homeImports = with self.modules.homeManager; [
+  homeImports = [
     inputs.nix-index-database.homeModules.nix-index
-    ai
-    fish
-    git
-    nvim
-    ssh
-    tmux
+    self.modules.homeManager.ai
+    self.modules.homeManager.fish
+    self.modules.homeManager.git
+    self.modules.homeManager.nvim
+    self.modules.homeManager.ssh
+    self.modules.homeManager.tmux
   ];
 
   homePackages =

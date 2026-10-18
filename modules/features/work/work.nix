@@ -9,13 +9,11 @@
     environment.systemPackages = with pkgs; [
       devenv
       git
-      git-lfs
       lazysql
       mold
       ethtool
       usbutils
       arp-scan
-      tcpdump
       protobuf
       pkg-config
       nodejs
