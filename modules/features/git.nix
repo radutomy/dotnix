@@ -31,6 +31,8 @@ _: {
         gpg.format = "ssh";
 
         init.defaultBranch = "main";
+        # Clone over HTTPS (no key needed), push over SSH
+        url."git@github.com:".pushInsteadOf = "https://github.com/";
         pull.rebase = true;
         rebase.autoStash = true;
         merge.conflictstyle = "diff3";

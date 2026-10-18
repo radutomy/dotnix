@@ -31,7 +31,7 @@ in
 
           target=$(mktemp -d)
 
-          git clone -c remote.origin.pushurl=git@github.com:radutomy/dotnix.git https://github.com/radutomy/dotnix "$target/dotnix"
+          git clone https://github.com/radutomy/dotnix "$target/dotnix"
 
           sudo disko-install \
             --flake "path:$target/dotnix#${host}" \
