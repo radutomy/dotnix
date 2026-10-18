@@ -60,7 +60,7 @@ Full reinstall:
 
 ```sh
 nix run github:nix-community/nixos-anywhere -- \
-  --flake github:radutomy/dotnix#nasFullReinstall \
+  --flake github:radutomy/dotnix#nas-full-reinstall \
   --target-host root@192.168.0.2
 ```
 
@@ -68,7 +68,7 @@ Reinstall the OS disk only:
 
 ```sh
 nix run github:nix-community/nixos-anywhere -- \
-  --flake github:radutomy/dotnix#nasOSRecovery \
+  --flake github:radutomy/dotnix#nas-os-recovery \
   --target-host root@192.168.0.2
 ```
 

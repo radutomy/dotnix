@@ -6,11 +6,7 @@
       self.modules.nixos.nixqs-hardware
       self.modules.nixos.sunshine
       self.modules.nixos.radiocable
-      {
-        networking.hostName = "nixqs";
-        home-manager.users.radu.tmux.layout = "laptop";
-        services.tailscale.extraSetFlags = [ "--accept-routes" ];
-      }
+      self.modules.nixos.nixqs-config
     ];
   };
 }

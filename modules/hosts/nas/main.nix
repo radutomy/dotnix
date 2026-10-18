@@ -30,14 +30,14 @@ in
     };
 
     # alternate boot configs for the same machine
-    nasFullReinstall = inputs.nixpkgs.lib.nixosSystem {
+    nas-full-reinstall = inputs.nixpkgs.lib.nixosSystem {
       modules = [
         hostModule
         self.modules.nixos.nas-data-disko
       ];
     };
 
-    nasOSRecovery = inputs.nixpkgs.lib.nixosSystem {
+    nas-os-recovery = inputs.nixpkgs.lib.nixosSystem {
       modules = [ hostModule ];
     };
   };

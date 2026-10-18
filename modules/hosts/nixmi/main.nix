@@ -7,13 +7,7 @@
       self.modules.nixos.nixmi-hardware
       self.modules.nixos.nixmi-bitland-mifs-wmi
       self.modules.nixos.moonlight
-      {
-        networking.hostName = "nixmi";
-        home-manager.users.radu.tmux.layout = "laptop";
-        services.tailscale.extraSetFlags = [ "--accept-routes" ];
-        services.fprintd.enable = true;
-        preservation.preserveAt."/persistent".directories = [ "/var/lib/fprint" ];
-      }
+      self.modules.nixos.nixmi-config
     ];
   };
 }
