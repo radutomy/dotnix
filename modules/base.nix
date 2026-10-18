@@ -62,6 +62,7 @@ in
       enable = true;
       extraArgs = "--keep 10 --no-gcroots";
     };
+    services.tailscale.enable = true;
     programs.fish.enable = true;
     users.defaultUserShell = pkgs.fish;
     time.timeZone = "Europe/London";
