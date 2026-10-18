@@ -37,12 +37,12 @@ _: {
           # Follow a slow average (~15 s) so short Tctl bursts don't spike the fan
           t=$(( t + ($(<"$temp") / 100 - t) / 8 ))
 
-          if ((t <= 600)); then
-            value=107 # ≤60°C: 42%
-          elif ((t < 850)); then
-            value=$((107 + (t - 600) * 29 / 250)) # 60–85°C: 42–53%
+          if ((t <= 700)); then
+            value=107 # ≤70°C: 42%
+          elif ((t < 900)); then
+            value=$((107 + (t - 700) * 29 / 200)) # 70–90°C: 42–53%
           elif ((t < 950)); then
-            value=$((136 + (t - 850) * 17 / 100)) # 85–95°C: 53–60%
+            value=$((136 + (t - 900) * 30 / 50)) # 90–95°C: 53–65%
           else
             value=166 # ≥95°C (TjMax): 65%
           fi
@@ -81,11 +81,14 @@ _: {
             temperature_key: junction
             interval_ms: 500
             curve:
-              50: 0.15
-              70: 0.30
-              80: 0.40
-              90: 0.48
+              70: 0.15
+              77: 0.22
+              84: 0.30
+              90: 0.40
               95: 0.55
+          pmfw_options:
+            zero_rpm: true
+            zero_rpm_threshold: 70
     '';
     systemd.services.lactd.restartTriggers = [ config.environment.etc."lact/config.yaml".source ];
 
