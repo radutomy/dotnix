@@ -36,7 +36,6 @@
         ".config/codex"
         ".config/copilot"
         ".config/mozilla"
-        ".config/discord"
         ".config/gh"
         ".config/Signal"
         ".config/spotify"
@@ -44,7 +43,6 @@
         ".local/state/nvim"
         ".local/share/fish"
         ".local/share/nvim"
-        ".local/share/Steam"
         ".local/share/zoxide"
 
         # User Data
