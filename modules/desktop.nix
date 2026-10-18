@@ -32,7 +32,7 @@ let
     ];
 in
 {
-  flake.modules.nixos.desktop = { pkgs, ... }: {
+  flake.modules.nixos.desktop = { config, pkgs, ... }: {
     imports = nixosImports;
     nixpkgs.hostPlatform = "x86_64-linux";
     hardware.enableRedistributableFirmware = true;
@@ -74,6 +74,8 @@ in
         "wheel"
         "networkmanager"
       ];
+      # Same keys as root, so hosts importing sshd also accept ssh radu@<host>
+      openssh.authorizedKeys.keys = config.users.users.root.openssh.authorizedKeys.keys;
     };
 
     # Never ask for a sudo password, and suppress sudo's introductory lecture.
