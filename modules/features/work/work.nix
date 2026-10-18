@@ -4,6 +4,7 @@
       self.modules.nixos.gstreamer
       self.modules.nixos.work-config
     ];
+    home-manager.users.radu.imports = [ self.modules.homeManager.work ];
 
     environment.systemPackages = with pkgs; [
       devenv
