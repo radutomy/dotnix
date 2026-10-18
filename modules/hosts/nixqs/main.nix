@@ -5,7 +5,7 @@
       self.modules.nixos.nixqsDisko
       self.modules.nixos.nixqsHardware
       self.modules.nixos.sunshine
-      self.modules.nixos.work-radios
+      self.modules.nixos.radiocable
       {
         networking.hostName = "nixqs";
         home-manager.users.radu.tmux.layout = "laptop";

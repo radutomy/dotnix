@@ -7,6 +7,7 @@
       self.modules.nixos.nixpcDisko
       self.modules.nixos.nixpcHardware
       self.modules.nixos.moonlight
+      self.modules.nixos.radiotunnel-pc
       {
         networking.hostName = "nixpc";
         home-manager.users.radu = { pkgs, ... }: {

@@ -31,7 +31,7 @@ nix --extra-experimental-features "nix-command flakes" run --refresh \
 ```
 
 For a Raspberry Pi 4, flash an SD card from a desktop. The hostname is one of
-the names listed in `modules/hosts/nixpi.nix`:
+the names listed in `modules/hosts/nixpi/main.nix`:
 
 ```sh
 nix run --refresh github:radutomy/dotnix#nixpi-image -- <hostname> <wifi-ssid> <wifi-password> <device>

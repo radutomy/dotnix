@@ -1,13 +1,4 @@
-{ self, inputs, ... }:
-let
-  hostnames = [
-    "nixpi"
-    "nixpi-1"
-    "nixpi-2"
-    "nixpi-qs"
-  ];
-in
-{
+{ inputs, ... }: {
   flake.modules.nixos.nixpi = { lib, pkgs, ... }: {
     imports = [ "${inputs.nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64.nix" ];
     nixpkgs.hostPlatform = "aarch64-linux";
@@ -31,19 +22,5 @@ in
       after = [ "network-online.target" ];
       script = "[ -d /root/dotnix ] || ${lib.getExe pkgs.git} clone -c remote.origin.pushurl=git@github.com:radutomy/dotnix.git https://github.com/radutomy/dotnix /root/dotnix";
     };
-
-    home-manager.users.root.imports = [ self.modules.homeManager.base ];
   };
-
-  flake.nixosConfigurations = inputs.nixpkgs.lib.genAttrs hostnames (
-    name:
-    inputs.nixpkgs.lib.nixosSystem {
-      modules = with self.modules.nixos; [
-        base
-        sshd
-        nixpi
-        { networking.hostName = name; }
-      ];
-    }
-  );
 }
