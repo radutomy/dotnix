@@ -75,7 +75,7 @@ let
   };
 in
 {
-  flake.modules.nixos.nixpcDisko = disko "nixpc";
-  flake.modules.nixos.nixqsDisko = disko "main";
-  flake.modules.nixos.nixmiDisko = disko "nixmi";
+  flake.modules.nixos.nixpc-disko = disko "nixpc";
+  flake.modules.nixos.nixqs-disko = disko "main";
+  flake.modules.nixos.nixmi-disko = disko "nixmi";
 }

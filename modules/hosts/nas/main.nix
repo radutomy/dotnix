@@ -5,8 +5,8 @@ let
       self.modules.nixos.base
       self.modules.nixos.sshd
       self.modules.nixos.nas-config
-      self.modules.nixos.nasOSDisko
-      self.modules.nixos.nasHardware
+      self.modules.nixos.nas-os-disko
+      self.modules.nixos.nas-hardware
     ];
 
     home-manager.users.root.imports = [ self.modules.homeManager.base ];
@@ -33,7 +33,7 @@ in
     nasFullReinstall = inputs.nixpkgs.lib.nixosSystem {
       modules = [
         hostModule
-        self.modules.nixos.nasDataDisko
+        self.modules.nixos.nas-data-disko
       ];
     };
 

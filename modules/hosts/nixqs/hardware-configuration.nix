@@ -1,7 +1,7 @@
 # TUXEDO Stellaris 16 - Gen 7 Intel (board X6AR5xxY).
 # Core Ultra 9 275HX, Intel Arrow Lake iGPU + NVIDIA Blackwell dGPU.
 _: {
-  flake.modules.nixos.nixqsHardware =
+  flake.modules.nixos.nixqs-hardware =
     {
       config,
       pkgs,

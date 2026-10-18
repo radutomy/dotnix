@@ -8,7 +8,7 @@ let
   };
 in
 {
-  flake.modules.nixos.nasDataDisko = { lib, ... }: {
+  flake.modules.nixos.nas-data-disko = { lib, ... }: {
     imports = [ inputs.disko.nixosModules.disko ];
 
     disko.devices.disk = lib.mapAttrs (_: device: {

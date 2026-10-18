@@ -2,7 +2,7 @@
 # and may be overwritten by future invocations.  Please make changes
 # to /etc/nixos/configuration.nix instead.
 _: {
-  flake.modules.nixos.nasHardware =
+  flake.modules.nixos.nas-hardware =
     {
       config,
       lib,

@@ -4,8 +4,8 @@
       ./_xwayland-diagnostics.nix
       self.modules.nixos.desktop
       self.modules.nixos.nixpc-glances
-      self.modules.nixos.nixpcDisko
-      self.modules.nixos.nixpcHardware
+      self.modules.nixos.nixpc-disko
+      self.modules.nixos.nixpc-hardware
       self.modules.nixos.moonlight
       self.modules.nixos.radiotunnel-pc
       {

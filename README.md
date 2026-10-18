@@ -78,5 +78,5 @@ Build `/tmp/live-usb.iso`:
 
 ```sh
 nix --extra-experimental-features "nix-command flakes" run --refresh \
-  github:radutomy/dotnix#liveUsb
+  github:radutomy/dotnix#live-usb
 ```

@@ -16,7 +16,7 @@ in
         [
           base
           sshd
-          nixpi
+          nixpi-config
           {
             networking.hostName = name;
             home-manager.users.root.imports = [ self.modules.homeManager.base ];

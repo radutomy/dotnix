@@ -1,6 +1,6 @@
 # Book Pro 14 (2026), Intel 358H, 32 GiB RAM
 _: {
-  flake.modules.nixos.nixmiHardware = { pkgs, ... }: {
+  flake.modules.nixos.nixmi-hardware = { pkgs, ... }: {
 
     boot = {
       initrd.availableKernelModules = [
