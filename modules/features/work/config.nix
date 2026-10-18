@@ -1,52 +1,6 @@
-let
-  gst =
-    pkgs: with pkgs.gst_all_1; [
-      gstreamer
-      gst-plugins-base
-      gst-plugins-good
-      gst-plugins-bad
-      gst-plugins-ugly
-      gst-libav
-      gst-rtsp-server
-      gst-editing-services
-    ];
-in
 {
-  flake.modules.nixos.work = { pkgs, ... }: {
-    environment = {
-      systemPackages =
-        with pkgs;
-        [
-          devenv
-          git
-          git-lfs
-          lazysql
-          mold
-          ethtool
-          usbutils
-          arp-scan
-          tcpdump
-          protobuf
-          pkg-config
-          nodejs
-          pnpm
-          nssTools
-        ]
-        ++ gst pkgs;
-
-      sessionVariables.PKG_CONFIG_PATH = pkgs.lib.makeSearchPathOutput "dev" "lib/pkgconfig" (
-        [
-          pkgs.openssl
-          pkgs.glib
-        ]
-        ++ gst pkgs
-      );
-      sessionVariables.GST_PLUGIN_SYSTEM_PATH_1_0 =
-        pkgs.lib.makeSearchPathOutput "out" "lib/gstreamer-1.0"
-          (gst pkgs);
-    };
-
-    home-manager.users.radu = { config, pkgs, ... }: {
+  flake.modules.nixos.work-config = { pkgs, ... }: {
+    home-manager.users.radu = { config, ... }: {
       programs.mise = {
         enable = true;
         enableFishIntegration = true;
@@ -60,7 +14,6 @@ in
         config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotnix/wo/justfile";
 
       home = {
-        packages = [ pkgs.teams-for-linux ];
         shellAliases.j = "just -g";
         file."src/mosaic-uxs_mosaic-core-rs/mise.local.toml".source =
           config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotnix/wo/mise-local.toml";
