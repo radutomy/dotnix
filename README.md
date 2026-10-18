@@ -1,9 +1,7 @@
 # dotnix
 
-Shared Nix configuration for my NixOS machines. It
-uses the [dendritic pattern](https://www.vimjoyer.com/vid79-parts-wrapped) and
-[impermanence](https://www.vimjoyer.com/vid89-impermanent) to keep the setup
-easy to reuse and each machine clean.
+Shared Nix configuration for my NixOS machines. It uses the [dendritic pattern](https://www.vimjoyer.com/vid79-parts-wrapped) and
+[impermanence](https://www.vimjoyer.com/vid89-impermanent) to keep the setup easy to reuse.
 
 ## Install
 
@@ -13,15 +11,14 @@ For a fresh NixOS installation on NixPC, NixQS or NixMi, find the target disk:
 lsblk -pdo NAME,SIZE,MODEL
 ```
 
-Install NixOS, replacing `<host>` with `nixpc`, `nixqs` or `nixmi` and `<disk>` with a
-device such as `/dev/nvme0n1`:
+Install NixOS, replacing 
+`<host>` with `nixpc, nixqs or nixmi` 
+`<disk>` with a device such as `/dev/nvme0n1`
 
 ```sh
 nix --extra-experimental-features "nix-command flakes" run --refresh \
   github:radutomy/dotnix#<host> -- <disk>
 ```
-
-This formats then installs NixOS on the selected disk.
 
 On the NAS, run:
 
@@ -40,19 +37,31 @@ nix run --refresh github:radutomy/dotnix#nixpi-image -- <hostname> <wifi-ssid> <
 nix run --refresh github:radutomy/dotnix#nixpi-image -- nixpi IoT 'ihavenoidea' /dev/sda
 ```
 
-## Rebuild
+## NAS
 
-Run from `~/dotnix` on any configured machine:
+- LAN: `192.168.0.2`
+- Tailscale: `100.68.0.2` (`nas.feist-tint.ts.net`)
 
-```sh
-just switch
-```
+### Web services
 
-Update, rebuild, commit, and push:
 
-```sh
-just update
-```
+| Service | Port |
+| --- | --- |
+| Home Assistant | 8123 |
+| Immich | 2283 |
+| AdGuard Home | 3000 |
+| Filebrowser (read-only `/drive` mirror) | 8080 |
+| Glances | 61208 |
+| qBittorrent | 9090 |
+
+### Network services
+
+
+| Service | Port | Notes |
+| --- | --- | --- |
+| DNS (AdGuard Home) | 53/tcp+udp | Resolver for the LAN |
+| DHCP (AdGuard Home) | 67/udp | Leases `192.168.0.50`–`192.168.0.250`, gateway `192.168.0.1` |
+| Tailscale | 41641/udp | WireGuard |
 
 ## NAS recovery
 
