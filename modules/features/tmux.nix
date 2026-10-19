@@ -16,7 +16,7 @@ _: {
           config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotnix/tmux";
 
         programs.fish.interactiveShellInit = lib.mkAfter ''
-          if not set -q TMUX; and not tmux list-clients 2>/dev/null | string match -qr .
+          if not set -q TMUX; and begin; set -q SSH_CONNECTION; or not tmux list-clients 2>/dev/null | string match -qr .; end
             tmux has-session 2>/dev/null; or tmux start-server \; source-file ~/dotnix/tmux/layouts/${config.tmux.layout}.conf
             exec tmux new-session -A -s main
           end
