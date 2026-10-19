@@ -23,6 +23,7 @@ let
   homePackages =
     pkgs: with pkgs; [
       wezterm
+      wl-clipboard
       chromium
       spotify
       bitwarden-desktop
