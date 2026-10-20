@@ -8,6 +8,8 @@ _: {
       ...
     }:
     {
+      imports = [ ./_tuxedo-temp-fix.nix ];
+
       boot = {
         initrd.availableKernelModules = [
           "nvme"
@@ -23,7 +25,11 @@ _: {
       hardware = {
         cpu.intel.updateMicrocode = true;
 
-        tuxedo-drivers.enable = true;
+        tuxedo-drivers = {
+          enable = true;
+          # Mostly plugged in: cap charging at 80% to slow battery wear
+          settings.charging-profile = "stationary";
+        };
 
         graphics = {
           enable = true;
@@ -79,9 +85,6 @@ _: {
           # the real camera to apps, so they sometimes pick it and show black.
           # Unbind its driver so its /dev/video* nodes never exist.
           ACTION=="bind", SUBSYSTEM=="usb", DRIVER=="uvcvideo", ATTRS{interface}=="IR Camera", RUN+="/bin/sh -c 'echo $kernel > /sys/bus/usb/drivers/uvcvideo/unbind'"
-
-          # Mostly plugged in: cap the battery at ~80% to slow wear
-          ACTION=="add", SUBSYSTEM=="platform", KERNEL=="tuxedo_keyboard", ATTR{charging_profile/charging_profile}="stationary"
         '';
       };
     };
