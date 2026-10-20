@@ -2,11 +2,7 @@
 # Core Ultra 9 275HX, Intel Arrow Lake iGPU + NVIDIA Blackwell dGPU.
 _: {
   flake.modules.nixos.nixqs-hardware =
-    {
-      config,
-      pkgs,
-      ...
-    }:
+    { pkgs, ... }:
     {
       imports = [ ./_tuxedo-temp-fix.nix ];
 
@@ -20,6 +16,8 @@ _: {
           "sd_mod"
         ];
         kernelModules = [ "kvm-intel" ];
+        # Intel only (see the NVIDIA udev rules below)
+        blacklistedKernelModules = [ "nouveau" ];
       };
 
       hardware = {
@@ -38,34 +36,9 @@ _: {
             vpl-gpu-rt
           ];
         };
-
-        nvidia = {
-          open = true;
-          package = config.boot.kernelPackages.nvidiaPackages.production;
-
-          modesetting.enable = true;
-          powerManagement.enable = true;
-          powerManagement.finegrained = true;
-
-          nvidiaSettings = false;
-          videoAcceleration = false;
-
-          prime = {
-            offload = {
-              enable = true;
-              enableOffloadCmd = true;
-            };
-            intelBusId = "PCI:0:2:0";
-            nvidiaBusId = "PCI:2:0:0";
-          };
-        };
       };
 
       services = {
-        # Loads the nvidia kernel module and blacklists nouveau. Still the
-        # correct switch under Wayland-only COSMIC.
-        xserver.videoDrivers = [ "nvidia" ];
-
         thermald = {
           enable = true;
           ignoreCpuidCheck = true;
@@ -85,6 +58,12 @@ _: {
           # the real camera to apps, so they sometimes pick it and show black.
           # Unbind its driver so its /dev/video* nodes never exist.
           ACTION=="bind", SUBSYSTEM=="usb", DRIVER=="uvcvideo", ATTRS{interface}=="IR Camera", RUN+="/bin/sh -c 'echo $kernel > /sys/bus/usb/drivers/uvcvideo/unbind'"
+
+          # Intel only: hybrid graphics put COSMIC and apps on different GPUs, which froze Firefox
+          # and glitched the display. Remove the NVIDIA GPU and its HDMI audio so nothing uses
+          # them and they power down; every display output in use is wired to Intel anyway.
+          ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x10de", ATTR{class}=="0x03[0-9]*", ATTR{power/control}="auto", ATTR{remove}="1"
+          ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x10de", ATTR{class}=="0x040300", ATTR{power/control}="auto", ATTR{remove}="1"
         '';
       };
     };
