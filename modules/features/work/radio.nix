@@ -4,8 +4,8 @@
 let
   ipv4 = {
     method = "manual";
-    address1 = "10.19.127.10/16";
-    address2 = "172.18.110.10/16";
+    address1 = "10.19.127.10/16"; # RadioNOR
+    address2 = "172.18.110.10/16"; # Silvus
     never-default = true;
   };
   tunnel = remote: connection: {
@@ -23,17 +23,23 @@ let
   };
 in
 {
-  flake.modules.nixos.radiocable.networking = {
-    firewall.trustedInterfaces = [ "enp131s0" ];
-    networkmanager.settings.main.no-auto-default = "enp131s0";
-    networkmanager.ensureProfiles.profiles.radios = {
-      connection = {
-        id = "Radios";
-        type = "ethernet";
-        interface-name = "enp131s0";
-        autoconnect = true;
+  flake.modules.nixos.radiocable = {
+    systemd.network.links."10-radio-monitor" = {
+      matchConfig.Driver = "r8152";
+      linkConfig.Name = "radio-monitor";
+    };
+    networking = {
+      firewall.trustedInterfaces = [ "radio-monitor" ];
+      networkmanager.settings.main.no-auto-default = "radio-monitor";
+      networkmanager.ensureProfiles.profiles.radios-monitor = {
+        connection = {
+          id = "Radios (monitor)";
+          type = "ethernet";
+          interface-name = "radio-monitor";
+          autoconnect = true;
+        };
+        inherit ipv4;
       };
-      inherit ipv4;
     };
   };
 
