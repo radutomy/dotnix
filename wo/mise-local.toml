@@ -40,13 +40,14 @@ run = "pnpx wait-on tcp:127.0.0.1:3000 && set -a && . ~/dotnix/wo/.env && set +a
 
 # --- RadioNOR ---
 
-[tasks.radionor]
-description = "Run Core and the RadioNOR driver against connected radios"
-depends = ["core", "radionor:driver"]
-
+# run this
 [tasks."radionor:ui"]
 description = "Run the RadioNOR stack with the frontend"
 depends = ["radionor", "frontend"]
+
+[tasks.radionor]
+description = "Run Core and the RadioNOR driver against connected radios"
+depends = ["core", "radionor:driver"]
 
 [tasks."radionor:driver"]
 description = "Wait for Core, then run the RadioNOR driver"
