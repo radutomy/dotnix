@@ -6,7 +6,7 @@
       self.modules.nixos.nixpc-disko
       self.modules.nixos.nixpc-hardware
       self.modules.nixos.moonlight
-      self.modules.nixos.radiotunnel-pc
+      self.modules.nixos.radio-tailscale-pc
       self.modules.nixos.nixpc-config
     ];
   };

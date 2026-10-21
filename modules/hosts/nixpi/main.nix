@@ -20,7 +20,7 @@ in
           home-manager.users.root.imports = [ self.modules.homeManager.base ];
         }
       ]
-      ++ inputs.nixpkgs.lib.optional (name == "nixpi-qs") self.modules.nixos.radiotunnel-pi;
+      ++ inputs.nixpkgs.lib.optional (name == "nixpi-qs") self.modules.nixos.radio-tailscale-pi;
     }
   );
 }

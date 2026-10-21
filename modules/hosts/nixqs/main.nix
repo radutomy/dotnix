@@ -6,7 +6,8 @@
       self.modules.nixos.nixqs-disko
       self.modules.nixos.nixqs-hardware
       self.modules.nixos.sunshine
-      self.modules.nixos.radiocable
+      self.modules.nixos.radio-cable
+      self.modules.nixos.radio-tailscale-pc
       self.modules.nixos.nixqs-config
     ];
   };
