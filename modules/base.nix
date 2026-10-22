@@ -9,6 +9,7 @@ let
     self.modules.homeManager.nvim
     self.modules.homeManager.ssh
     self.modules.homeManager.tmux
+    self.modules.homeManager.yazi
   ];
 
   homePackages =
@@ -28,7 +29,6 @@ let
       dnsutils
       btop
       fastfetch
-      yazi
       witr
       exiftool
 
