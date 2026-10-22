@@ -19,6 +19,7 @@ These are common instructions for all of Radu's agents across all scenarios.
 - Before adding code or dependencies, look for an existing project helper, then a standard library or native platform feature.
 - Diagnose problems from evidence such as logs, system state, source code, and documentation.
 - Follow the project's existing patterns and conventions.
+- Do not add code comments unless absolutely necessary or to stay consistent with surrounding code. When needed, keep them short and use plain language.
 - Before changing shared behavior, check its callers and update every affected integration.
 - Verify changes in proportion to their risk and never claim success without checking.
 - Start bug fixes by attempting to reproduce the issue as the user experiences it. If that is not possible, explain the limitation and use the closest practical reproduction.
@@ -32,6 +33,7 @@ These are common instructions for all of Radu's agents across all scenarios.
 - Keep replies proportional to the task.
   State the result, relevant verification, and any material limitation without repeating the reasoning.
 - Explain why complexity is necessary when a solution cannot remain simple.
+- After changing code in a repository, end your final response with `LoC: -<lines removed> / +<lines added>`, counting only your changes.
 
 ## Radu's Opinions
 
