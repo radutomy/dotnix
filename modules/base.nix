@@ -30,6 +30,7 @@ let
       fastfetch
       yazi
       witr
+      exiftool
 
       # Mostly used by the AI tool
       ripgrep
