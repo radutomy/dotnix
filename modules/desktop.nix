@@ -29,7 +29,8 @@ let
       bitwarden-desktop
       signal-desktop
       cheese
-      popsicle
+      popsicle # usb file flasher
+      drawing
     ];
 in
 {
