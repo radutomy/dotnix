@@ -33,7 +33,7 @@ These are common instructions for all of Radu's agents across all scenarios.
 - Keep replies proportional to the task.
   State the result, relevant verification, and any material limitation without repeating the reasoning.
 - Explain why complexity is necessary when a solution cannot remain simple.
-- After changing code in a repository, end your final response with `LoC: -<lines removed> / +<lines added>`, counting only your changes.
+- After changing code in a repository, end your final response with `LoC: -<lines removed> (in red) / +<lines added>` (in green), counting only your changes.
 
 ## Radu's Opinions
 
