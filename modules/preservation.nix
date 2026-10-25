@@ -44,6 +44,7 @@
         ".local/share/fish"
         ".local/share/nvim"
         ".local/share/zoxide"
+        ".vite-plugin-mkcert"
 
         # User Data
         "dotnix"

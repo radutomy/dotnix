@@ -14,11 +14,8 @@
         desktopName = "Bitwarden";
         exec = "${pkgs.bitwarden-desktop}/bin/bitwarden --autostart";
       };
-      # Autologin starts firefox-autostart before NetworkManager finishes
-      # connecting, so eagerly-restored tabs load offline (NS_ERROR_OFFLINE).
-      # Block until the network is actually up first.
       firefoxWithNetwork = pkgs.writeShellScript "firefox-with-network" ''
-        ${pkgs.networkmanager}/bin/nm-online -q --timeout=10 || true
+        ${pkgs.curl}/bin/curl -fsSo /dev/null -m 5 --retry 100 --retry-all-errors --retry-delay 1 https://detectportal.firefox.com/success.txt
         exec ${config.programs.firefox.finalPackage}/bin/firefox
       '';
       firefoxEntry = pkgs.makeDesktopItem {
