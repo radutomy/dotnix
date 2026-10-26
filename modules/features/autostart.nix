@@ -15,7 +15,7 @@
         exec = "${pkgs.bitwarden-desktop}/bin/bitwarden --autostart";
       };
       firefoxWithNetwork = pkgs.writeShellScript "firefox-with-network" ''
-        ${pkgs.curl}/bin/curl -fsSo /dev/null -m 5 --retry 100 --retry-all-errors --retry-delay 1 https://detectportal.firefox.com/success.txt
+        ${pkgs.networkmanager}/bin/nm-online -q --timeout=10 || true
         exec ${config.programs.firefox.finalPackage}/bin/firefox
       '';
       firefoxEntry = pkgs.makeDesktopItem {
