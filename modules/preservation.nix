@@ -41,6 +41,7 @@
         ".config/spotify"
         ".local/state/cosmic-comp"
         ".local/state/nvim"
+        ".local/state/wireplumber"
         ".local/share/fish"
         ".local/share/nvim"
         ".local/share/zoxide"
