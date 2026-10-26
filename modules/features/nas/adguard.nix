@@ -55,6 +55,7 @@ _: {
             subnet_mask = "255.255.255.0";
             range_start = "192.168.0.50";
             range_end = "192.168.0.250";
+            options = [ "6 ips 192.168.0.2,1.1.1.1" ]; # NAS Adguard DNS first, Cloudflare as backup
           };
         };
       };

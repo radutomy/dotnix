@@ -32,7 +32,6 @@ _: {
           ConnectTimeout = 10;
         };
         nas = {
-          HostName = "192.168.0.2";
           User = "root";
           ForwardAgent = true;
         };
