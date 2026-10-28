@@ -4,8 +4,6 @@
 # - kernel 7.3 needs 4.25+, nixpkgs still has 4.20.1; 4.25 moved its udev rules to files/usr
 # - nixpkgs' kmodigest module signing: its Makefile pastes $(MAKEFLAGS) into a shell command, which breaks on the new
 #   cmd_sign=...$(space)$@ flag; make passes the flags down through the environment anyway
-# - the install now also runs depmod, whose index files collide with the kernel's;
-#   NixOS regenerates them for the merged module tree
 {
   nixpkgs.overlays = [
     (_: prev: {
@@ -23,9 +21,6 @@
             postPatch = (old.postPatch or "") + ''
               substituteInPlace Makefile --replace-fail ' $(MAKEFLAGS)' ""
               mv files/usr usr
-            '';
-            postInstall = old.postInstall + ''
-              rm $out/lib/modules/*/modules.*
             '';
           });
         }
