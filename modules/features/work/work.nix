@@ -10,6 +10,7 @@
       devenv
       git
       lazysql
+      gcc
       mold
       ethtool
       usbutils
