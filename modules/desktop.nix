@@ -17,12 +17,12 @@ let
     self.modules.homeManager.rust
     self.modules.homeManager.cosmic
     self.modules.homeManager.firefox
+    self.modules.homeManager.wezterm
     self.modules.homeManager.autostart
   ];
 
   homePackages =
     pkgs: with pkgs; [
-      wezterm
       wl-clipboard
       chromium
       spotify
@@ -86,7 +86,7 @@ in
     i18n.defaultLocale = "en_GB.UTF-8";
   };
 
-  flake.modules.homeManager.desktop = { config, pkgs, ... }: {
+  flake.modules.homeManager.desktop = { pkgs, ... }: {
     imports = homeImports;
     home.packages = homePackages pkgs;
 
@@ -103,8 +103,5 @@ in
       templates = null;
       videos = null;
     };
-
-    xdg.configFile."wezterm".source =
-      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotnix/wezterm";
   };
 }
