@@ -16,6 +16,7 @@
       usbutils
       arp-scan
       protobuf
+      ffmpeg
       buf # protobuf language server, used by nvim
       pkg-config
       nodejs
