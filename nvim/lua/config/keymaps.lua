@@ -68,9 +68,6 @@ vim.keymap.set({ "n", "x" }, "<C-c>", function()
 	vim.fn.setreg("+", vim.fn.getreg("+"):match "^%s*(.-)%s*$")
 end)
 
--- In normal mode, Ctrl+V creates a new line, and pastes from the system clipboard
-vim.keymap.set("n", "<C-v>", 'o<Esc>"+p')
-
 vim.keymap.set("n", "<C-a>", "ggVG", { desc = "Select all text" })
 
 -- Navigation

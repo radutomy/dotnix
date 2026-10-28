@@ -25,7 +25,6 @@
           --flake "$HOME/dotnix#nas"
 
         hostnamectl set-hostname nas || hostname nas
-        "$HOME/.nix-profile/bin/nvim" --headless "+Lazy! sync" +qa
       '';
     };
   };

@@ -1,55 +1,67 @@
-_: {
-  flake.modules.homeManager.nvim =
-    { pkgs, config, ... }:
-    {
-      programs.neovim = {
-        enable = true;
-        defaultEditor = true;
-        vimAlias = true;
-        sideloadInitLua = true;
-      };
+{ inputs, ... }: {
+  flake.modules.homeManager.nvim = { pkgs, ... }: {
+    imports = [ inputs.lazyvim-nix.homeManagerModules.default ];
 
-      home.packages = with pkgs; [
-        # Lazyvim
-        gcc
-        nodejs
-        tree-sitter
+    programs.neovim = {
+      defaultEditor = true;
+      vimAlias = true;
+    };
 
-        # Lua support
-        lua-language-server
-        stylua
+    programs.lazyvim = {
+      enable = true;
+      configFiles = ../../nvim;
+      treesitterParsers = [ pkgs.vimPlugins.nvim-treesitter-parsers.fish ];
 
-        # Shell formatting
-        shfmt
+      # TODO: (check 2027-04) lazyvim-nix scans ~/.config/nvim instead of configFiles for user plugins, so they download unless listed here; if fixed upstream, delete this block
+      plugins.nix-sources = with pkgs.vimPlugins; ''
+        return {
+          { name = "blink.cmp", dir = "${blink-cmp}" },
+          { name = "markview.nvim", dir = "${markview-nvim}" },
+          { name = "mini.cursorword", dir = "${mini-cursorword}" },
+          { name = "toggleterm.nvim", dir = "${toggleterm-nvim}" },
+          { name = "vscode.nvim", dir = "${vscode-nvim}" },
+        }
+      '';
 
-        # json
-        vscode-json-languageserver
-
-        # Markdown language server and linter
-        markdownlint-cli2
-        marksman
-
-        # TOML formatting / linting
-        taplo
-
-        # Nix language server, formatter, linter, and dead code checker
-        deadnix
-        nil
-        nixfmt
-        statix
-
-        # Protobuf language server
-        buf
-      ];
-
-      # symlink the repo's neovim config into ~/.config
-      xdg.configFile."nvim".source =
-        config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotnix/nvim";
-
-      # Hide Home Manager's Neovim launcher.
-      xdg.desktopEntries.nvim = {
-        name = "Neovim";
-        noDisplay = true;
+      extras = {
+        lang = {
+          git.enable = true;
+          json.enable = true;
+          markdown.enable = true;
+          nix.enable = true;
+          rust.enable = true;
+          toml.enable = true;
+        };
+        util = {
+          dot.enable = true;
+          mini-hipatterns.enable = true;
+        };
       };
     };
+
+    home.packages = with pkgs; [
+      lua-language-server
+      stylua
+      shfmt
+      bash-language-server
+      vscode-json-languageserver
+      marksman
+      taplo
+      deadnix
+      nil
+      nixfmt
+      statix
+    ];
+
+    xdg.dataFile."nvim/lazy/lazy.nvim" = {
+      source = pkgs.vimPlugins.lazy-nvim;
+      recursive = true;
+    };
+
+    # Hide Home Manager's Neovim launcher.
+    xdg.desktopEntries.nvim = {
+      name = "Neovim";
+      noDisplay = true;
+    };
+  };
 }

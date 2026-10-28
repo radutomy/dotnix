@@ -1,7 +1,7 @@
 vim.api.nvim_del_augroup_by_name "lazyvim_wrap_spell"
 
--- Auto-reload files changed externally
-vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold" }, {
+-- Auto-reload files changed externally (LazyVim already does it on FocusGained)
+vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold" }, {
 	callback = function() vim.cmd "checktime" end,
 })
 

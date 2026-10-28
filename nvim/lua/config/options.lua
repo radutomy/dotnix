@@ -10,4 +10,3 @@ o.pumblend = 0
 
 -- disable built-in completion
 o.complete = ""
-o.completeopt = ""
