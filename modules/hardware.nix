@@ -1,46 +1,57 @@
 _: {
-  flake.modules.nixos.hardware = {
+  flake.modules.nixos.hardware = { config, lib, ... }: {
     services.fwupd.enable = true;
+    systemd.services.kanata-default.serviceConfig.Restart = "on-failure";
     programs.appimage.enable = true;
     programs.appimage.binfmt = true;
 
-    # Caps Lock is disabled and repurposed as a nav layer instead:
-    # caps+left/right/up/down = home/end/page up/down.
-    # caps+h/j/k/l = left/down/up/right arrows.
-    # caps+h twice quickly = Home, caps+l twice quickly = End
-    # (kanata's tap-dance; keyd doesn't support double-tap detection,
-    # hence kanata over keyd).
     services.kanata = {
       enable = true;
       keyboards.default.config = ''
-        (defsrc
-          caps
-          left right up down
-          h j k l
-        )
+        (defsrc)
 
         (deflayermap (base)
           caps (layer-while-held nav)
-          left left
-          right right
-          up up
-          down down
-          h h
-          j j
-          k k
-          l l
+          ralt (layer-while-held media)
+          lctl (multi lctl (layer-while-held ctl))
+        )
+
+        (deflayermap (ctl)
+          w bspc
         )
 
         (deflayermap (nav)
-          caps _
           left home
           right end
           up pgup
           down pgdn
-          h (tap-dance-eager 160 (left home))
+          h left
           j down
           k up
-          l (tap-dance-eager 160 (right end))
+          l right
+          esc grv
+          e home
+          f end
+          1 f1  2 f2  3 f3  4 f4  5 f5  6 f6
+          7 f7  8 f8  9 f9  0 f10  - f11  = f12
+          bspc del
+          bksl nubs
+          rsft pgup
+          rmet home
+          comp pgdn
+          rctl end
+        )
+
+        (deflayermap (media)
+          bspc volu
+          bksl voldwn
+          ret pp
+          comm prev
+          . next
+          rsft mute
+          up mute
+          esc power
+          ${lib.optionalString (config.networking.hostName == "nixpc") "left f24"}
         )
       '';
     };
