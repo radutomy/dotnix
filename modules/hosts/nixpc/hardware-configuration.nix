@@ -101,13 +101,6 @@ _: {
           ATTR{device}=="0x5017", ATTR{remove}="1"
       '';
 
-      # The MAD mouse receiver does not advertise its active sensor resolution, so
-      # libinput otherwise falls back to 1000 DPI and misclassifies motion speed.
-      udev.extraHwdb = ''
-        mouse:usb:v373bp1040:name:Compx MAD 8K DONGLE*:*
-         MOUSE_DPI=1600@1000
-      '';
-
       # Hide unused audio devices (GPU HDMI outputs, webcam mic, and the
       # onboard/FiiO inputs and outputs we never use).
       pipewire.wireplumber.extraConfig."51-audio-devices" = {

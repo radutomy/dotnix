@@ -1,5 +1,5 @@
 _: {
-  flake.modules.nixos.hardware = { config, lib, ... }: {
+  flake.modules.nixos.hardware = {
     services.fwupd.enable = true;
     systemd.services.kanata-default.serviceConfig.Restart = "on-failure";
     programs.appimage.enable = true;
@@ -7,6 +7,7 @@ _: {
 
     services.kanata = {
       enable = true;
+      keyboards.default.extraDefCfg = "linux-device-detect-mode any";
       keyboards.default.config = ''
         (defsrc)
 
@@ -14,6 +15,12 @@ _: {
           caps (layer-while-held nav)
           ralt (layer-while-held media)
           lctl (multi lctl (layer-while-held ctl))
+          mmid (layer-while-held mouse)
+        )
+
+        (deflayermap (mouse)
+          mlft pp
+          mrgt next
         )
 
         (deflayermap (game)
@@ -58,7 +65,7 @@ _: {
           esc power
           g (layer-switch game)
           b (layer-switch base)
-          ${lib.optionalString (config.networking.hostName == "nixpc") "left f24"}
+          left f24
         )
       '';
     };

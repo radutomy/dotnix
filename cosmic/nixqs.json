@@ -61,7 +61,7 @@
         "cursor_follows_focus": "true",
         "edge_snap_threshold": "10",
         "focus_follows_cursor_delay": "100",
-        "input_default": "(\n    state: Enabled,\n    acceleration: Some((\n        profile: Some(Adaptive),\n        speed: -0.31502050629331074,\n    )),\n)",
+        "input_default": "(\n    state: Enabled,\n    acceleration: Some((\n        profile: Some(Adaptive),\n        speed: -0.7,\n    )),\n)",
         "input_touchpad": "(\n    state: Enabled,\n    click_method: Some(Clickfinger),\n    scroll_config: Some((\n        method: Some(TwoFinger),\n        natural_scroll: Some(true),\n        scroll_button: None,\n        scroll_factor: Some(0.4),\n    )),\n    tap_config: Some((\n        enabled: true,\n        button_map: Some(LeftRightMiddle),\n        drag: true,\n        drag_lock: false,\n    )),\n)",
         "input_touchpad_override": "r#None",
         "pinned_workspaces": "[\n    (\n        output: (\n            name: \"HDMI-A-2\",\n            edid: Some((\n                manufacturer: ('W', 'A', 'N'),\n                product: 9984,\n                serial: None,\n                manufacture_week: 9,\n                manufacture_year: 2019,\n                model_year: None,\n            )),\n        ),\n        tiling_enabled: false,\n        id: Some(\"9479a5\"),\n        name: None,\n    ),\n]",
