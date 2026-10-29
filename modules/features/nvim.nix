@@ -9,6 +9,7 @@
 
     programs.lazyvim = {
       enable = true;
+      ignoreBuildNotifications = true;
       configFiles = ../../nvim;
       treesitterParsers = [ pkgs.vimPlugins.nvim-treesitter-parsers.fish ];
 

@@ -16,6 +16,11 @@ _: {
           lctl (multi lctl (layer-while-held ctl))
         )
 
+        (deflayermap (game)
+          caps (layer-while-held nav)
+          ralt (layer-while-held media)
+        )
+
         (deflayermap (ctl)
           w bspc
         )
@@ -51,6 +56,8 @@ _: {
           rsft mute
           up mute
           esc power
+          g (layer-switch game)
+          b (layer-switch base)
           ${lib.optionalString (config.networking.hostName == "nixpc") "left f24"}
         )
       '';
