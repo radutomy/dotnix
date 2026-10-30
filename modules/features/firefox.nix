@@ -17,6 +17,11 @@ _: {
           key = "H";
         };
         key_browserConsole = { };
+        key_close = {
+          modifiers = "accel";
+          key = "S";
+        };
+        key_savePage = { };
       };
     };
 
