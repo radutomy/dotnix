@@ -5,6 +5,7 @@
       self.modules.nixos.work-config
     ];
     home-manager.users.radu.imports = [ self.modules.homeManager.work ];
+    networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ 5173 ];
 
     environment.systemPackages = with pkgs; [
       devenv

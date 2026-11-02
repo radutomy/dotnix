@@ -16,7 +16,7 @@ run = [
 ]
 
 [tasks.frontend]
-run = "pnpx wait-on tcp:127.0.0.1:8080 && pnpm --dir ~/src/mosaic-uxs_mosaic-frontend dev"
+run = "pnpx wait-on tcp:127.0.0.1:8080 && pnpm --dir ~/src/mosaic-uxs_mosaic-frontend dev --host"
 
 [tasks.sim]
 run = "tail -f /dev/null | cargo run -p flight-simulation-qs"
