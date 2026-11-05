@@ -1,5 +1,5 @@
+# TODO: (added 2026-10) check if the Book Pro 14 fixes landed in the kernel's bitland-mifs-wmi; if so, delete this folder and its line in ../main.nix.
 # Xiaomi platform driver with the Book Pro 14 power-mode fixes, until they land upstream.
-# To drop it: remove this folder and its line in ../main.nix.
 _: {
   flake.modules.nixos.nixmi-bitland-mifs-wmi =
     { config, pkgs, ... }:

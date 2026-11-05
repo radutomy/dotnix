@@ -1,6 +1,9 @@
 { inputs, ... }: {
   flake.modules.homeManager.nvim = { pkgs, ... }: {
-    imports = [ inputs.lazyvim-nix.homeManagerModules.default ];
+    imports = [
+      inputs.lazyvim-nix.homeManagerModules.default
+      ./_nvim-temp-fix.nix
+    ];
 
     programs.neovim = {
       defaultEditor = true;
@@ -12,17 +15,6 @@
       ignoreBuildNotifications = true;
       configFiles = ../../nvim;
       treesitterParsers = [ pkgs.vimPlugins.nvim-treesitter-parsers.fish ];
-
-      # TODO: (check 2027-04) lazyvim-nix scans ~/.config/nvim instead of configFiles for user plugins, so they download unless listed here; if fixed upstream, delete this block
-      plugins.nix-sources = with pkgs.vimPlugins; ''
-        return {
-          { name = "blink.cmp", dir = "${blink-cmp}" },
-          { name = "markview.nvim", dir = "${markview-nvim}" },
-          { name = "mini.cursorword", dir = "${mini-cursorword}" },
-          { name = "toggleterm.nvim", dir = "${toggleterm-nvim}" },
-          { name = "vscode.nvim", dir = "${vscode-nvim}" },
-        }
-      '';
 
       extras = {
         lang = {

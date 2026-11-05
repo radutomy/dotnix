@@ -11,8 +11,8 @@ _: {
         "sd_mod"
       ];
       kernelModules = [ "kvm-intel" ];
+      # TODO: (added 2026-10) boot without xe.enable_psr=0 and check the display for flicker or freezes; if it's fine, delete this line.
       # The upstream PSR2 quirk matches b081, not the 358H's B390 (b080).
-      # Keep this display workaround until verified on the actual panel.
       kernelParams = [ "xe.enable_psr=0" ];
     };
 
