@@ -24,6 +24,7 @@
       pnpm
       nssTools
       teams-for-linux
+      tesseract
     ];
   };
 }
