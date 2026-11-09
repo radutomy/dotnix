@@ -2,6 +2,9 @@ _: {
   flake.modules.nixos.hardware = {
     services.fwupd.enable = true;
     systemd.services.kanata-default.serviceConfig.Restart = "on-failure";
+    services.udev.extraRules = ''
+      SUBSYSTEM=="input", ENV{ID_INPUT_JOYSTICK}=="1", GROUP="root"
+    '';
     programs.appimage.enable = true;
     programs.appimage.binfmt = true;
 
