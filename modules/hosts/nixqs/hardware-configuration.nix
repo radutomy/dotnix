@@ -4,8 +4,6 @@ _: {
   flake.modules.nixos.nixqs-hardware =
     { pkgs, ... }:
     {
-      imports = [ ./_tuxedo-temp-fix.nix ];
-
       boot = {
         initrd.availableKernelModules = [
           "nvme"
