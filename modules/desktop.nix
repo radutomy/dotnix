@@ -9,6 +9,7 @@ let
     self.modules.nixos.cosmic
     self.modules.nixos.steam
     self.modules.nixos.hardware
+    self.modules.nixos.kanata
     self.modules.nixos.distrobox
   ];
 

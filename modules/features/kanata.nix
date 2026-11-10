@@ -1,0 +1,74 @@
+_: {
+  flake.modules.nixos.kanata = {
+    systemd.services.kanata-default.serviceConfig.Restart = "on-failure";
+    services.udev.extraRules = ''
+      SUBSYSTEM=="input", ENV{ID_INPUT_TOUCHPAD}=="1", GROUP="root"
+      SUBSYSTEM=="input", ENV{ID_INPUT_JOYSTICK}=="1", GROUP="root"
+    '';
+
+    services.kanata = {
+      enable = true;
+      keyboards.default.extraDefCfg = "linux-device-detect-mode any";
+      keyboards.default.config = ''
+        (defsrc)
+
+        (deflayermap (base)
+          caps (layer-while-held nav)
+          ralt (layer-while-held media)
+          lctl (multi lctl (layer-while-held ctl))
+          mmid (layer-while-held mouse)
+        )
+
+        (deflayermap (mouse)
+          mlft pp
+          mrgt next
+        )
+
+        (deflayermap (game)
+          caps (layer-while-held nav)
+          ralt (layer-while-held media)
+        )
+
+        (deflayermap (ctl)
+          w bspc
+        )
+
+        (deflayermap (nav)
+          left home
+          right end
+          up pgup
+          down pgdn
+          h left
+          j down
+          k up
+          l right
+          esc grv
+          e home
+          f end
+          1 f1  2 f2  3 f3  4 f4  5 f5  6 f6
+          7 f7  8 f8  9 f9  0 f10  - f11  = f12
+          bspc del
+          bksl nubs
+          rsft pgup
+          rmet home
+          comp pgdn
+          rctl end
+        )
+
+        (deflayermap (media)
+          bspc volu
+          bksl voldwn
+          ret pp
+          comm prev
+          . next
+          rsft mute
+          up mute
+          esc power
+          g (layer-switch game)
+          b (layer-switch base)
+          left f24
+        )
+      '';
+    };
+  };
+}
