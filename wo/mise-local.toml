@@ -43,3 +43,32 @@ run = "pnpx wait-on tcp:127.0.0.1:3000 && tail -f /dev/null | cargo run --bin ra
 
 [tasks.silvus]
 run = "pnpx wait-on tcp:127.0.0.1:3000 && tail -f /dev/null | cargo run --bin silvus-client"
+
+# --- ATAK ---
+
+[tasks.atak]
+depends = ["core", "frontend", "battlefield", "mediamtx", "atak:connector"]
+
+[tasks.battlefield]
+run = "pnpx wait-on tcp:127.0.0.1:3000 && tail -f /dev/null | cargo run -p battlefield -- -c battlefield/configs/demo.toml -s mixed_air_ground -k"
+
+[tasks."atak:connector"]
+run = "pnpx wait-on tcp:127.0.0.1:8080 tcp:127.0.0.1:8554 && tail -f /dev/null | cargo run -p connector-atak -- --mosaic-url http://127.0.0.1:8080 --atak-interface ${ATAK_IP:-127.0.0.1} --atak-chat-enabled false --atak-video-forward-enabled true --atak-video-rtsp-host ${ATAK_IP:-127.0.0.1} --atak-video-rtsp-port 8554"
+
+# QSim's drone and camera instead of battlefield; start QSim first.
+# For a real ATAK device, set ATAK_IP to this PC's address on the device's network.
+[tasks."atak:qsim"]
+depends = ["core", "frontend", "qsim", "mediamtx", "atak:connector"]
+
+[tasks.qsim]
+run = "pnpx wait-on tcp:127.0.0.1:3000 && tail -f /dev/null | cargo run -p mosaic-driver --bin mosaic-driver -- qsim"
+
+# Redistributes forwarded vehicle video over RTSP on :8554.
+# rtsp://127.0.0.1:8554/drone is a short alias for the QSim drone's stream.
+[tasks.mediamtx]
+env = { MTX_PATHS_DRONE_SOURCE = "rtsp://127.0.0.1:8554/live/VECTOR_SIM-6500-MOSAIC-UXS", MTX_PATHS_DRONE_SOURCEONDEMAND = "yes" }
+run = "nix run nixpkgs#mediamtx -- mediamtx/mediamtx.yml"
+
+# Fake ATAK device; run in its own terminal next to `mise run atak`.
+[tasks."atak:device"]
+run = "python3 -I ~/dotnix/wo/fake_atak.py"
