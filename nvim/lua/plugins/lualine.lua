@@ -1,5 +1,6 @@
 return {
 	"nvim-lualine/lualine.nvim",
+	dependencies = { "folke/trouble.nvim" },
 	opts = function(_, opts)
 		opts.sections.lualine_a = { { "mode", color = { fg = "#1e1e1e" } } }
 		opts.sections.lualine_c = {
