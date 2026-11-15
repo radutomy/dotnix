@@ -62,6 +62,7 @@ nix run --refresh github:radutomy/dotnix#nixpi-image -- nixpi IoT 'ihavenoidea' 
 | DNS (AdGuard Home) | 53/tcp+udp | Resolver for the LAN |
 | DHCP (AdGuard Home) | 67/udp | Leases `192.168.0.50`–`192.168.0.250`, gateway `192.168.0.1` |
 | Tailscale | 41641/udp | WireGuard |
+| Tang | 7654/tcp | Unlocks nixpc's disk at boot, LAN only |
 
 ## NAS recovery
 

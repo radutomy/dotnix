@@ -25,6 +25,7 @@ in
         self.modules.nixos.immich
         self.modules.nixos.rclone
         self.modules.nixos.tailscale
+        self.modules.nixos.tang
         self.modules.nixos.nixflix
       ];
     };
