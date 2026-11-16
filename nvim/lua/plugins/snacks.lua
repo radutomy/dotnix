@@ -13,7 +13,7 @@ return {
 		lazygit = {
 			config = {
 				os = {
-					edit = 'nvim --server "$NVIM" --remote-send "<Cmd>close<CR><Cmd>edit {{filename}}<CR>"',
+					edit = [[nvim --server "$NVIM" --remote-send "<Cmd>close<CR><Cmd>edit {{filename}}<CR><Cmd>lua local l = vim.fn.system({ 'git', '-C', vim.fn.expand('%:p:h'), 'diff', '-U0', 'HEAD', '--', vim.fn.expand('%:p') }):match('\n@@ %S+ %+(%d+)') if l then vim.cmd(l) vim.cmd('normal! zz') end<CR>"]],
 				},
 			},
 		},
