@@ -1,41 +1,48 @@
 # http://192.168.0.2:8123
 _: {
-  flake.modules.nixos.home-assistant = { config, lib, pkgs, ... }: {
-    age.secrets.home-assistant.file = ../../../secrets/home-assistant.age;
+  flake.modules.nixos.home-assistant =
+    {
+      config,
+      lib,
+      pkgs,
+      ...
+    }:
+    {
+      age.secrets.home-assistant.file = ../../../secrets/home-assistant.age;
 
-    networking.firewall.allowedTCPPorts = [ 8123 ];
+      networking.firewall.allowedTCPPorts = [ 8123 ];
 
-    services.home-assistant = {
-      enable = true;
-      extraComponents = [
-        "default_config"
-        "tplink"
-      ];
-      config = {
-        default_config = { };
-        homeassistant = {
-          name = "Home";
-          latitude = 52.1895291;
-          longitude = 0.1326012;
-          elevation = 0;
-          unit_system = "metric";
-          time_zone = "Europe/London";
-          currency = "GBP";
-          country = "GB";
+      services.home-assistant = {
+        enable = true;
+        extraComponents = [
+          "default_config"
+          "tplink"
+        ];
+        config = {
+          default_config = { };
+          homeassistant = {
+            name = "Home";
+            latitude = 52.1895291;
+            longitude = 0.1326012;
+            elevation = 0;
+            unit_system = "metric";
+            time_zone = "Europe/London";
+            currency = "GBP";
+            country = "GB";
+          };
+        };
+      };
+
+      systemd.services.home-assistant-onboard = {
+        after = [ "home-assistant.service" ];
+        requires = [ "home-assistant.service" ];
+        wantedBy = [ "multi-user.target" ];
+        serviceConfig = {
+          Type = "oneshot";
+          DynamicUser = true;
+          LoadCredential = "user.json:${config.age.secrets.home-assistant.path}";
+          ExecStart = "${lib.getExe pkgs.curl} --retry 30 --retry-connrefused --json @%d/user.json http://localhost:8123/api/onboarding/users";
         };
       };
     };
-
-    systemd.services.home-assistant-onboard = {
-      after = [ "home-assistant.service" ];
-      requires = [ "home-assistant.service" ];
-      wantedBy = [ "multi-user.target" ];
-      serviceConfig = {
-        Type = "oneshot";
-        DynamicUser = true;
-        LoadCredential = "user.json:${config.age.secrets.home-assistant.path}";
-        ExecStart = "${lib.getExe pkgs.curl} --retry 30 --retry-connrefused --json @%d/user.json http://localhost:8123/api/onboarding/users";
-      };
-    };
-  };
 }

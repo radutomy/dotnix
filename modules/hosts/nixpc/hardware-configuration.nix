@@ -1,126 +1,133 @@
 _: {
-  flake.modules.nixos.nixpc-hardware = { config, lib, pkgs, ... }: {
-    boot = {
-      initrd.availableKernelModules = [
-        "nvme"
-        "xhci_pci"
-        "ahci"
-        "usbhid"
-        "usb_storage"
-        "uas"
-        "sd_mod"
-      ];
-      kernelModules = [ "kvm-amd" ];
-      extraModulePackages = [ config.boot.kernelPackages.nct6687d ];
-      blacklistedKernelModules = [ "nct6683" ];
-      extraModprobeConfig = "options nct6687 force=1";
-    };
-
-    hardware = {
-      cpu.amd.updateMicrocode = true;
-      amdgpu.overdrive.enable = true;
-      wooting.enable = true;
-    };
-
-    # Control the CPU, pump, and front SSD fans
-    systemd.services.fan-control = {
-      wantedBy = [ "multi-user.target" ];
-      after = [ "systemd-modules-load.service" ];
-      preStart = "${lib.getExe' pkgs.kmod "modprobe"} nct6687";
-      script = ''
-        temp=(/sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon*/temp1_input)
-        fan=(/sys/devices/platform/nct6687.*/hwmon/hwmon*)
-        t=$(( $(<"$temp") / 100 )) # tenths of °C
-        while sleep 2; do
-          # Follow a slow average (~15 s) so short Tctl bursts don't spike the fan
-          t=$(( t + ($(<"$temp") / 100 - t) / 8 ))
-
-          if ((t <= 700)); then
-            value=107 # ≤70°C: 42%
-          elif ((t < 900)); then
-            value=$((107 + (t - 700) * 29 / 200)) # 70–90°C: 42–53%
-          elif ((t < 950)); then
-            value=$((136 + (t - 900) * 30 / 50)) # 90–95°C: 53–65%
-          else
-            value=166 # ≥95°C (TjMax): 65%
-          fi
-
-          echo 1 > "$fan/pwm1_enable"
-          echo "$value" > "$fan/pwm1"
-
-          # Pump: 47%
-          echo 1 > "$fan/pwm2_enable"
-          echo 120 > "$fan/pwm2"
-
-          # Front SSD fan: 10%
-          echo 1 > "$fan/pwm4_enable"
-          echo 26 > "$fan/pwm4"
-        done
-      '';
-      serviceConfig = {
-        Restart = "always";
-        RestartSec = "2s";
-      };
-    };
-
-    # Sapphire Pulse RX 7900 XT
-    environment.etc."lact/config.yaml".text = ''
-      version: 7
-      daemon:
-        log_level: info
-        admin_group: wheel
-      gpus:
-        1002:744C-1DA2:471E-0000:03:00.0:
-          performance_level: manual
-          voltage_offset: -65
-          fan_control_enabled: true
-          fan_control_settings:
-            mode: curve
-            temperature_key: junction
-            interval_ms: 500
-            curve:
-              70: 0.15
-              77: 0.22
-              84: 0.30
-              90: 0.40
-              95: 0.55
-          pmfw_options:
-            zero_rpm: true
-            zero_rpm_threshold: 70
-    '';
-    systemd.services.lactd.restartTriggers = [ config.environment.etc."lact/config.yaml".source ];
-
-    services = {
-      lact.enable = true;
-
-      # Power off the unused Windows drive (WD_BLACK SN770) to keep it cool
-      udev.extraRules = ''
-        ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x15b7", \
-          ATTR{device}=="0x5017", ATTR{remove}="1"
-      '';
-
-      # Hide unused audio devices (GPU HDMI outputs, webcam mic, and the
-      # onboard/FiiO inputs and outputs we never use).
-      pipewire.wireplumber.extraConfig."51-audio-devices" = {
-        "monitor.alsa.rules" = [
-          {
-            matches = [
-              { "device.name" = "alsa_card.pci-0000_03_00.1"; }
-              { "device.name" = "alsa_card.pci-0000_12_00.1"; }
-              { "device.name" = "alsa_card.usb-SJ-180517-N_1080P_Webcam-02"; }
-            ];
-            actions.update-props."device.disabled" = true;
-          }
-          {
-            matches = [
-              { "node.name" = "alsa_output.usb-Generic_USB_Audio-00.HiFi__Headphones__sink"; }
-              { "node.name" = "alsa_input.usb-Generic_USB_Audio-00.HiFi__Line__source"; }
-              { "node.name" = "alsa_input.usb-FiiO_DigiHug_USB_Audio-01.analog-stereo"; }
-            ];
-            actions.update-props."node.disabled" = true;
-          }
+  flake.modules.nixos.nixpc-hardware =
+    {
+      config,
+      lib,
+      pkgs,
+      ...
+    }:
+    {
+      boot = {
+        initrd.availableKernelModules = [
+          "nvme"
+          "xhci_pci"
+          "ahci"
+          "usbhid"
+          "usb_storage"
+          "uas"
+          "sd_mod"
         ];
+        kernelModules = [ "kvm-amd" ];
+        extraModulePackages = [ config.boot.kernelPackages.nct6687d ];
+        blacklistedKernelModules = [ "nct6683" ];
+        extraModprobeConfig = "options nct6687 force=1";
+      };
+
+      hardware = {
+        cpu.amd.updateMicrocode = true;
+        amdgpu.overdrive.enable = true;
+        wooting.enable = true;
+      };
+
+      # Control the CPU, pump, and front SSD fans
+      systemd.services.fan-control = {
+        wantedBy = [ "multi-user.target" ];
+        after = [ "systemd-modules-load.service" ];
+        preStart = "${lib.getExe' pkgs.kmod "modprobe"} nct6687";
+        script = ''
+          temp=(/sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon*/temp1_input)
+          fan=(/sys/devices/platform/nct6687.*/hwmon/hwmon*)
+          t=$(( $(<"$temp") / 100 )) # tenths of °C
+          while sleep 2; do
+            # Follow a slow average (~15 s) so short Tctl bursts don't spike the fan
+            t=$(( t + ($(<"$temp") / 100 - t) / 8 ))
+
+            if ((t <= 700)); then
+              value=107 # ≤70°C: 42%
+            elif ((t < 900)); then
+              value=$((107 + (t - 700) * 29 / 200)) # 70–90°C: 42–53%
+            elif ((t < 950)); then
+              value=$((136 + (t - 900) * 30 / 50)) # 90–95°C: 53–65%
+            else
+              value=166 # ≥95°C (TjMax): 65%
+            fi
+
+            echo 1 > "$fan/pwm1_enable"
+            echo "$value" > "$fan/pwm1"
+
+            # Pump: 47%
+            echo 1 > "$fan/pwm2_enable"
+            echo 120 > "$fan/pwm2"
+
+            # Front SSD fan: 10%
+            echo 1 > "$fan/pwm4_enable"
+            echo 26 > "$fan/pwm4"
+          done
+        '';
+        serviceConfig = {
+          Restart = "always";
+          RestartSec = "2s";
+        };
+      };
+
+      # Sapphire Pulse RX 7900 XT
+      environment.etc."lact/config.yaml".text = ''
+        version: 7
+        daemon:
+          log_level: info
+          admin_group: wheel
+        gpus:
+          1002:744C-1DA2:471E-0000:03:00.0:
+            performance_level: manual
+            voltage_offset: -65
+            fan_control_enabled: true
+            fan_control_settings:
+              mode: curve
+              temperature_key: junction
+              interval_ms: 500
+              curve:
+                70: 0.15
+                77: 0.22
+                84: 0.30
+                90: 0.40
+                95: 0.55
+            pmfw_options:
+              zero_rpm: true
+              zero_rpm_threshold: 70
+      '';
+      systemd.services.lactd.restartTriggers = [ config.environment.etc."lact/config.yaml".source ];
+
+      services = {
+        lact.enable = true;
+
+        # Power off the unused Windows drive (WD_BLACK SN770) to keep it cool
+        udev.extraRules = ''
+          ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x15b7", \
+            ATTR{device}=="0x5017", ATTR{remove}="1"
+        '';
+
+        # Hide unused audio devices (GPU HDMI outputs, webcam mic, and the
+        # onboard/FiiO inputs and outputs we never use).
+        pipewire.wireplumber.extraConfig."51-audio-devices" = {
+          "monitor.alsa.rules" = [
+            {
+              matches = [
+                { "device.name" = "alsa_card.pci-0000_03_00.1"; }
+                { "device.name" = "alsa_card.pci-0000_12_00.1"; }
+                { "device.name" = "alsa_card.usb-SJ-180517-N_1080P_Webcam-02"; }
+              ];
+              actions.update-props."device.disabled" = true;
+            }
+            {
+              matches = [
+                { "node.name" = "alsa_output.usb-Generic_USB_Audio-00.HiFi__Headphones__sink"; }
+                { "node.name" = "alsa_input.usb-Generic_USB_Audio-00.HiFi__Line__source"; }
+                { "node.name" = "alsa_input.usb-FiiO_DigiHug_USB_Audio-01.analog-stereo"; }
+              ];
+              actions.update-props."node.disabled" = true;
+            }
+          ];
+        };
       };
     };
-  };
 }

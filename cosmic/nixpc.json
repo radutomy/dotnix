@@ -442,12 +442,25 @@
       "xdg_directory": "config"
     },
     {
-      "component": "dev.edfloreshz.Calculator",
+      "component": "com.system76.CosmicViewer",
       "entries": {
-        "history": "[\n    (\n        expression: \"8555*3\",\n        outcome: \"25665\",\n        decimal_comma: false,\n    ),\n    (\n        expression: \"225*35\",\n        outcome: \"7875\",\n        decimal_comma: false,\n    ),\n    (\n        expression: \"256*35\",\n        outcome: \"8960\",\n        decimal_comma: false,\n    ),\n    (\n        expression: \"8960+80\",\n        outcome: \"9040\",\n        decimal_comma: false,\n    ),\n    (\n        expression: \"3012\",\n        outcome: \"3012\",\n        decimal_comma: false,\n    ),\n    (\n        expression: \"30/12\",\n        outcome: \"2.5\",\n        decimal_comma: false,\n    ),\n    (\n        expression: \"2.5*5\",\n        outcome: \"12.5\",\n        decimal_comma: false,\n    ),\n    (\n        expression: \"30/12\",\n        outcome: \"2.5\",\n        decimal_comma: false,\n    ),\n    (\n        expression: \"2.5*6\",\n        outcome: \"15\",\n        decimal_comma: false,\n    ),\n    (\n        expression: \"73110\",\n        outcome: \"73110\",\n        decimal_comma: false,\n    ),\n    (\n        expression: \"73/110\",\n        outcome: \"0.663636364\",\n        decimal_comma: false,\n    ),\n    (\n        expression: \"18+30\",\n        outcome: \"48\",\n        decimal_comma: false,\n    ),\n]"
+        "app_theme": "System",
+        "cache_size": "20",
+        "default_zoom": "1.0",
+        "fit_to_window": "true",
+        "last_color": "Some((1.0, 0.0, 0.0, 1.0))",
+        "last_dir": "None",
+        "remember_last_dir": "true",
+        "show_hidden_files": "false",
+        "show_navbar": "true",
+        "smooth_scaling": "true",
+        "sort_mode": "Name",
+        "sort_order": "Ascending",
+        "thumbnail_size": "XLarge",
+        "wallpaper_behavior": "Ask"
       },
       "operation": "write",
-      "version": 1,
+      "version": 2,
       "xdg_directory": "config"
     },
     {

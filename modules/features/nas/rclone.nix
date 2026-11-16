@@ -1,62 +1,69 @@
 _: {
-  flake.modules.nixos.rclone = { config, lib, pkgs, ... }: {
-    age.secrets."rclone.conf".file = ../../../secrets/rclone.age;
+  flake.modules.nixos.rclone =
+    {
+      config,
+      lib,
+      pkgs,
+      ...
+    }:
+    {
+      age.secrets."rclone.conf".file = ../../../secrets/rclone.age;
 
-    systemd = {
-      tmpfiles.settings.gdrive."/gdrive".d = { };
+      systemd = {
+        tmpfiles.settings.gdrive."/gdrive".d = { };
 
-      services.gdrive = {
-        description = "Live Google Drive mount at /gdrive";
-        wantedBy = [ "multi-user.target" ];
-        wants = [ "network-online.target" ];
-        after = [ "network-online.target" ];
+        services.gdrive = {
+          description = "Live Google Drive mount at /gdrive";
+          wantedBy = [ "multi-user.target" ];
+          wants = [ "network-online.target" ];
+          after = [ "network-online.target" ];
 
-        environment.RCLONE_CONFIG = config.age.secrets."rclone.conf".path;
+          environment.RCLONE_CONFIG = config.age.secrets."rclone.conf".path;
 
-        serviceConfig = {
-          ExecStart = ''
-            ${lib.getExe pkgs.rclone} mount gdrive: /gdrive \
-              --allow-other \
-              --cache-dir /var/cache/rclone-gdrive \
-              --poll-interval 15s \
-              --vfs-cache-mode full \
-              --vfs-cache-max-size 50G \
-              --vfs-cache-max-age 4380h
-          '';
-          CacheDirectory = "rclone-gdrive";
-          CacheDirectoryMode = "0700";
-          SuccessExitStatus = 143;
-          Restart = "on-failure";
-          RestartSec = "10s";
+          serviceConfig = {
+            ExecStart = ''
+              ${lib.getExe pkgs.rclone} mount gdrive: /gdrive \
+                --allow-other \
+                --cache-dir /var/cache/rclone-gdrive \
+                --poll-interval 15s \
+                --vfs-cache-mode full \
+                --vfs-cache-max-size 50G \
+                --vfs-cache-max-age 4380h
+            '';
+            CacheDirectory = "rclone-gdrive";
+            CacheDirectoryMode = "0700";
+            SuccessExitStatus = 143;
+            Restart = "on-failure";
+            RestartSec = "10s";
+          };
         };
+
+        services.gdrive-mirror = {
+          description = "Mirror Google Drive to /drive";
+          vpnConfinement = {
+            enable = true;
+            vpnNamespace = config.nixflix.vpn.namespace;
+          };
+          startAt = "03:00";
+          wants = [ "network-online.target" ];
+          after = [ "network-online.target" ];
+
+          environment.RCLONE_CONFIG = config.age.secrets."rclone.conf".path;
+          unitConfig.RequiresMountsFor = "/drive";
+
+          serviceConfig = {
+            Type = "oneshot";
+            ExecStart = "${lib.getExe pkgs.rclone} sync gdrive: /drive --create-empty-src-dirs --drive-acknowledge-abuse";
+
+            CapabilityBoundingSet = "";
+            NoNewPrivileges = true;
+            PrivateDevices = true;
+            PrivateTmp = true;
+            ProtectHome = true;
+          };
+        };
+
+        timers.gdrive-mirror.timerConfig.Persistent = true;
       };
-
-      services.gdrive-mirror = {
-        description = "Mirror Google Drive to /drive";
-        vpnConfinement = {
-          enable = true;
-          vpnNamespace = config.nixflix.vpn.namespace;
-        };
-        startAt = "03:00";
-        wants = [ "network-online.target" ];
-        after = [ "network-online.target" ];
-
-        environment.RCLONE_CONFIG = config.age.secrets."rclone.conf".path;
-        unitConfig.RequiresMountsFor = "/drive";
-
-        serviceConfig = {
-          Type = "oneshot";
-          ExecStart = "${lib.getExe pkgs.rclone} sync gdrive: /drive --create-empty-src-dirs --drive-acknowledge-abuse";
-
-          CapabilityBoundingSet = "";
-          NoNewPrivileges = true;
-          PrivateDevices = true;
-          PrivateTmp = true;
-          ProtectHome = true;
-        };
-      };
-
-      timers.gdrive-mirror.timerConfig.Persistent = true;
     };
-  };
 }
