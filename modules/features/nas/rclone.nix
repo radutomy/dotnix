@@ -1,5 +1,5 @@
 _: {
-  flake.modules.nixos.rclone = { config, pkgs, ... }: {
+  flake.modules.nixos.rclone = { config, lib, pkgs, ... }: {
     age.secrets."rclone.conf".file = ../../../secrets/rclone.age;
 
     systemd = {
@@ -15,7 +15,7 @@ _: {
 
         serviceConfig = {
           ExecStart = ''
-            ${pkgs.rclone}/bin/rclone mount gdrive: /gdrive \
+            ${lib.getExe pkgs.rclone} mount gdrive: /gdrive \
               --allow-other \
               --cache-dir /var/cache/rclone-gdrive \
               --poll-interval 15s \
@@ -46,7 +46,7 @@ _: {
 
         serviceConfig = {
           Type = "oneshot";
-          ExecStart = "${pkgs.rclone}/bin/rclone sync gdrive: /drive --create-empty-src-dirs --drive-acknowledge-abuse";
+          ExecStart = "${lib.getExe pkgs.rclone} sync gdrive: /drive --create-empty-src-dirs --drive-acknowledge-abuse";
 
           CapabilityBoundingSet = "";
           NoNewPrivileges = true;

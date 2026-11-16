@@ -10,7 +10,7 @@ in
       discord = pkgs.writeShellScript "discord" ''
         msg=$1
         [ -n "$2" ] && msg+=$'\n```\n'"''${2:0:1800}"$'\n```'
-        ${pkgs.curl}/bin/curl -fsS --form-string "content=$msg" ${webhook}
+        ${lib.getExe pkgs.curl} -fsS --form-string "content=$msg" ${webhook}
       '';
     in
     {

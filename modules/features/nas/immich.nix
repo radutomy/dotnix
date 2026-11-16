@@ -1,6 +1,6 @@
 # http://192.168.0.2:2283
 _: {
-  flake.modules.nixos.immich = { config, pkgs, ... }: {
+  flake.modules.nixos.immich = { config, lib, pkgs, ... }: {
     age.secrets.immich.file = ../../../secrets/immich.age;
 
     services.immich = {
@@ -27,7 +27,7 @@ _: {
           Type = "oneshot";
           User = "immich";
           LoadCredential = "signup.json:${config.age.secrets.immich.path}";
-          ExecStart = "${pkgs.curl}/bin/curl --retry 30 --retry-connrefused --json @%d/signup.json http://localhost:2283/api/auth/admin-sign-up";
+          ExecStart = "${lib.getExe pkgs.curl} --retry 30 --retry-connrefused --json @%d/signup.json http://localhost:2283/api/auth/admin-sign-up";
         };
       };
     };

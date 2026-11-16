@@ -1,5 +1,5 @@
 _: {
-  flake.modules.nixos.nixpc-hardware = { config, pkgs, ... }: {
+  flake.modules.nixos.nixpc-hardware = { config, lib, pkgs, ... }: {
     boot = {
       initrd.availableKernelModules = [
         "nvme"
@@ -26,7 +26,7 @@ _: {
     systemd.services.fan-control = {
       wantedBy = [ "multi-user.target" ];
       after = [ "systemd-modules-load.service" ];
-      preStart = "${pkgs.kmod}/bin/modprobe nct6687";
+      preStart = "${lib.getExe' pkgs.kmod "modprobe"} nct6687";
       script = ''
         temp=(/sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon*/temp1_input)
         fan=(/sys/devices/platform/nct6687.*/hwmon/hwmon*)

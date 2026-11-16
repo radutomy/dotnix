@@ -36,7 +36,7 @@ _: {
       ];
       clevis = {
         enable = true;
-        devices.cryptroot.secretFile = ../../../secrets/cryptroot.jwe;
+        devices.cryptroot.secretFile = "${../../../secrets/cryptroot.jwe}";
       };
     };
   };

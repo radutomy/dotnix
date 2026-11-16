@@ -18,7 +18,7 @@ _: {
         programs.fish.interactiveShellInit = lib.mkAfter ''
           # One tmux client at a time: a new terminal or SSH login takes the session over (-D)
           if not set -q TMUX
-            tmux has-session 2>/dev/null; or tmux start-server \; source-file ~/dotnix/tmux/layouts/${config.tmux.layout}.conf
+            tmux has-session 2>/dev/null; or tmux start-server \; source-file ${config.home.homeDirectory}/dotnix/tmux/layouts/${config.tmux.layout}.conf
             exec tmux new-session -AD -s main
           end
         '';

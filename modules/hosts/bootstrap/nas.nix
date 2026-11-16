@@ -1,5 +1,5 @@
 # nix --extra-experimental-features "nix-command flakes" run --refresh github:radutomy/dotnix#nas
-{ self, ... }: {
+_: {
   perSystem = { pkgs, ... }: {
     apps.nas.program = pkgs.writeShellApplication {
       name = "nas";
@@ -16,7 +16,7 @@
 
         if [ ! -s /var/lib/agenix/nas.agekey ]; then
           install -d -m 700 /var/lib/agenix
-          age -d -o /var/lib/agenix/nas.agekey ${self}/secrets/nas.agekey.age
+          age -d -o /var/lib/agenix/nas.agekey ${../../../secrets/nas.agekey.age}
           chmod 600 /var/lib/agenix/nas.agekey
         fi
 

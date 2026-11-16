@@ -1,5 +1,5 @@
 _: {
-  flake.modules.nixos.work-config = { pkgs, ... }: {
+  flake.modules.nixos.work-config = { lib, pkgs, ... }: {
     preservation.preserveAt."/persistent".users.radu.directories = [
       ".config/teams-for-linux"
       ".local/share/direnv"
@@ -22,7 +22,7 @@ _: {
     };
 
     # Some tools hardcode /bin/bash, which doesn't exist on NixOS
-    systemd.tmpfiles.rules = [ "L+ /bin/bash - - - - ${pkgs.bash}/bin/bash" ];
+    systemd.tmpfiles.rules = [ "L+ /bin/bash - - - - ${lib.getExe pkgs.bash}" ];
 
     # Needed by programs.tcpdump above
     users.users.radu.extraGroups = [ "pcap" ];

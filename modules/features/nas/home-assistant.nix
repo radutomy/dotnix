@@ -1,6 +1,6 @@
 # http://192.168.0.2:8123
 _: {
-  flake.modules.nixos.home-assistant = { config, pkgs, ... }: {
+  flake.modules.nixos.home-assistant = { config, lib, pkgs, ... }: {
     age.secrets.home-assistant.file = ../../../secrets/home-assistant.age;
 
     networking.firewall.allowedTCPPorts = [ 8123 ];
@@ -34,7 +34,7 @@ _: {
         Type = "oneshot";
         DynamicUser = true;
         LoadCredential = "user.json:${config.age.secrets.home-assistant.path}";
-        ExecStart = "${pkgs.curl}/bin/curl --retry 30 --retry-connrefused --json @%d/user.json http://localhost:8123/api/onboarding/users";
+        ExecStart = "${lib.getExe pkgs.curl} --retry 30 --retry-connrefused --json @%d/user.json http://localhost:8123/api/onboarding/users";
       };
     };
   };

@@ -12,10 +12,10 @@
       bitwardenEntry = pkgs.makeDesktopItem {
         name = "bitwarden";
         desktopName = "Bitwarden";
-        exec = "${pkgs.bitwarden-desktop}/bin/bitwarden --autostart";
+        exec = "${lib.getExe pkgs.bitwarden-desktop} --autostart";
       };
       firefoxWithNetwork = pkgs.writeShellScript "firefox-with-network" ''
-        ${pkgs.networkmanager}/bin/nm-online -q --timeout=10 || true
+        ${lib.getExe' pkgs.networkmanager "nm-online"} -q --timeout=10 || true
         exec ${config.programs.firefox.finalPackage}/bin/firefox
       '';
       firefoxEntry = pkgs.makeDesktopItem {
