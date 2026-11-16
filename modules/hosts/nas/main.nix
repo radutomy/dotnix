@@ -9,7 +9,10 @@ let
       self.modules.nixos.nas-hardware
     ];
 
-    home-manager.users.root.imports = [ self.modules.homeManager.base ];
+    home-manager.users.root.imports = [
+      self.modules.homeManager.base
+      self.modules.homeManager.ai
+    ];
   };
 in
 {

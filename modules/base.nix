@@ -3,7 +3,6 @@
 let
   homeImports = [
     inputs.nix-index-database.homeModules.nix-index
-    self.modules.homeManager.ai
     self.modules.homeManager.fish
     self.modules.homeManager.git
     self.modules.homeManager.nvim
@@ -24,27 +23,13 @@ let
       wget
       lsof
       sqlite
-      yq-go
       xxd
       dnsutils
       btop
       fastfetch
       witr
-      exiftool
-
-      # Mostly used by the AI tool
       ripgrep
       fd
-      jq
-      bc
-      shellcheck
-      gh
-      poppler-utils
-      ast-grep
-      tokei
-      hyperfine
-      nix-tree
-      nmap
     ];
 in
 {
@@ -85,12 +70,6 @@ in
         cat = "bat --style=plain";
         p = "python";
         gg = "lazygit";
-        cx = "codex";
-        cxr = "codex resume";
-        cc = "claude";
-        ccr = "claude --resume";
-        copilot = "copilot --allow-all";
-        co = "copilot --allow-all --continue";
       };
     };
 

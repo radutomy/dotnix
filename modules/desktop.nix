@@ -15,6 +15,7 @@ let
 
   homeImports = [
     self.modules.homeManager.base
+    self.modules.homeManager.ai
     self.modules.homeManager.rust
     self.modules.homeManager.cosmic
     self.modules.homeManager.firefox

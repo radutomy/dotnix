@@ -1,5 +1,5 @@
 _: {
-  flake.modules.homeManager.ai = { config, ... }: {
+  flake.modules.homeManager.ai = { config, pkgs, ... }: {
     xdg.configFile = {
       "codex/AGENTS.md".source = ../../agents/AGENTS.md;
       "claude/CLAUDE.md".source = ../../agents/AGENTS.md;
@@ -7,6 +7,30 @@ _: {
     };
 
     home = {
+      packages = with pkgs; [
+        jq
+        yq-go
+        exiftool
+        bc
+        shellcheck
+        gh
+        poppler-utils
+        ast-grep
+        tokei
+        hyperfine
+        nix-tree
+        nmap
+      ];
+
+      shellAliases = {
+        cx = "codex";
+        cxr = "codex resume";
+        cc = "claude";
+        ccr = "claude --resume";
+        copilot = "copilot --allow-all";
+        co = "copilot --allow-all --continue";
+      };
+
       sessionVariables = {
         IS_SANDBOX = "1";
         COPILOT_ALLOW_ALL = "true";
