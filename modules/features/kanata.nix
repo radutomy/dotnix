@@ -4,6 +4,7 @@ _: {
     services.udev.extraRules = ''
       SUBSYSTEM=="input", ENV{ID_INPUT_TOUCHPAD}=="1", GROUP="root"
       SUBSYSTEM=="input", ENV{ID_INPUT_JOYSTICK}=="1", GROUP="root"
+      SUBSYSTEM=="input", ENV{ID_INPUT_SWITCH}=="1", GROUP="root"
     '';
 
     services.kanata = {
