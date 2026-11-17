@@ -1,10 +1,10 @@
 { self, ... }: {
-  flake.modules.nixos.work = { pkgs, ... }: {
+  flake.modules.nixos.dev = { pkgs, ... }: {
     imports = [
       self.modules.nixos.gstreamer
-      self.modules.nixos.work-config
+      self.modules.nixos.dev-config
     ];
-    home-manager.users.radu.imports = [ self.modules.homeManager.work ];
+    home-manager.users.radu.imports = [ self.modules.homeManager.dev ];
     networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ 5173 ];
 
     environment.systemPackages = with pkgs; [

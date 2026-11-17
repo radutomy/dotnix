@@ -5,7 +5,7 @@ let
     self.modules.nixos.base
     self.modules.nixos.sshc
     self.modules.nixos.preservation
-    self.modules.nixos.work
+    self.modules.nixos.dev
     self.modules.nixos.cosmic
     self.modules.nixos.steam
     self.modules.nixos.hardware

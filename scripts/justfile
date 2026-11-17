@@ -1,4 +1,4 @@
-dir := home_directory() / "dotnix/wo"
+dir := home_directory() / "dotnix/scripts"
 
 codex-push:
     {{ dir }}/codex-context.sh push

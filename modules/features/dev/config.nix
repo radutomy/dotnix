@@ -1,5 +1,5 @@
 _: {
-  flake.modules.nixos.work-config = { lib, pkgs, ... }: {
+  flake.modules.nixos.dev-config = { lib, pkgs, ... }: {
     preservation.preserveAt."/persistent".users.radu.directories = [
       ".config/teams-for-linux"
       ".local/share/direnv"
@@ -28,7 +28,7 @@ _: {
     users.users.radu.extraGroups = [ "pcap" ];
   };
 
-  flake.modules.homeManager.work = { config, ... }: {
+  flake.modules.homeManager.dev = { config, ... }: {
     programs.mise = {
       enable = true;
       enableFishIntegration = true;
@@ -39,13 +39,9 @@ _: {
     };
 
     xdg.configFile."just/justfile".source =
-      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotnix/wo/justfile";
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotnix/scripts/justfile";
 
-    home = {
-      shellAliases.j = "just -g";
-      file."src/mosaic-uxs_mosaic-core-rs/mise.local.toml".source =
-        config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotnix/wo/mise-local.toml";
-    };
+    home.shellAliases.j = "just -g";
 
     programs.git.ignores = [ "mise.local.toml" ];
   };
