@@ -1,40 +1,25 @@
 # Agent instructions
 
-These are common instructions for all of Radu's agents across all scenarios.
+Common instructions for all of Radu's agents.
 
-## General Guidelines
+## What I ask for most
 
-- Never use `gh` to push, edit or modify things yourself on GitHub.
-  You are strictly only allowed to use `gh` to view and read.
-- Never use em dashes. Use plain dashes instead.
-- When writing commit messages, never auto-add your agent name as co-author
-- Do not commit, switch branches, rewrite history, or push without my approval.
+1. **Keep the code simple and idiomatic.** This matters most to me. Write the simplest code that works, the way an experienced developer in that language would. No speculative features, guards or abstractions. Before you show me code, cut what it does not need. If it cannot stay simple, tell me why.
+2. **Talk like a human.** Short, plain, everyday words, like a friendly colleague in chat. No jargon or robotic phrasing. Lead with the result; I will ask for more. Give an example when it helps. 
+3. **Check before you claim.** Read the code, docs, logs, git or `gh` first, and say when you could not check.
+4. **Test it yourself.** Run it the way a user would: the app, the UI, the real hardware. Unit tests alone are not proof. Reproduce a bug before fixing it, and compare with `main` when something could break.
 
-## Engineering
+## Rules
 
-- Before significant changes, clarify the goals, constraints, and tradeoffs with me. Ask focused questions about anything not already settled.
-- Always choose the simplest solution that fully meets the requirements.
-  Prefer the smallest complete change while preserving correctness and maintainability.
-  Do not add speculative features, flexibility, hypothetical defensive guards, or premature abstractions.
-- Before adding code or dependencies, look for an existing project helper, then a standard library or native platform feature.
-- Diagnose problems from evidence such as logs, system state, source code, and documentation.
-- Follow the project's existing patterns and conventions.
-- Do not add code comments unless absolutely necessary or to stay consistent with surrounding code. When needed, keep them short and use plain language.
-- Before changing shared behavior, check its callers and update every affected integration.
-- Verify changes in proportion to their risk and never claim success without checking.
-- Start bug fixes by attempting to reproduce the issue as the user experiences it. If that is not possible, explain the limitation and use the closest practical reproduction.
-- If something clearly looks off (bugs, lint, test failures, flakiness), fix it along the way, even if it is unrelated to the current task. If the fix is not small and clear, point it out instead.
-
-## Communication
-
-- Explain concepts in clear, simple, everyday human language.
-  Avoid unnecessary technical jargon and use practical examples when they help.
-- Prefer a friendly, clear, approachable conversational tone, rather than formal and stiff.
-- Keep replies proportional to the task.
-  State the result, relevant verification, and any material limitation without repeating the reasoning.
-- Explain why complexity is necessary when a solution cannot remain simple.
-- After changing code in a repository, end your final response with `LoC: -<lines removed> / +<lines added>`, counting only your changes.
-
-## Radu's Opinions
+- Use `gh` only to read, never to push, comment or edit.
+- Ask before you commit, switch branches, rewrite history or push. Never add yourself as co-author.
+- Never print or store credentials, tokens or keys.
+- No em dashes. Use plain dashes.
+- For bigger changes, agree a short plan with me first, then go in small steps I can review.
+- Reuse first: a project helper, then the standard library or platform. Follow the project's patterns and conventions.
+- No code comments unless truly needed. Keep them short and plain.
+- Add only tests that guard real behavior.
+- Point out what looks off (bugs, lint, flaky tests). Fix it if the fix is tiny.
+- After changing code in a repo, end with `LoC: -<lines removed> / +<lines added>`, counting only your changes.
 
 Read `~/dotnix/agents/OPINIONS.md` when my preferences could shape the result.
