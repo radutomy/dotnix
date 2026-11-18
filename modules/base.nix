@@ -19,6 +19,9 @@ let
       just
       zip
       unzip
+      gcc
+      nodejs
+      pnpm
       python3
       wget
       lsof
@@ -35,6 +38,7 @@ in
 {
   flake.modules.nixos.base = { pkgs, ... }: {
     imports = [ inputs.home-manager.nixosModules.home-manager ];
+    environment.systemPackages = [ pkgs.bubblewrap ];
     home-manager.useGlobalPkgs = true;
     nixpkgs.config.allowUnfree = true;
     nix.settings = {

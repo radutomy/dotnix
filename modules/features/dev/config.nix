@@ -28,7 +28,26 @@ _: {
     users.users.radu.extraGroups = [ "pcap" ];
   };
 
-  flake.modules.homeManager.dev = { config, ... }: {
+  flake.modules.homeManager.dev = { config, pkgs, ... }: {
+    home.packages = with pkgs; [
+      devenv
+      lazysql
+      gcc
+      mold
+      ethtool
+      usbutils
+      arp-scan
+      protobuf
+      ffmpeg
+      buf # protobuf language server, used by nvim
+      pkg-config
+      nodejs
+      pnpm
+      nssTools
+      teams-for-linux
+      tesseract
+    ];
+
     programs.mise = {
       enable = true;
       enableFishIntegration = true;
