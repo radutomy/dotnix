@@ -39,8 +39,14 @@ _: {
     };
 
     programs = {
+      mcp = {
+        enable = true;
+        servers.atlassian.url = "https://mcp.atlassian.com/v2/mcp";
+      };
+
       claude-code = {
         enable = true;
+        enableMcpIntegration = true;
         configDir = "${config.xdg.configHome}/claude";
         settings = {
           attribution.commit = "";
@@ -57,6 +63,7 @@ _: {
 
       codex = {
         enable = true;
+        enableMcpIntegration = true;
         mutableSettings = true;
         settings = {
           approval_policy = "never";
@@ -74,6 +81,7 @@ _: {
 
       github-copilot-cli = {
         enable = true;
+        enableMcpIntegration = true;
         mutableSettings = true;
         settings = {
           includeCoAuthoredBy = false;
