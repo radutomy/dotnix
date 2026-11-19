@@ -30,6 +30,7 @@ _: {
           StrictHostKeyChecking = "no";
           UserKnownHostsFile = "/dev/null";
           ConnectTimeout = 10;
+          LogLevel = "ERROR";
         };
         nas = {
           User = "root";
