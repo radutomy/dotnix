@@ -11,6 +11,7 @@ let
     self.modules.nixos.hardware
     self.modules.nixos.kanata
     self.modules.nixos.distrobox
+    self.modules.nixos.syncthing
   ];
 
   homeImports = [
