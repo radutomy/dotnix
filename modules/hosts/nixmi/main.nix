@@ -2,6 +2,7 @@
   flake.nixosConfigurations.nixmi = inputs.nixpkgs.lib.nixosSystem {
     modules = [
       self.modules.nixos.desktop
+      self.modules.nixos.sshd
       self.modules.nixos.nixmi-glances
       self.modules.nixos.nixmi-disko
       self.modules.nixos.nixmi-hardware
