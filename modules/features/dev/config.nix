@@ -28,7 +28,7 @@ _: {
     users.users.radu.extraGroups = [ "pcap" ];
   };
 
-  flake.modules.homeManager.dev = { config, pkgs, ... }: {
+  flake.modules.homeManager.dev = { pkgs, ... }: {
     home.packages = with pkgs; [
       devenv
       lazysql
@@ -56,11 +56,6 @@ _: {
     xdg.configFile."teams-for-linux/config.json".text = builtins.toJSON {
       frame = false;
     };
-
-    xdg.configFile."just/justfile".source =
-      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotnix/scripts/justfile";
-
-    home.shellAliases.j = "just -g";
 
     programs.git.ignores = [ "mise.local.toml" ];
   };

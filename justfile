@@ -10,12 +10,14 @@ update:
     just switch
     -git commit -m 'flake.lock' -- flake.lock && git push
 
-charging_profile := "/sys/devices/platform/tuxedo_keyboard/charging_profile/charging_profile"
+codex-push:
+    ./scripts/codex-context.sh push
 
-# nixqs: charge to 100% (until next boot)
-battery-full:
-    echo high_capacity | sudo tee {{ charging_profile }}
+codex-pull:
+    ./scripts/codex-context.sh pull
 
-# nixqs: cap charging at ~80%
-battery-saver:
-    echo stationary | sudo tee {{ charging_profile }}
+claude-push:
+    ./scripts/claude-context.sh push
+
+claude-pull:
+    ./scripts/claude-context.sh pull

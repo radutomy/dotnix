@@ -74,6 +74,9 @@ in
         cat = "bat --style=plain";
         p = "python";
         gg = "lazygit";
+        j = ''just --justfile "$HOME/dotnix/justfile"'';
+        js = "j switch";
+        ju = "j update";
       };
     };
 
