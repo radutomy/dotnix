@@ -24,6 +24,8 @@ _: {
       ];
     };
 
+    boot.kernelModules = [ "uhid" ];
+
     preservation.preserveAt."/persistent".users.radu.directories = [ ".config/sunshine" ];
   };
 }
