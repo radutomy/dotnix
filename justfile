@@ -1,5 +1,5 @@
 switch:
-    nh os switch . --bypass-root-check --no-build-output
+    nh os switch . --bypass-root-check --no-rom --no-build-output
 
 cosmic:
     cosmic-ctl backup -x config /tmp/cosmic-backup.json
