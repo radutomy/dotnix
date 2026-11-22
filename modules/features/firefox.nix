@@ -57,6 +57,8 @@ _: {
           "accessibility.typeaheadfind" = true;
           "network.trr.mode" = 5;
           "media.autoplay.default" = 1;
+          "permissions.default.microphone" = 1;
+          "permissions.default.camera" = 1;
           "app.shield.optoutstudies.enabled" = false;
           "app.normandy.enabled" = false;
           "browser.aboutConfig.showWarning" = false;
