@@ -8,7 +8,7 @@
       enable = true;
       vpn = {
         enable = true;
-        accessibleFrom = [ "192.168.0.0/24" ];
+        allowedIngress = [ "192.168.0.0/24" ];
         wgConfFile = config.age.secrets.proton-vpn.path;
       };
 
