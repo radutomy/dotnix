@@ -33,7 +33,7 @@ let
       signal-desktop
       cheese
       popsicle # usb file flasher
-      drawing
+      drawio
     ];
 in
 {
