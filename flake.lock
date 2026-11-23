@@ -278,6 +278,26 @@
         "type": "github"
       }
     },
+    "nixos-steam": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1792506821,
+        "narHash": "sha256-RggELlc2tmGaYr7JhIkvORo81G4C1iK23eIDJlB09EA=",
+        "owner": "parzivale",
+        "repo": "nixos-steam",
+        "rev": "7e42cdc64812fe05c41732f8d8ae607b47b78ef5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "parzivale",
+        "repo": "nixos-steam",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1795234589,
@@ -320,6 +340,7 @@
         "lazyvim-nix": "lazyvim-nix",
         "nix-index-database": "nix-index-database",
         "nixflix": "nixflix",
+        "nixos-steam": "nixos-steam",
         "nixpkgs": "nixpkgs",
         "preservation": "preservation"
       }

@@ -39,6 +39,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nixos-steam = {
+      url = "github:parzivale/nixos-steam";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # used by modules/features/autostart.nix - remove this if that module goes
     cos-cli = {
       url = "github:estin/cos-cli";
