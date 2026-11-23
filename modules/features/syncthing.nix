@@ -21,12 +21,18 @@ _: {
             "__pycache__"
           ];
         };
+        folders.games = {
+          path = "${config.users.users.radu.home}/.local/share/games";
+          devices = builtins.attrNames config.services.syncthing.settings.devices;
+          ignorePatterns = [ "gta2_registry.ini" ];
+        };
       };
     };
 
     preservation.preserveAt."/persistent".users.radu.directories = [
       ".config/syncthing"
       "assets"
+      ".local/share/games"
     ];
   };
 }
