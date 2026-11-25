@@ -4,6 +4,7 @@
     home-manager.users.radu = { config, ... }: {
       tmux.layout = "laptop";
 
+      # TODO: we can remove this override once qs accepts yolo mode for codex
       programs.codex.settings = {
         approval_policy = lib.mkForce "on-request";
         sandbox_mode = lib.mkForce "workspace-write";

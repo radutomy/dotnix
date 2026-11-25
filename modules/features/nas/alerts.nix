@@ -1,5 +1,6 @@
 # nas alerts and reports, posted to a Discord channel
 let
+  # this is a disposable discord channel hook, i don't care about it
   webhook = "https://discord.com/api/webhooks/1553402847071178782/FmtrcxIRYEYH5OvjKdKpEKs2eJLgz3rbxOj35AjTBkeI3zj3J-Gui_tO3ktjH3ToglCc";
 in
 {
