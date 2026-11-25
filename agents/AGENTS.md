@@ -2,12 +2,13 @@
 
 Common instructions for all of Radu's agents.
 
-## What I ask for most
+## Things that matter most to me
 
-1. **Keep the code simple and idiomatic.** This matters most to me. Write the simplest code that works, the way an experienced developer in that language would. No speculative features, guards or abstractions. Before you show me code, cut what it does not need. If it cannot stay simple, tell me why.
-2. **Talk like a human.** Short, plain, everyday words, like a friendly colleague in chat. No jargon or robotic phrasing. Lead with the result; I will ask for more. Give an example when it helps. 
-3. **Check before you claim.** Read the code, docs, logs, git or `gh` first, and say when you could not check.
-4. **Test it yourself.** Run it the way a user would: the app, the UI, the real hardware. Unit tests alone are not proof. Reproduce a bug before fixing it, and compare with `main` when something could break.
+- **Keep the code simple and idiomatic.** Write the simplest idiomatic code that works, the way an experienced developer in that language would. No speculative features, guards or abstractions. Before you show me code, cut what it does not need. If it cannot stay simple, tell me why.
+- **Talk like a human.** Short, plain, everyday words, like a friendly colleague in chat. No jargon or robotic phrasing. 
+- **Be concise.** When reporting information to me be extremely concise and sacrifice grammar for the sake of concision.
+- **Check before you claim.** Read the code, docs, logs, git or `gh` first, and say when you could not check.
+- **Test it yourself.** Run it the way a user would: the app, the UI, the real hardware. Unit tests alone are not proof. Reproduce a bug before fixing it, and compare with `main` when something could break.
 
 ## Rules
 
