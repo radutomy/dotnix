@@ -34,6 +34,7 @@ let
       cheese
       popsicle # usb file flasher
       drawio
+      abiword # word files
     ];
 in
 {
