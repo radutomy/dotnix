@@ -4,15 +4,6 @@
     nixpkgs.hostPlatform = "aarch64-linux";
     boot.supportedFilesystems.zfs = lib.mkForce false;
     sdImage.compressImage = false;
-    sdImage.populateRootCommands = ''
-      install -D -m 600 ${pkgs.writeText "wifi" ''
-        [wifi]
-        ssid=${builtins.getEnv "WIFI_SSID"}
-        [wifi-security]
-        key-mgmt=wpa-psk
-        psk=${builtins.getEnv "WIFI_PSK"}
-      ''} files/etc/NetworkManager/system-connections/wifi.nmconnection
-    '';
     networking.networkmanager.enable = true;
 
     # Clone the repo on first boot, retrying until the network is up
