@@ -20,7 +20,10 @@ in
           home-manager.users.root.imports = [ self.modules.homeManager.base ];
         }
       ]
-      ++ inputs.nixpkgs.lib.optional (name == "nixpi-qs") self.modules.nixos.radio-tailscale-pi;
+      ++ inputs.nixpkgs.lib.optionals (name == "nixpi-qs") [
+        self.modules.nixos.radio-tailscale-pi
+        { virtualisation.docker.enable = true; }
+      ];
     }
   );
 }
